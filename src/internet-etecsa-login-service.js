@@ -9,6 +9,13 @@ module.exports = class InternetEtecsaLoginService {
     this.driver = null;
   }
 
+  async toggle() {
+    if (await this.isConnected()) {
+      return this.disconnet();
+    }
+    return this.connet();
+  }
+
   async connet() {
     if (await this.isConnected()) {
       throw new Error('ERR_CURRENTLY_CONNECTED');

@@ -5,6 +5,13 @@ const app = express();
 const port = process.env.PORT || 3000;
 const iconn = new InternetEtecsaLoginService();
 
+app.get('/toggle', (req, res) => {
+
+  iconn.toggle()
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(400).send(String(err)));
+});
+
 app.get('/connect', (req, res) => {
   iconn.connet()
     .then((result) => res.status(200).send(result))
