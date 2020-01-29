@@ -1,0 +1,23 @@
+{
+  "name": "wifi-login",
+  "version": "0.0.1",
+  "description": "Conecta y desconecta el acceso a internet por wifi etecsa",
+  "main": "main.js",
+  "engines": {
+    "node": "^10.18.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "selenium-webdriver": "^4.0.0-alpha.5"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.0"
+  }
+}
