@@ -6,6 +6,14 @@
   "engines": {
     "node": "^10.18.1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login.git"
+  },
+  "homepage": "http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login",
+  "bugs": {
+    "url": "http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/issues"
+  },
   "scripts": {
     "start": "node src/js/main.js",
     "connet": "node src/js/connet.js",
@@ -16,6 +24,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "4.17.1",
     "ping": "0.2.2",
     "selenium-webdriver": "^4.0.0-alpha.5"
   },

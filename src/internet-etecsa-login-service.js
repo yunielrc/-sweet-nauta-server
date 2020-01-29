@@ -24,8 +24,10 @@ module.exports = class InternetEtecsaLoginService {
       const elements = await this.driver.findElements(By.xpath("//span[contains(.,'Usted está conectado')]"));
 
       return elements.length !== 0;
-    } catch (error) {
-      return error;
+    } catch (err) {
+      await this.driver.close();
+      await this.driver.quit();
+      throw err;
     }
   }
 
@@ -41,13 +43,11 @@ module.exports = class InternetEtecsaLoginService {
       await this.driver.switchTo().alert().accept();
       await this.driver.wait(until.elementLocated(By.css('.info-white1')), 2000);
       const result = await this.driver.findElement(By.css('.info-white1')).getText() === 'Usted ha cerrado con éxito su sesión.';
-      await this.driver.close();
-      await this.driver.quit();
 
       return result;
-    } catch (error) {
-      return error;
     } finally {
+      await this.driver.close();
+      await this.driver.quit();
       this.driver = null;
     }
   }
