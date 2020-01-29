@@ -1,0 +1,14 @@
+# ln -s /opt/internet-etecsa-login/service/internet-etecsa-login.service /etc/systemd/system/internet-etecsa-login.service
+[Unit]
+Description=Internet Etecsa Login
+After=syslog.target network.target
+
+[Service]
+RestartSec=2s
+Type=simple
+User=yuniel
+ExecStart=node /opt/internet-etecsa-login/src/app.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

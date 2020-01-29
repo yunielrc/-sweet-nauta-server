@@ -1,0 +1,55 @@
+#!/bin/bash
+
+#
+# Renova la ip WAN de un dispositivo AirOS.
+# 
+
+
+
+# precondiciones para conectarse a internet
+prepare_m5_dhcp() {
+  local -r AUTH_NODE='secure.etecsa.net'
+  local -r AIROS_DEVICE_IP='192.168.0.1'
+# readonly AIROS_PASSWORD=''  
+  # si el dispositivo AirOS no está disponible se imprime un mensaje y se sale
+  timeout 2 ping -c 1 $AIROS_DEVICE_IP &> /dev/null || {
+    echo "ERROR: Router inalcanzable" 1>&2
+    return 1
+  }
+
+  # si el portal está disponible no se hace nada y se sale
+  timeout 2 ping -c 1 $AUTH_NODE &> /dev/null && { 
+    echo 'OK'
+    return 0
+  }
+
+  # de no estar disponible el portal se renova la ip WAN del dispositivo AirOS, se imprime un mensaje y se sale
+  # sshpass -p $AIROS_PASSWORD ssh "ubnt@$AIROS_DEVICE_IP" -- "udhcpc -f -q -n -i ath0 -s /etc/udhcpc/udhcpc renew" > /dev/null 2>&1 && {
+  ssh -o 'ConnectTimeout=2' \
+      -o 'BatchMode=yes' \
+      -o 'UserKnownHostsFile=/dev/null' \
+      -o 'StrictHostKeyChecking=no' \
+      "ubnt@$AIROS_DEVICE_IP" -- \
+      "udhcpc -f -q -n -i ath0 -s /etc/udhcpc/udhcpc renew" > /dev/null 2>&1 && {
+    echo "Renovada la ip del Router"
+    return 0
+  }
+
+  # de no poderse renovar la ip WAN del dispositivo AirOS se imprime un mensaje y se sale
+  echo "ERROR: No se pudo renovar la ip del Router" 1>&2
+  return 1
+}
+
+
+code=0
+msg=''
+msg="$(prepare_m5_dhcp 2>&1)" || code=$?
+
+if [ "$code" = 0 ]; then
+  curl 'http://localhost:4500/toggle'
+else
+   notify-send "msg: ${msg}"
+fi
+
+
+
