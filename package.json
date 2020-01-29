@@ -2,17 +2,21 @@
   "name": "wifi-login",
   "version": "0.0.1",
   "description": "Conecta y desconecta el acceso a internet por wifi etecsa",
-  "main": "main.js",
+  "main": "src/js/main.js",
   "engines": {
     "node": "^10.18.1"
   },
   "scripts": {
+    "start": "node src/js/main.js",
+    "connet": "node src/js/connet.js",
+    "disconnet": "node src/js/disconnet.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ping": "0.2.2",
     "selenium-webdriver": "^4.0.0-alpha.5"
   },
   "devDependencies": {
