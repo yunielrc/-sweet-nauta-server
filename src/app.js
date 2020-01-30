@@ -30,5 +30,6 @@ app.get('/isconnected', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log('Server running on port 3000');
+  // eslint-disable-next-line no-console
+  console.log(`Server running on port ${port}`);
 });

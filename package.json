@@ -15,11 +15,9 @@
     "url": "http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/issues"
   },
   "scripts": {
-    "start": "node src/js/main.js",
-    "connet": "node src/js/connet.js",
-    "disconnet": "node src/js/disconnet.js",
+    "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint src/js"
+    "lint": "eslint src/"
   },
   "author": "",
   "license": "ISC",
