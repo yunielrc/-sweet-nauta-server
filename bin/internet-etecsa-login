@@ -59,4 +59,6 @@ if [ "$code" = 0 ]; then
   fi
 fi
 
-notify-send "$msg"
+message=$(echo "$msg" | jq '.message')
+
+notify-send "${message:1:-1}"
