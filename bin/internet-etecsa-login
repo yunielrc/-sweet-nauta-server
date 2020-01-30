@@ -14,17 +14,15 @@ prepare_m5_dhcp() {
   local -r AIROS_DEVICE_IP='192.168.0.1'
 # readonly AIROS_PASSWORD=''  
   # si el dispositivo AirOS no está disponible se imprime un mensaje y se sale
-  timeout 2 ping -c 1 $AIROS_DEVICE_IP &> /dev/null || {
+  timeout 1 ping -c 1 $AIROS_DEVICE_IP &> /dev/null || {
     echo "ERROR: Router inalcanzable" 1>&2
     return 1
   }
-
   # si el portal está disponible no se hace nada y se sale
   timeout 2 ping -c 1 $AUTH_NODE &> /dev/null && { 
     echo 'Router listo'
     return 0
   }
-
   notify-send "Preparando router..."
   # de no estar disponible el portal se renova la ip WAN del dispositivo AirOS, se imprime un mensaje y se sale
   # sshpass -p $AIROS_PASSWORD ssh "ubnt@$AIROS_DEVICE_IP" -- "udhcpc -f -q -n -i ath0 -s /etc/udhcpc/udhcpc renew" > /dev/null 2>&1 && {
@@ -43,16 +41,22 @@ prepare_m5_dhcp() {
   return 1
 }
 
-
 code=0
 msg=''
 msg="$(prepare_m5_dhcp 2>&1)" || code=$?
 
 if [ "$code" = 0 ]; then
-  curl 'http://localhost:4500/toggle'
-else
-   notify-send "${msg}"
+  # si hay internet se desconecta
+  if timeout 1 ping -c 1 8.8.8.8 &> /dev/null; then 
+    echo 'desconectandose'
+    msg="$(curl --silent --show-error 'http://localhost:4500/disconnect' 2>&1)" || code=$?
+    echo -e "resupesta servidor\n: $msg"
+  # de no haber internet se conecta
+  else
+    echo 'conectandose'
+    msg="$(curl --silent --show-error 'http://localhost:4500/connect' 2>&1)" || code=$?
+    echo -e "resupesta servidor\n: $msg"
+  fi
 fi
 
-
-
+notify-send "$msg"
