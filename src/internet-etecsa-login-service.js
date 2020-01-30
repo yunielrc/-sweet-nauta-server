@@ -71,8 +71,7 @@ module.exports = class InternetEtecsaLoginService {
     }
     await this.driver.findElement(By.name('logout')).click();
     await this.driver.switchTo().alert().accept();
-    await this.driver.wait(until.elementLocated(By.css('.info-white1')), 2000);
-    // return (await this.driver.findElement(By.css('.info-white1'))).getText();
+    // await this.driver.wait(until.elementLocated(By.css('.info-white1')), 2000);
     // eslint-disable-next-line max-len
     // return (await this.driver.findElement(By.css('.info-white1'))).getText() === 'Usted ha cerrado con éxito su sesión.'
     return !await this.isConnected()
