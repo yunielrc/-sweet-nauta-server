@@ -1,12 +1,31 @@
 /**
  * Conecta y desconecta el acceso a internet por wifi etecsa
  */
-const { Builder, By, until } = require('selenium-webdriver');
+const {
+  Builder,
+  By,
+  until,
+  Capabilities,
+} = require('selenium-webdriver');
 const ping = require('ping');
 
 module.exports = class InternetEtecsaLoginService {
   constructor() {
     this.driver = null;
+  }
+
+  createDriver() {
+    // el headless no funciona cuando el navegador está abierto previamente
+    // a la apertura de la ventana, por ello se va a buscar otra alternativa
+    // a selenium, además de que un navegador headless reduce dependencias
+    // y brinda una solución más compacta.
+    const chromeCapabilities = Capabilities.chrome();
+    chromeCapabilities.set('chromeOptions', { args: ['--headless'] });
+
+    this.driver = new Builder()
+      .forBrowser('chrome')
+      .withCapabilities(chromeCapabilities)
+      .build();
   }
 
   async toggle() {
@@ -23,7 +42,7 @@ module.exports = class InternetEtecsaLoginService {
     // }
     if (this.driver === null) {
       // se crea la primera ventana del navegador
-      this.driver = new Builder().forBrowser('chrome').build();
+      this.createDriver();
       // se abre la página de login
       await this.driver.get('https://secure.etecsa.net:8443/');
     } else {
@@ -40,7 +59,7 @@ module.exports = class InternetEtecsaLoginService {
         await this.driver.get('https://secure.etecsa.net:8443/');
       } catch (error) {
         // se abre una nueva ventana
-        this.driver = new Builder().forBrowser('chrome').build();
+        this.createDriver();
         await this.driver.get('https://secure.etecsa.net:8443/');
       }
     }
