@@ -46,19 +46,10 @@ msg=''
 msg="$(prepare_m5_dhcp 2>&1)" || code=$?
 
 if [ "$code" = 0 ]; then
-  # si hay internet se desconecta
-  if timeout 1 ping -c 1 8.8.8.8 &> /dev/null; then 
-    echo 'desconectandose'
-    msg="$(curl --silent --show-error 'http://localhost:4500/disconnect' 2>&1)" || code=$?
+    echo 'toggle'
+    msg="$(curl --silent --show-error 'http://localhost:4500/toggle' 2>&1)" || code=$?
     echo -e "resupesta servidor\n: $msg"
-  # de no haber internet se conecta
-  else
-    echo 'conectandose'
-    msg="$(curl --silent --show-error 'http://localhost:4500/connect' 2>&1)" || code=$?
-    echo -e "resupesta servidor\n: $msg"
-  fi
 fi
 
 message=$(echo "$msg" | jq '.message')
-
 notify-send "${message:1:-1}"

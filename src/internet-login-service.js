@@ -17,7 +17,7 @@ module.exports = class InternetLoginPuppeteerService {
   /**
    *
    * @param {object} credentials credenciales { username: 'xxxx', password: 'xxxx' }
-   * @param {*} headless se oculta el navegador
+   * @param {string} headless se oculta el navegador
    */
   constructor(credentials, headless = true) {
     this.browser = null;
