@@ -1,9 +1,10 @@
 const express = require('express');
-const InternetEtecsaLoginService = require('./internet-etecsa-login-service');
+const credentials = require('../etc/credentials');
+const InternetEtecsaLoginService = require('./internet-login-service');
 
 const app = express();
 const port = process.env.PORT || 4500;
-const iconn = new InternetEtecsaLoginService();
+const iconn = new InternetEtecsaLoginService(credentials, false);
 
 app.get('/toggle', (req, res) => {
   iconn.toggle()
@@ -23,8 +24,14 @@ app.get('/disconnect', (req, res) => {
     .catch((err) => res.status(400).send(String(err)));
 });
 
-app.get('/isconnected', (req, res) => {
-  iconn.isConnected()
+app.get('/session-open', (req, res) => {
+  iconn.sessionOpen()
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(400).send(String(err)));
+});
+
+app.get('/close-browser', (req, res) => {
+  iconn.closeBrowser()
     .then((result) => res.status(200).send(result))
     .catch((err) => res.status(400).send(String(err)));
 });
