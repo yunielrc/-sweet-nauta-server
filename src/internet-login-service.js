@@ -58,7 +58,8 @@ module.exports = class InternetLoginPuppeteerService {
 
     let prevconnected = false;
     this.page.on('dialog', async (dialog) => {
-      if (dialog.message() === 'El usuario ya está conectado.') {
+      if (dialog.message() === 'El usuario ya está conectado.'
+      || dialog.message() === 'Usted ha realizado muchos intentos. Por favor intente más tarde.') {
         prevconnected = true;
       }
       await dialog.accept();
