@@ -10,8 +10,8 @@ const BUTTON_CONNECT_SELECTOR = '#formulario > input[name="Enviar"]';
 const LABEL_CONNECTED_XPATH = "//span[contains(.,'Usted está conectado')]";
 const BUTTON_DISCONNET_SELECTOR = 'input[name="logout"]';
 const LABEL_DISCONNECTED_XPATH = "//div[contains(.,'Usted ha cerrado con éxito su sesión.')]";
-const ONLINE_TIME_SELECTOR='#onlineTime';
-const AVAILABLE_TIME_SELECTOR='#availableTime';
+const ONLINE_TIME_SELECTOR = '#onlineTime';
+const AVAILABLE_TIME_SELECTOR = '#availableTime';
 
 module.exports = class InternetLoginPuppeteerService {
   /**
