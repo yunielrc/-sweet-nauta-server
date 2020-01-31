@@ -10,6 +10,8 @@ const BUTTON_CONNECT_SELECTOR = '#formulario > input[name="Enviar"]';
 const LABEL_CONNECTED_XPATH = "//span[contains(.,'Usted está conectado')]";
 const BUTTON_DISCONNET_SELECTOR = 'input[name="logout"]';
 const LABEL_DISCONNECTED_XPATH = "//div[contains(.,'Usted ha cerrado con éxito su sesión.')]";
+const ONLINE_TIME_SELECTOR='#onlineTime';
+const AVAILABLE_TIME_SELECTOR='#availableTime';
 
 module.exports = class InternetLoginPuppeteerService {
   /**
@@ -91,7 +93,11 @@ module.exports = class InternetLoginPuppeteerService {
     // this.page.on('dialog', async (dialog) => {
     //   await dialog.accept();
     // });
+    let onlineTime = '';
+    let availableTime = '';
     try {
+      onlineTime = await this.page.$eval(ONLINE_TIME_SELECTOR, el => el.innerText);
+      availableTime = await this.page.$eval(AVAILABLE_TIME_SELECTOR, el => el.innerText);
       await Promise.all([
         this.page.waitForNavigation({ timeout: 3000 }),
         this.page.click(BUTTON_DISCONNET_SELECTOR),
@@ -103,7 +109,7 @@ module.exports = class InternetLoginPuppeteerService {
     const disconneted = (await this.page.$x(LABEL_DISCONNECTED_XPATH)).length > 0;
     this._closePage();
     return disconneted
-      ? { code: 'DESCONEXION_EXITOSA', message: 'Se ha desconectado de internet' }
+      ? { code: 'DESCONEXION_EXITOSA', message: `Desconectado, tenias: ${availableTime}, consumiste: ${onlineTime}` }
       : { code: 'DESCONEXION_FALLIDA', message: 'No se ha podido desconectar de internet' };
   }
 

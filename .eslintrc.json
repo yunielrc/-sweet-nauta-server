@@ -15,7 +15,8 @@
     "rules": {
         "comma-dangle": "off",
         "no-underscore-dangle": "off",
-        "no-plusplus": "off"
+        "no-plusplus": "off",
+        "arrow-parens": "off"
    },    
     "parserOptions": {
         "ecmaVersion": 2018
