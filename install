@@ -1,0 +1,46 @@
+#!/bin/bash
+# wget -qO - http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/raw/branch/master/install | sudo bash
+
+##  Bash settings
+# abort on nonzero exitstatus
+set -o errexit
+# abort on unbound variable
+set -o nounset
+# don't hide errors within pipes
+# set -o pipefail
+# debug
+# set -o xtrace
+##
+
+readonly UNAME=nauta
+readonly INSTALL_DIR='/opt/internet-etecsa-login'
+
+apt install -y git
+# download
+cd /opt/
+git clone 'http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login.git'
+cd "$INSTALL_DIR"
+chmod +x 'bin/internet-etecsa-login'
+# install dependencies
+npm install
+apt install -y jq
+# setup service
+ln -s "${INSTALL_DIR}/service/internet-etecsa-login.service" '/etc/systemd/system/internet-etecsa-login.service'
+# configure
+cp '.env-prod' '.env'
+ln -s "${INSTALL_DIR}/desktop/internet-etecsa-login.desktop" '/usr/share/applications/internet-etecsa-login.desktop'
+useradd --create-home --shell /bin/bash "$UNAME"
+# end
+cat <<EOF
+>1: Edite al archivo .env y defina sus credenciales de la cuenta nauta:
+$ sudo nano ${INSTALL_DIR}/.env
+
+>2: Proteja el archivo .env después de editarlo
+$ sudo chown ${UNAME}:${UNAME} ${INSTALL_DIR}/.env
+$ sudo chmod 400 ${INSTALL_DIR}/.env
+
+>3: Después de haber completado los pasos 1 y 2 Instale el servicio
+systemctl enable internet-etecsa-login --now
+EOF
+
+

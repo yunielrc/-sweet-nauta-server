@@ -1,4 +1,4 @@
-# ln -s /opt/internet-etecsa-login/service/internet-etecsa-login.service $HOME/.config/systemd/user/internet-etecsa-login.service
+# ln -s /opt/internet-etecsa-login/service/internet-etecsa-login.service /etc/systemd/system/internet-etecsa-login.service
 # systemctl --user enable internet-etecsa-login.service
 # systemctl --user start internet-etecsa-login.service
 [Unit]
@@ -8,6 +8,8 @@ After=syslog.target network.target
 [Service]
 RestartSec=2s
 Type=simple
+User=intnauta
+Group=intnauta
 ExecStart=npm start
 Restart=always
 WorkingDirectory=/opt/internet-etecsa-login
