@@ -42,14 +42,23 @@ prepare_m5_dhcp() {
 }
 
 code=0
+scode=''
 msg=''
 msg="$(prepare_m5_dhcp 2>&1)" || code=$?
 
 if [ "$code" = 0 ]; then
+    # FIX: tomar el puerto de config
     msg="$(curl --silent --show-error 'http://localhost:4500/toggle' 2>&1)" || code=$?
-    message=$(echo "$msg" | jq '.message')
-    notify-send "${message:1:-1}"    
+
+    smsg="$(echo "$msg" | jq '.message')"
+    smsg="${smsg:1:-1}" 
+    scode="$(echo "$msg" | jq '.code')"
+    scode="${scode:1:-1}"
+
+    msg="${scode}|${smsg}"
+    notify-send "$smsg"
 else
   notify-send "$msg"
 fi
-echo "$msg"
+
+echo "$(date +%Y%m%d-%H%M%S)  ${code}  ${msg}" >> '/var/log/internet-etecsa-login.log'
