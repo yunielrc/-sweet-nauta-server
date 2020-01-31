@@ -88,9 +88,9 @@ module.exports = class InternetLoginPuppeteerService {
     if (!await this.sessionOpen()) {
       return { code: 'SIN_SESION', message: 'Usted no tiene una sesión abierta para cerrar' };
     }
-    this.page.on('dialog', async (dialog) => {
-      await dialog.accept();
-    });
+    // this.page.on('dialog', async (dialog) => {
+    //   await dialog.accept();
+    // });
     try {
       await Promise.all([
         this.page.waitForNavigation({ timeout: 3000 }),

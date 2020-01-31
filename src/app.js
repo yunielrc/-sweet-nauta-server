@@ -1,10 +1,9 @@
 const express = require('express');
-const credentials = require('../etc/credentials');
+const config = require('../etc/config');
 const InternetEtecsaLoginService = require('./internet-login-service');
 
 const app = express();
-const port = process.env.PORT || 4500;
-const iconn = new InternetEtecsaLoginService(credentials, false);
+const iconn = new InternetEtecsaLoginService(config.creds, config.headless);
 
 app.get('/toggle', (req, res) => {
   iconn.toggle()
@@ -36,7 +35,7 @@ app.get('/close-browser', (req, res) => {
     .catch((err) => res.status(400).send(String(err)));
 });
 
-app.listen(port, () => {
+app.listen(config.port, () => {
   // eslint-disable-next-line no-console
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running on port ${config.port}`);
 });
