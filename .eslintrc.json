@@ -5,15 +5,22 @@
         "node": true
     },
     "extends": [
-        "airbnb-base"
+        "airbnb-base",
+        "plugin:jsdoc/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
+    "rules": {
+        "comma-dangle": "off",
+        "no-underscore-dangle": "off",
+        "no-plusplus": "off"
+   },    
     "parserOptions": {
         "ecmaVersion": 2018
     },
-    "rules": {
-    }
+    "plugins": [
+        "jsdoc"
+    ]     
 }
