@@ -80,16 +80,16 @@ module.exports = class InternetLoginPuppeteerService {
     }
     if (prevconnected) {
       this._closePage();
-      return { code: 'CONEXION_PREVIA_ESTABLECIDA', message: 'No es necesario conectarse, hay conexión' };
+      return { code: 'CONEXION_PREVIA', message: 'No es necesario conectarse, hay conexión' };
     }
     return (await this.page.$x(LABEL_CONNECTED_XPATH)).length > 0
-      ? { code: 'CONEXION_EXITOSA', message: 'Conectado a internet' }
+      ? { code: 'CONECTADO', message: 'Conectado a internet' }
       : { code: 'CONEXION_FALLIDA', message: 'No se ha podido conectar a internet' };
   }
 
   async disconnet() {
     if (!await this.sessionOpen()) {
-      return { code: 'SIN_SESION', message: 'Usted no tiene una sesión abierta para cerrar' };
+      return { code: 'SIN_SESION', message: 'Usted no tiene sesión abierta que cerrar' };
     }
     // this.page.on('dialog', async (dialog) => {
     //   await dialog.accept();
@@ -110,7 +110,7 @@ module.exports = class InternetLoginPuppeteerService {
     const disconneted = (await this.page.$x(LABEL_DISCONNECTED_XPATH)).length > 0;
     this._closePage();
     return disconneted
-      ? { code: 'DESCONEXION_EXITOSA', message: `Desconectado, tenias: ${availableTime}, consumiste: ${onlineTime}` }
+      ? { code: 'DESCONECTADO', message: `Desconectado, tenias: ${availableTime}, consumiste: ${onlineTime}` }
       : { code: 'DESCONEXION_FALLIDA', message: 'No se ha podido desconectar de internet' };
   }
 
