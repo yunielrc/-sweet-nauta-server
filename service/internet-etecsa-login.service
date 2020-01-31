@@ -8,8 +8,9 @@ After=syslog.target network.target
 [Service]
 RestartSec=2s
 Type=simple
-ExecStart=node /opt/internet-etecsa-login/src/app.js
+ExecStart=node src/app.js
 Restart=always
+WorkingDirectory=/opt/internet-etecsa-login
 
 [Install]
 WantedBy=multi-user.target
