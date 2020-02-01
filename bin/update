@@ -42,6 +42,7 @@ readonly git_version="$(wget -qO - "$GIT_PACKAGE_URL" | jq -r '.version')"
 
 if [[ "$cur_version" = "$git_version" ]]; then
   log 0 "No es necesario actualizar, la versión actual ${cur_version} es la más reciente"
+  touch "$UPDATE_TODAY_OK"
   exit 0
 fi
 # actualizamos
