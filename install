@@ -21,17 +21,17 @@ apt install -y git curl
 cd /opt/
 git clone 'http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login.git'
 cd "$INSTALL_DIR"
-chmod +x 'bin/internet-etecsa-login'
+chmod --verbose +x 'bin/internet-etecsa-login'
 # install dependencies
 curl -sL 'https://deb.nodesource.com/setup_10.x' | sudo -E bash -
 apt install -y nodejs npm build-essential jq
 npm install npm@latest -g
 npm install
 # configure
-ln -s "${INSTALL_DIR}/service/internet-etecsa-login.service" '/etc/systemd/system/internet-etecsa-login.service'
-ln -s "${INSTALL_DIR}/desktop/internet-etecsa-login.desktop" '/usr/share/applications/internet-etecsa-login.desktop'
+ln --verbose -s "${INSTALL_DIR}/service/internet-etecsa-login.service" '/etc/systemd/system/internet-etecsa-login.service'
+ln --verbose -s "${INSTALL_DIR}/desktop/internet-etecsa-login.desktop" '/usr/share/applications/internet-etecsa-login.desktop'
 useradd --create-home --shell /bin/bash "$UNAME"
-cp '.env-prod' '.env'
+cp --verbose '.env-prod' '.env'
 # end
 cat <<EOF
 >1: Edite al archivo .env y defina sus credenciales de la cuenta nauta:
@@ -42,7 +42,9 @@ $ sudo chown ${UNAME}:${UNAME} ${INSTALL_DIR}/.env
 $ sudo chmod 400 ${INSTALL_DIR}/.env
 
 >3: Después de haber completado los pasos 1 y 2 Instale el servicio
-systemctl enable internet-etecsa-login --now
+sudo systemctl enable internet-etecsa-login --now
+
+>4: Ejecute la app 'Internet Login' para conectarse y desconectarse a internet
 EOF
 
 

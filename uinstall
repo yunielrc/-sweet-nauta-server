@@ -1,0 +1,8 @@
+#!/bin/bash
+
+userdel --force nauta
+sudo rm --verbose '/etc/systemd/system/internet-etecsa-login.service'
+sudo rm --verbose '/usr/share/applications/internet-etecsa-login.desktop'
+sudo rm --verbose -r '/opt/internet-etecsa-login' && \
+echo 'app internet-etecsa-login desintalada'
+
