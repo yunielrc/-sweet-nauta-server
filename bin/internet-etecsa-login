@@ -56,9 +56,9 @@ if [ "$code" = 0 ]; then
     scode="${scode:1:-1}"
 
     msg="${scode}|${smsg}"
-    notify-send "$smsg"
+    notify-send 'Internet Login' "$smsg"
 else
-  notify-send "$msg"
+  notify-send 'Internet Login' "$msg"
 fi
 # LOG
 echo "$(date +%Y%m%d-%H%M%S)  [LOGGIN] ${code} ${msg}" >> '/var/log/internet-etecsa-login.log'

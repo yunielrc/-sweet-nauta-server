@@ -46,4 +46,5 @@ if [[ "$msg" != 'true' ]]; then
   log 0 'Se ha reiniciado el servicio'
 else
   log 0 'No se ha reiniciado el servicio porque hay una sesión abierta'
+  notify-send 'Internet Login' 'Software Actualizado. Cuando termine la sesión ejecute: $ sudo systemctl restart internet-etecsa-login'
 fi
