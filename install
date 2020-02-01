@@ -23,9 +23,8 @@ cd "$INSTALL_DIR"
 chmod +x 'bin/internet-etecsa-login'
 # install dependencies
 curl -sL 'https://deb.nodesource.com/setup_10.x' | sudo -E bash -
-apt install -y nodejs build-essential jq
+apt install -y nodejs npm build-essential jq
 npm install
-
 # setup service
 ln -s "${INSTALL_DIR}/service/internet-etecsa-login.service" '/etc/systemd/system/internet-etecsa-login.service'
 # configure
