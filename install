@@ -24,6 +24,7 @@ cd "$INSTALL_DIR"
 chmod --verbose +x 'bin/internet-etecsa-login'
 # install dependencies
 curl -sL 'https://deb.nodesource.com/setup_10.x' | sudo -E bash -
+apt update -y
 apt install -y nodejs npm build-essential jq
 npm install npm@latest -g
 npm install
