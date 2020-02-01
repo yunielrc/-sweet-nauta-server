@@ -1,0 +1,51 @@
+#!/bin/bash
+
+##  Bash settings
+# abort on nonzero exitstatus
+set -o errexit
+# abort on unbound variable
+set -o nounset
+# don't hide errors within pipes
+# set -o pipefail
+# debug
+# set -o xtrace
+##
+
+readonly LOG_FILE='/var/log/internet-etecsa-login.log'
+readonly GIT_PACKAGE_URL="$(jq -r '.repository.url' './package.json')"
+
+log() {
+  local -r code="$1"
+  local -r msg="$2"
+  echo "$(date +%Y%m%d-%H%M%S)  [UPDATE]  ${code} ${msg}" >> "$LOG_FILE"
+}
+# hay internet?
+timeout 2 ping -c 1 8.8.8.8 &> /dev/null || {
+  log 1 'ERROR: No hay internet, no se ha podido actualizar'
+  exit 1
+}
+
+cd '/opt/internet-etecsa-login'
+readonly cur_version="$(jq -r '.version' './package.json')"
+readonly git_version="$(wget -qO - "$GIT_PACKAGE_URL" | jq -r '.version')"
+# tenemos la versión mas reciente?
+if [[ "$cur_version" = "$git_version" ]]; then
+  log 0 "No es necesario actualizar, la versión actual ${cur_version} es la más reciente"
+  exit 0
+fi
+# actualizamos
+git pull origin master
+npm install --production --unsafe-perm=true
+chmod --verbose +x 'bin/internet-etecsa-login' bin/update
+# npm update --unsafe-perm=true
+log 0 "Se ha actualizado de la versión ${cur_version} a ${git_version}"
+# se reinicia el servicio solo si el usario no tiene una sesión abierta
+# FIX: tomar puerto de config
+msg="$(curl --silent --show-error 'http://localhost:4500/session-open' 2>&1)"
+if [[ "$msg" != 'true' ]]; then
+  systemctl restart internet-etecsa-login
+  log 0 'Se ha reiniciado el servicio'
+else
+  log 0 'No se ha reiniciado el servicio porque hay una sesión abierta'
+  notify-send 'Internet Login' 'Software Actualizado. Cuando cierre su sesión ejecute: $ sudo systemctl restart internet-etecsa-login'
+fi

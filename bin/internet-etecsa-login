@@ -50,15 +50,13 @@ if [ "$code" = 0 ]; then
     # FIX: tomar el puerto de config
     msg="$(curl --silent --show-error 'http://localhost:4500/toggle' 2>&1)" || code=$?
 
-    smsg="$(echo "$msg" | jq '.message')"
-    smsg="${smsg:1:-1}" 
-    scode="$(echo "$msg" | jq '.code')"
-    scode="${scode:1:-1}"
+    smsg="$(echo "$msg" | jq -r '.message')"
+    scode="$(echo "$msg" | jq -r '.code')"
 
     msg="${scode}|${smsg}"
-    notify-send "$smsg"
+    notify-send 'Internet Login' "$smsg"
 else
-  notify-send "$msg"
+  notify-send 'Internet Login' "$msg"
 fi
 # LOG
-echo "$(date +%Y%m%d-%H%M%S)  ${code}  ${msg}" >> '/var/log/internet-etecsa-login.log'
+echo "$(date +%Y%m%d-%H%M%S)  [LOGGIN] ${code} ${msg}" >> '/var/log/internet-etecsa-login.log'

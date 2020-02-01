@@ -1,5 +1,5 @@
 #!/bin/bash
-# wget -qO - http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/raw/branch/master/install | sudo bash
+# wget -qO - http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/raw/branch/master/bin/install | sudo bash
 
 ##  Bash settings
 # abort on nonzero exitstatus
@@ -21,12 +21,12 @@ apt install -y git curl
 cd /opt/
 git clone 'http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login.git'
 cd "$INSTALL_DIR"
-chmod --verbose +x 'bin/internet-etecsa-login'
+chmod --verbose +x 'bin/internet-etecsa-login' bin/update
 # install dependencies
 curl -sL 'https://deb.nodesource.com/setup_10.x' | sudo -E bash -
 apt install -y nodejs build-essential jq
 npm install npm@latest -g --unsafe-perm=true
-npm install --unsafe-perm=true
+npm install --production --unsafe-perm=true
 # configure
 ln --verbose -s "${INSTALL_DIR}/service/internet-etecsa-login.service" '/etc/systemd/system/internet-etecsa-login.service'
 ln --verbose -s "${INSTALL_DIR}/desktop/internet-etecsa-login.desktop" '/usr/share/applications/internet-etecsa-login.desktop'
