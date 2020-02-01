@@ -1,6 +1,6 @@
 {
   "name": "wifi-login",
-  "version": "0.0.1",
+  "version": "0.3.1",
   "description": "Conecta y desconecta el acceso a internet por wifi etecsa",
   "main": "src/js/main.js",
   "engines": {
@@ -24,8 +24,7 @@
   "dependencies": {
     "dotenv": "8.2.0",
     "express": "4.17.1",
-    "puppeteer": "2.1.0",
-    "selenium-webdriver": "^4.0.0-alpha.5"
+    "puppeteer": "2.1.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
