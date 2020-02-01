@@ -7,21 +7,16 @@ set -o errexit
 set -o nounset
 ##
 
+readonly ACTION='UPDATE'
+readonly BASE_PATH="${BASE_PATH:-"$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"}/.."
+# shellcheck disable=1090
+source "${BASE_PATH}/src/util.bash"
+
 cd '/opt/internet-etecsa-login'
-readonly LOG_FILE='/var/log/internet-etecsa-login.log'
 readonly GIT_PACKAGE_URL="$(jq -r '.repository.url' './package.json' | sed 's/\.git$//' | sed 's/^git+//')/raw/branch/master/package.json"
 readonly UPDATE_TODAY_OK="/tmp/internet-etecsa-login-$(date +%Y%m%d)"
 
-log() {
-  local -r code="$1"
-  local msg="$2"
-  if [ "$code" != 0 ]; then
-    msg="ERROR: ${msg}"
-  fi
-  local -r entry="$(date +%Y%m%d-%H%M%S)  [UPDATE]  ${code} ${msg}"
-  echo "$entry"
-  echo "$entry" >> "$LOG_FILE"
-}
+
 # si la actualización se ejecutó hoy correctamente se sale
 if [ -f "$UPDATE_TODAY_OK" ]; then
   echo 'No es necesario actualizar, ya se ha ejecutado hoy correctamente'
@@ -30,7 +25,7 @@ fi
 
 # si no hay internet se sale
 timeout 2 ping -c 1 8.8.8.8 &> /dev/null || {
-  log 1 'No hay internet, no se ha podido actualizar'
+  log "$ACTION" 1 'No hay internet, no se ha podido actualizar'
   exit 1
 }
 
@@ -39,18 +34,18 @@ readonly cur_version="$(jq -r '.version' './package.json')"
 readonly git_version="$(wget -qO - "$GIT_PACKAGE_URL" | jq -r '.version')"
 
 if [[ "$cur_version" = "$git_version" ]]; then
-  log 0 "No es necesario actualizar, la versión actual ${cur_version} es la más reciente"
+  log "$ACTION" 0 "No es necesario actualizar, la versión actual ${cur_version} es la más reciente"
   touch "$UPDATE_TODAY_OK"
   exit 0
 fi
 # actualizamos
 git reset --hard
 git pull origin master || {
-  log 1 'ejecutando $ git pull origin master'
+  log "$ACTION" 1 'ejecutando $ git pull origin master'
   exit 1
 }
 npm install --production --unsafe-perm=true || {
-  log 1 'ejecutando $ npm install --production --unsafe-perm=true'
+  log "$ACTION" 1 'ejecutando $ npm install --production --unsafe-perm=true'
   exit 1
 }
 #
@@ -64,8 +59,8 @@ log 0 "Se ha actualizado de la versión ${cur_version} a ${git_version}"
 msg="$(curl --silent --show-error 'http://localhost:4500/session-open' 2>&1)"
 if [[ "$msg" != 'true' ]]; then
   systemctl restart internet-etecsa-login
-  log 0 'Se ha reiniciado el servicio'
+  log "$ACTION" 0 'Se ha reiniciado el servicio'
 else
-  log 0 'No se ha reiniciado el servicio porque hay una sesión abierta'
+  log "$ACTION" 0 'No se ha reiniciado el servicio porque hay una sesión abierta'
   notify-send 'Internet Login' "Software Actualizado a versión ${git_version}. Cuando cierre su sesión ejecute: $ sudo systemctl restart internet-etecsa-login"
 fi
