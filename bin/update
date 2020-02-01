@@ -7,8 +7,6 @@ set -o errexit
 set -o nounset
 # don't hide errors within pipes
 # set -o pipefail
-# debug
-# set -o xtrace
 ##
 
 cd '/opt/internet-etecsa-login'
