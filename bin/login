@@ -53,4 +53,4 @@ else
   notify-send 'Internet Login' "$msg"
 fi
 # LOG
-echo "$(date +%Y%m%d-%H%M%S)  [LOGGIN] ${code} ${msg}" >> '/var/log/internet-etecsa-login.log'
+echo "$(date +%Y%m%d-%H%M%S)  [LOGGIN]  ${code} ${msg}" >> '/var/log/internet-etecsa-login.log'

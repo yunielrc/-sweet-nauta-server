@@ -32,6 +32,7 @@ useradd --create-home --shell /bin/bash "$UNAME"
 cp --verbose '.env-prod' '.env'
 touch "$LOG_FILE"
 chown "${UNAME}:${UNAME}" "$LOG_FILE"
+chmod 666 "$LOG_FILE"
 
 # setup update script in crontab
 readonly tmpcron='/tmp/tmpcron'
