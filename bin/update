@@ -12,7 +12,7 @@ set -o nounset
 ##
 
 readonly LOG_FILE='/var/log/internet-etecsa-login.log'
-readonly GIT_PACKAGE_URL='http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/raw/branch/master/package.json'
+readonly GIT_PACKAGE_URL="$(jq -r '.repository.url' './package.json')"
 
 log() {
   local -r code="$1"
@@ -26,8 +26,8 @@ timeout 2 ping -c 1 8.8.8.8 &> /dev/null || {
 }
 
 cd '/opt/internet-etecsa-login'
-readonly cur_version="$(jq '.version' './package.json')"
-readonly git_version="$(wget -qO - "$GIT_PACKAGE_URL" | jq '.version')"
+readonly cur_version="$(jq -r '.version' './package.json')"
+readonly git_version="$(wget -qO - "$GIT_PACKAGE_URL" | jq -r '.version')"
 # tenemos la versión mas reciente?
 if [[ "$cur_version" = "$git_version" ]]; then
   log 0 "No es necesario actualizar, la versión actual ${cur_version} es la más reciente"
@@ -36,8 +36,9 @@ fi
 # actualizamos
 git pull origin master
 npm install --production --unsafe-perm=true
+chmod --verbose +x 'bin/internet-etecsa-login' bin/update
 # npm update --unsafe-perm=true
-log 0 "Se ha actualizado de ${cur_version} a ${git_version}"
+log 0 "Se ha actualizado de la versión ${cur_version} a ${git_version}"
 # se reinicia el servicio solo si el usario no tiene una sesión abierta
 # FIX: tomar puerto de config
 msg="$(curl --silent --show-error 'http://localhost:4500/session-open' 2>&1)"
@@ -46,5 +47,5 @@ if [[ "$msg" != 'true' ]]; then
   log 0 'Se ha reiniciado el servicio'
 else
   log 0 'No se ha reiniciado el servicio porque hay una sesión abierta'
-  notify-send 'Internet Login' 'Software Actualizado. Cuando termine la sesión ejecute: $ sudo systemctl restart internet-etecsa-login'
+  notify-send 'Internet Login' 'Software Actualizado. Cuando cierre su sesión ejecute: $ sudo systemctl restart internet-etecsa-login'
 fi
