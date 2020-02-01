@@ -12,9 +12,8 @@ set -o nounset
 ##
 
 cd '/opt/internet-etecsa-login'
-
 readonly LOG_FILE='/var/log/internet-etecsa-login.log'
-readonly GIT_PACKAGE_URL="$(jq -r '.repository.url' './package.json')"
+readonly GIT_PACKAGE_URL="$(jq -r '.repository.url' './package.json' | sed 's/.git$//')/raw/branch/master/package.json"
 
 log() {
   local -r code="$1"
