@@ -20,7 +20,9 @@ log() {
   if [ "$code" != 0 ]; then
     msg="ERROR: ${msg}"
   fi
-  echo "$(date +%Y%m%d-%H%M%S)  [UPDATE]  ${code} ${msg}" >> "$LOG_FILE"
+  local -r entry="$(date +%Y%m%d-%H%M%S)  [UPDATE]  ${code} ${msg}"
+  echo "$entry"
+  echo "$entry" >> "$LOG_FILE"
 }
 # si la actualización se ejecutó hoy correctamente se sale
 if [ -f "$UPDATE_TODAY_OK" ]; then
