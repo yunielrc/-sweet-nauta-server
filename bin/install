@@ -32,6 +32,14 @@ useradd --create-home --shell /bin/bash "$UNAME"
 cp --verbose '.env-prod' '.env'
 touch "$LOG_FILE"
 chown "${UNAME}:${UNAME}" "$LOG_FILE"
+
+# setup update script in crontab
+readonly tmpcron='/tmp/tmpcron'
+crontab -l > "$tmpcron"
+echo '*/15 10-16 * * 2  /bin/bash /opt/internet-etecsa-login/bin/update' >> "$tmpcron"
+crontab "$tmpcron"
+rm "$tmpcron"
+
 # end
 cat <<EOF
 
@@ -48,10 +56,14 @@ $ sudo systemctl enable internet-etecsa-login --now
 
 >4: Ejecute la app 'Internet Login' para conectarse y desconectarse a internet,
 >Asigne una tecla al comando 'gtk-launch internet-etecsa-login' para conectarse
->y desconectarse presionando una tecla, pruebe asignarle 'F9'.
+>y desconectarse, pruebe asignarle 'F9'.
 
 >5: Puede ver el log de la applicación:
 $ tail -f ${LOG_FILE}
+
+>6: Se creó una entrada en el cron del usuario root para actualizar la app
+>puede modificarla:
+$ sudo crontab -e
 -------------------------------------------------------------------------------
 EOF
 
