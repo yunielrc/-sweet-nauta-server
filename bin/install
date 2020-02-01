@@ -8,8 +8,6 @@ set -o errexit
 set -o nounset
 # don't hide errors within pipes
 # set -o pipefail
-# debug
-# set -o xtrace
 ##
 
 readonly UNAME=nauta # este usuario tiene que ser el mismo del .service
