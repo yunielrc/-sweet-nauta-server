@@ -1,0 +1,19 @@
+#!/bin/bash
+
+##  Bash settings
+# abort on nonzero exitstatus
+set -o errexit
+# abort on unbound variable
+set -o nounset
+# don't hide errors within pipes
+# set -o pipefail
+# debug
+# set -o xtrace
+##
+
+cd '/opt/internet-etecsa-login'
+git pull origin master
+npm update
+echo 'OK'
+echo '>Ejecute:'
+echo '$ sudo systemctl restart internet-etecsa-login'
