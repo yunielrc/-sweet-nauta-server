@@ -34,9 +34,9 @@ if [[ "$cur_version" = "$git_version" ]]; then
   exit 0
 fi
 # actualizamos
+git reset --hard
 git pull origin master
 npm install --production --unsafe-perm=true
-chmod --verbose +x 'bin/internet-etecsa-login' bin/update
 # npm update --unsafe-perm=true
 log 0 "Se ha actualizado de la versión ${cur_version} a ${git_version}"
 # se reinicia el servicio solo si el usario no tiene una sesión abierta

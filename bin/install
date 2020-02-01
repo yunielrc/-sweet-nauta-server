@@ -21,7 +21,6 @@ apt install -y git curl
 cd /opt/
 git clone 'http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login.git'
 cd "$INSTALL_DIR"
-chmod --verbose +x 'bin/internet-etecsa-login' bin/update
 # install dependencies
 curl -sL 'https://deb.nodesource.com/setup_10.x' | sudo -E bash -
 apt install -y nodejs build-essential jq
