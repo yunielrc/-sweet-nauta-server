@@ -23,7 +23,7 @@ prepare_m5_dhcp() {
     echo 'Router listo'
     return 0
   }
-  notify-send "Preparando router..."
+  notify-send 'Internet Login' "Preparando router..."
   # de no estar disponible el portal se renova la ip WAN del dispositivo AirOS, se imprime un mensaje y se sale
   # sshpass -p $AIROS_PASSWORD ssh "ubnt@$AIROS_DEVICE_IP" -- "udhcpc -f -q -n -i ath0 -s /etc/udhcpc/udhcpc renew" > /dev/null 2>&1 && {
   ssh -o 'ConnectTimeout=2' \
