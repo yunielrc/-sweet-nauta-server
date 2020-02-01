@@ -12,6 +12,7 @@ set -o nounset
 
 readonly UNAME=nauta # este usuario tiene que ser el mismo del .service
 readonly INSTALL_DIR='/opt/internet-etecsa-login'
+readonly LOG_FILE='/var/log/internet-etecsa-login.log'
 
 apt update -y
 apt install -y git curl
@@ -29,8 +30,8 @@ ln --verbose -s "${INSTALL_DIR}/service/internet-etecsa-login.service" '/etc/sys
 ln --verbose -s "${INSTALL_DIR}/desktop/internet-etecsa-login.desktop" '/usr/share/applications/internet-etecsa-login.desktop'
 useradd --create-home --shell /bin/bash "$UNAME"
 cp --verbose '.env-prod' '.env'
-touch '/var/log/internet-etecsa-login.log'
-chown "${UNAME}:${UNAME}" '/var/log/internet-etecsa-login.log'
+touch "$LOG_FILE"
+chown "${UNAME}:${UNAME}" "$LOG_FILE"
 # end
 cat <<EOF
 
@@ -48,6 +49,9 @@ sudo systemctl enable internet-etecsa-login --now
 >4: Ejecute la app 'Internet Login' para conectarse y desconectarse a internet,
 >Asigne una tecla al comando 'gtk-launch internet-etecsa-login' para conectarse
 >y desconectarse presionando una tecla, pruebe asignarle 'F9'.
+
+>5: Puede ver el log de la applicación:
+$ tail -f ${LOG_FILE}
 -------------------------------------------------------------------------------
 EOF
 
