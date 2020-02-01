@@ -1,11 +1,5 @@
 #!/bin/bash
 
-#
-# Renova la ip WAN de un dispositivo AirOS.
-# 
-
-
-
 # precondiciones para conectarse a internet
 
 ## alistar router de ser necesario
