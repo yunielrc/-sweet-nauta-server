@@ -27,7 +27,6 @@ timeout 2 ping -c 1 8.8.8.8 &> /dev/null || {
   exit 1
 }
 
-
 readonly cur_version="$(jq -r '.version' './package.json')"
 readonly git_version="$(wget -qO - "$GIT_PACKAGE_URL" | jq -r '.version')"
 # tenemos la versión mas reciente?
