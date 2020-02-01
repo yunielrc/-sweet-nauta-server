@@ -8,9 +8,9 @@ After=syslog.target network.target
 [Service]
 RestartSec=2s
 Type=simple
-User=intnauta
-Group=intnauta
-ExecStart=npm start
+User=nauta
+Group=nauta
+ExecStart=/usr/bin/npm start
 Restart=always
 WorkingDirectory=/opt/internet-etecsa-login
 

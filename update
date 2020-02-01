@@ -16,4 +16,4 @@ git pull origin master
 npm update
 echo 'OK'
 echo '>Ejecute:'
-echo '$ sudo systemctl enable internet-etecsa-login'
+echo '$ sudo systemctl restart internet-etecsa-login'

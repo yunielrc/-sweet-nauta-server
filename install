@@ -12,7 +12,7 @@ set -o nounset
 # set -o xtrace
 ##
 
-readonly UNAME=nauta
+readonly UNAME=nauta # este usuario tiene que ser el mismo del .service
 readonly INSTALL_DIR='/opt/internet-etecsa-login'
 
 apt update -y
@@ -32,9 +32,13 @@ ln --verbose -s "${INSTALL_DIR}/service/internet-etecsa-login.service" '/etc/sys
 ln --verbose -s "${INSTALL_DIR}/desktop/internet-etecsa-login.desktop" '/usr/share/applications/internet-etecsa-login.desktop'
 useradd --create-home --shell /bin/bash "$UNAME"
 cp --verbose '.env-prod' '.env'
+touch '/var/log/internet-etecsa-login.log'
+chown "${UNAME}:${UNAME}" '/var/log/internet-etecsa-login.log'
 # end
 cat <<EOF
->1: Edite al archivo .env y defina sus credenciales de la cuenta nauta:
+
+-------------------------------------------------------------------------------
+>1: Edite al archivo .env y defina las credenciales de su cuenta nauta:
 $ sudo nano ${INSTALL_DIR}/.env
 
 >2: Proteja el archivo .env después de editarlo
@@ -47,6 +51,7 @@ sudo systemctl enable internet-etecsa-login --now
 >4: Ejecute la app 'Internet Login' para conectarse y desconectarse a internet,
 >Asigne una tecla al comando 'gtk-launch internet-etecsa-login' para conectarse
 >y desconectarse presionando una tecla, pruebe asignarle 'F9'.
+-------------------------------------------------------------------------------
 EOF
 
 
