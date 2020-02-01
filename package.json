@@ -1,6 +1,6 @@
 {
   "name": "wifi-login",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Conecta y desconecta el acceso a internet por wifi etecsa",
   "main": "src/js/main.js",
   "engines": {
