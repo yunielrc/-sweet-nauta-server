@@ -44,7 +44,7 @@ $ sudo chown ${UNAME}:${UNAME} ${INSTALL_DIR}/.env
 $ sudo chmod 400 ${INSTALL_DIR}/.env
 
 >3: Después de haber completado los pasos 1 y 2 Instale el servicio
-sudo systemctl enable internet-etecsa-login --now
+$ sudo systemctl enable internet-etecsa-login --now
 
 >4: Ejecute la app 'Internet Login' para conectarse y desconectarse a internet,
 >Asigne una tecla al comando 'gtk-launch internet-etecsa-login' para conectarse
