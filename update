@@ -13,7 +13,8 @@ set -o nounset
 
 cd '/opt/internet-etecsa-login'
 git pull origin master
-npm update
+npm install --production --unsafe-perm=true
+# npm update --unsafe-perm=true
 echo 'OK'
 echo '>Ejecute:'
 echo '$ sudo systemctl restart internet-etecsa-login'
