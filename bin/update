@@ -12,7 +12,7 @@ set -o nounset
 ##
 
 readonly LOG_FILE='/var/log/internet-etecsa-login.log'
-readonly GIT_PACKAGE_URL="$(jq -r '.repository.url' './package.json')"
+readonly GIT_PACKAGE_URL="$(jq -r '.repository.url' '../package.json')"
 
 log() {
   local -r code="$1"
@@ -26,7 +26,7 @@ timeout 2 ping -c 1 8.8.8.8 &> /dev/null || {
 }
 
 cd '/opt/internet-etecsa-login'
-readonly cur_version="$(jq -r '.version' './package.json')"
+readonly cur_version="$(jq -r '.version' '../package.json')"
 readonly git_version="$(wget -qO - "$GIT_PACKAGE_URL" | jq -r '.version')"
 # tenemos la versión mas reciente?
 if [[ "$cur_version" = "$git_version" ]]; then
@@ -34,9 +34,9 @@ if [[ "$cur_version" = "$git_version" ]]; then
   exit 0
 fi
 # actualizamos
+git reset --hard
 git pull origin master
 npm install --production --unsafe-perm=true
-chmod --verbose +x 'bin/internet-etecsa-login' bin/update
 # npm update --unsafe-perm=true
 log 0 "Se ha actualizado de la versión ${cur_version} a ${git_version}"
 # se reinicia el servicio solo si el usario no tiene una sesión abierta
