@@ -13,7 +13,6 @@ set -o nounset
 
 systemctl stop internet-etecsa-login
 systemctl disable internet-etecsa-login
-sudo rm --verbose '/etc/systemd/system/internet-etecsa-login.service'
 sudo rm --verbose '/usr/share/applications/internet-etecsa-login.desktop'
 sudo rm --verbose -r '/opt/internet-etecsa-login' && \
 userdel --force nauta
