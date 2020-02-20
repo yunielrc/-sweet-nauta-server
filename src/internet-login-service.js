@@ -18,13 +18,17 @@ module.exports = class InternetLoginPuppeteerService {
    *
    * @param {object} credentials credenciales { username: 'xxxx', password: 'xxxx' }
    * @param {string} headless se oculta el navegador
+   * @param {string} pupTimeout timeout
    */
-  constructor(credentials, headless = true) {
+  constructor(credentials, headless = true, pupTimeout = 4000) {
     this.browser = null;
     this.page = null;
     this.credentials = credentials;
     this.headless = headless;
+    this.#pupTimeout = pupTimeout;
   }
+
+  #pupTimeout = 4000;
 
   async _closePage() {
     if (this.page != null && !this.page.isClosed()) {
@@ -65,13 +69,13 @@ module.exports = class InternetLoginPuppeteerService {
       await dialog.accept();
     });
     try {
-      await this.page.goto(LOGIN_URL, { timeout: 3000 });
+      await this.page.goto(LOGIN_URL, { timeout: this.#pupTimeout });
       await this.page.click(USERNAME_SELECTOR);
       await this.page.keyboard.type(this.credentials.username);
       await this.page.click(PASSWORD_SELECTOR);
       await this.page.keyboard.type(this.credentials.password);
       await Promise.all([
-        this.page.waitForNavigation({ timeout: 3000 }),
+        this.page.waitForNavigation({ timeout: this.#pupTimeout }),
         this.page.click(BUTTON_CONNECT_SELECTOR)
       ]);
     } catch (error) {
@@ -100,7 +104,7 @@ module.exports = class InternetLoginPuppeteerService {
       onlineTime = await this.page.$eval(ONLINE_TIME_SELECTOR, el => el.innerText);
       availableTime = await this.page.$eval(AVAILABLE_TIME_SELECTOR, el => el.innerText);
       await Promise.all([
-        this.page.waitForNavigation({ timeout: 3000 }),
+        this.page.waitForNavigation({ timeout: this.#pupTimeout }),
         this.page.click(BUTTON_DISCONNET_SELECTOR),
       ]);
     } catch (error) {

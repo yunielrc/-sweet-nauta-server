@@ -23,5 +23,6 @@
     },
     "plugins": [
         "jsdoc"
-    ]     
+    ],
+    "parser": "babel-eslint"
 }
