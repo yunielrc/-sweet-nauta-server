@@ -18,7 +18,7 @@ module.exports = class InternetLoginPuppeteerService {
    *
    * @param {object} credentials credenciales { username: 'xxxx', password: 'xxxx' }
    * @param {string} headless se oculta el navegador
-   * @param {string} pupTimeout timeout
+   * @param {number} pupTimeout timeout
    */
   constructor(credentials, headless = true, pupTimeout = 4000) {
     this.browser = null;
@@ -128,7 +128,11 @@ module.exports = class InternetLoginPuppeteerService {
   }
 
   async sessionOpen() {
-    return this.page != null && !this.page.isClosed()
-    && (await this.page.$x(LABEL_CONNECTED_XPATH)).length > 0;
+    try {
+      return this.page != null && !this.page.isClosed()
+      && (await this.page.$x(LABEL_CONNECTED_XPATH)).length > 0;
+    } catch (error) {
+      return false;
+    }
   }
 };
