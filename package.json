@@ -1,6 +1,6 @@
 {
   "name": "internet-etecsa-login",
-  "version": "0.4.12",
+  "version": "0.4.13",
   "description": "Conecta y desconecta el acceso a internet por wifi etecsa con solo tocar un botón",
   "main": "src/js/main.js",
   "engines": {
@@ -18,7 +18,7 @@
     "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/",
-    "commit": "git-cz",
+    "commit": "git add . && git-cz",
     "validate": "run-s lint",
     "release": "standard-version -a",
     "prerelease": "git checkout master && git pull origin master && npm i && run-s validate && git-authors-cli && git add .",
