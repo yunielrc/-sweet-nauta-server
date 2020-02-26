@@ -6,5 +6,6 @@ module.exports = {
   creds: {
     username: process.env.NAUTA_USER,
     password: process.env.NAUTA_PASSWORD
-  }
+  },
+  before_connect: process.env.BEFORE_CONNECT || null
 };
