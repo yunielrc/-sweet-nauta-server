@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.14](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.13...v0.4.14) (2020-02-26)
+
+
+### Features
+
+* da la opción de ejecutar un comando antes de abrir sesión ([a8b4aeb](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/commit/a8b4aeb9008be3509fc9532f03f4fc537b1361c2)), closes [#44](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/issues/44)
+
 ### [0.4.13](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.12...v0.4.13) (2020-02-22)
 
 
