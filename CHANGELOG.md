@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.15](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.14...v0.4.15) (2020-02-26)
+
+
+### Features
+
+* quita la lógica de preparación del router m5 de bin/login ([d601270](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/commit/d6012704ac1c12e3fda10b32557498c646688ada)), closes [#47](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/issues/47)
+
 ### [0.4.14](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.13...v0.4.14) (2020-02-26)
 
 
