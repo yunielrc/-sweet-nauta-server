@@ -52,6 +52,8 @@ if [ ! -f "${KEY}.pub" ]; then
   cp -v "${KEY}.pub" "$PUB_KEY_TMP_FILE"
 fi
 
+cp -v .env-prod .env
+
 cat <<EOF
 
 -------------------------------------------------------------------------------
