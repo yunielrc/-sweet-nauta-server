@@ -65,7 +65,6 @@ module.exports = class InternetLoginPuppeteerService {
   async connet() {
     const cout = await this.#command();
     if (cout !== 0) {
-      console.log({ code: cout.code, message: cout.message });
       return { code: cout.code, message: cout.message };
     }
     if (await this.sessionOpen()) {
@@ -75,12 +74,9 @@ module.exports = class InternetLoginPuppeteerService {
     await this._closePage();
     this.#page = await this.#browser.newPage();
 
-    let prevconnected = false;
+    let dialogMessage = null;
     this.#page.on('dialog', async (dialog) => {
-      if (dialog.message() === 'El usuario ya está conectado.'
-      || dialog.message() === 'Usted ha realizado muchos intentos. Por favor intente más tarde.') {
-        prevconnected = true;
-      }
+      dialogMessage = dialog.message();
       await dialog.accept();
     });
     try {
@@ -97,9 +93,9 @@ module.exports = class InternetLoginPuppeteerService {
       this._closePage();
       return { code: 'ERROR', message: error.message };
     }
-    if (prevconnected) {
+    if (dialogMessage !== null) {
       this._closePage();
-      return { code: 'CONEXION_PREVIA', message: 'No es necesario conectarse, hay conexión' };
+      return { code: 'ERROR_DIALOG', message: dialogMessage };
     }
     return (await this.#page.$x(LABEL_CONNECTED_XPATH)).length > 0
       ? { code: 'CONECTADO', message: 'Conectado a internet' }
