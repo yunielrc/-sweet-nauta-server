@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.17](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.16...v0.4.17) (2020-03-08)
+
+
+### Bug Fixes
+
+* disponble el archivo .env ([fba7068](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/commit/fba70680b6980a90e699a9c3b3e05fc5fcf6a2e2))
+* genera clave ssh en la instalaición ([90d8e16](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/commit/90d8e16d8a5655b72370c679acfba31292711971))
+
 ### [0.4.16](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.15...v0.4.16) (2020-03-08)
 
 
