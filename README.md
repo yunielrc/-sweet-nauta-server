@@ -41,7 +41,7 @@ bash /opt/internet-etecsa-login/bin/update
 Ejecute:
 
 ```bash
-wget -qO - https://github.com/yunielrc/internet-etecsa-login/raw/branch/master/bin/install | sudo bash
+wget -qO - https://raw.githubusercontent.com/yunielrc/internet-etecsa-login/master/bin/install | sudo bash
 ```
 
 ### Configurar
