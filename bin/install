@@ -13,6 +13,8 @@ set -o nounset
 readonly UNAME=nauta # este usuario tiene que ser el mismo del .service
 readonly INSTALL_DIR='/opt/internet-etecsa-login'
 readonly LOG_FILE='/var/log/internet-etecsa-login.log'
+readonly KEY="/home/${UNAME}/.ssh/id_rsa"
+readonly PUB_KEY_TMP_FILE="/tmp/id_rsa.pub"
 
 apt update -y
 apt install -y git curl
@@ -21,7 +23,7 @@ cd /opt/
 git clone 'http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login.git'
 cd "$INSTALL_DIR"
 # install dependencies
-curl -sL 'https://deb.nodesource.com/setup_10.x' | sudo -E bash -
+curl -sL 'https://deb.nodesource.com/setup_13.x' | sudo -E bash -
 apt install -y nodejs build-essential jq
 npm install npm@latest -g --unsafe-perm=true
 npm install --production --unsafe-perm=true
@@ -42,6 +44,14 @@ crontab "$tmpcron"
 rm "$tmpcron"
 
 # end
+
+# setup ssh keys
+if [ ! -f "${KEY}.pub" ]; then
+  echo '>generando claves ssh'
+  sudo -u "$UNAME" ssh-keygen -t rsa -N '' -f "$KEY"
+  cp -v "${KEY}.pub" "$PUB_KEY_TMP_FILE"
+fi
+
 cat <<EOF
 
 -------------------------------------------------------------------------------
@@ -50,19 +60,22 @@ $ sudo nano ${INSTALL_DIR}/.env
 
 >2: Proteja el archivo .env después de editarlo
 $ sudo chown ${UNAME}:${UNAME} ${INSTALL_DIR}/.env
-$ sudo chmod 400 ${INSTALL_DIR}/.env
+$ sudo chmod 444 ${INSTALL_DIR}/.env
 
->3: Después de haber completado los pasos 1 y 2 Instale e inicie el servicio
+>3: Agrege la clave pública al router AirOS
+clave: ${PUB_KEY_TMP_FILE}
+
+>4: Después de haber completado los pasos 1,2 y 3 Instale e inicie el servicio
 $ sudo systemctl enable internet-etecsa-login --now
 
->4: Ejecute la app 'Internet Login' para conectarse y desconectarse a internet,
+>5: Ejecute la app 'Internet Login' para conectarse y desconectarse a internet,
 >Asigne una tecla al comando 'gtk-launch internet-etecsa-login' para conectarse
 >y desconectarse, pruebe asignarle 'F9'.
 
->5: Puede ver el log de la applicación:
+>6: Puede ver el log de la applicación:
 $ tail -f ${LOG_FILE}
 
->6: Se creó una entrada en el cron del usuario root para actualizar la app
+>7: Se creó una entrada en el cron del usuario root para actualizar la app
 >puede modificarla:
 $ sudo crontab -e
 -------------------------------------------------------------------------------

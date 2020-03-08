@@ -2,9 +2,9 @@
   "name": "internet-etecsa-login",
   "version": "0.4.15",
   "description": "Conecta y desconecta el acceso a internet por wifi etecsa con solo tocar un botón",
-  "main": "src/js/main.js",
+  "main": "src/app.js",
   "engines": {
-    "node": "^10.18.1"
+    "node": "^13.9.0"
   },
   "repository": {
     "type": "git",
