@@ -44,6 +44,12 @@ Ejecute:
 wget -qO - https://raw.githubusercontent.com/yunielrc/internet-etecsa-login/master/bin/install | sudo bash
 ```
 
+### Instalar para ver estado de conexión
+
+https://extensions.gnome.org/extension/923/ping-indicator/
+
+Poner ip `1.1.1.1` a la extensión
+
 ### Configurar
 
 Edite al archivo `.env` y defina las credenciales de su cuenta de internet nauta:
