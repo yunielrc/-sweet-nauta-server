@@ -33,7 +33,7 @@ Cuando el dispositivo AirOS pierde la sesión dhcp con el router de etecsa la ap
 Para actualizar la app ejecute:
 
 ```bash
-bash /opt/internet-etecsa-login/bin/update
+sudo bash /opt/internet-etecsa-login/bin/update
 ```
 
 ## Instalar
