@@ -28,6 +28,13 @@ Cuando el dispositivo AirOS pierde la sesión dhcp con el router de etecsa la ap
 
 > La app ha sido probada en Ubuntu 18.04 LTS y 19.10
 
+- Ping indicator para ver estado de conexión a internet
+
+> Configurar la extensión con ip `1.1.1.1`
+
+[Ping Indicator](https://extensions.gnome.org/extension/923/ping-indicator/)
+
+
 ## Actualizar
 
 Para actualizar la app ejecute:
@@ -43,12 +50,6 @@ Ejecute:
 ```bash
 wget -qO - https://raw.githubusercontent.com/yunielrc/internet-etecsa-login/master/bin/install | sudo bash
 ```
-
-### Instalar para ver estado de conexión
-
-https://extensions.gnome.org/extension/923/ping-indicator/
-
-Poner ip `1.1.1.1` a la extensión
 
 ### Configurar
 
