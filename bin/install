@@ -38,7 +38,7 @@ chmod 666 "$LOG_FILE"
 
 # setup update script in crontab
 readonly tmpcron='/tmp/tmpcron'
-crontab -l > "$tmpcron"
+crontab -l > "$tmpcron" || :
 echo '*/15 10-16 * * 2  /bin/bash /opt/internet-etecsa-login/bin/update' >> "$tmpcron"
 crontab "$tmpcron"
 rm "$tmpcron"
