@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.16](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.15...v0.4.16) (2020-03-08)
+
+
+### Bug Fixes
+
+* muestra el mensaje correcto de error cuando no se puede conectar ([632383a](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/commit/632383a2fbb5d8b08929cc6f7454e54aaedcf90f)), closes [#42](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/issues/42) [#43](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/issues/43)
+
 ### [0.4.15](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.14...v0.4.15) (2020-02-26)
 
 
