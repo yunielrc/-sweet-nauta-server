@@ -1,6 +1,6 @@
 {
   "name": "internet-etecsa-login",
-  "version": "0.4.22",
+  "version": "0.4.23",
   "description": "Conecta y desconecta el acceso a internet por wifi etecsa con solo tocar un botón",
   "main": "src/app.js",
   "engines": {
@@ -23,7 +23,7 @@
     "release": "standard-version -a",
     "prerelease": "git checkout master && git pull origin master && npm i && run-s validate && git-authors-cli && git add .",
     "postrelease": "run-s release:*",
-    "release:tags": "git push --follo-tags origin master",
+    "release:tags": "git push --follow-tags origin master",
     "release:tags-github": "git push --follow-tags github master"
   },
   "author": "yuniel",
