@@ -45,7 +45,7 @@ Cuando el dispositivo AirOS pierde la sesión dhcp con el router de etecsa la ap
   ```
 
   ```bash
-  sudo nano ~/.npmrc
+  nano ~/.npmrc
   ```
 
 ## Actualizar
