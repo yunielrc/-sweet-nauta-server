@@ -37,7 +37,7 @@ Cuando el dispositivo AirOS pierde la sesión dhcp con el router de etecsa la ap
 - Algunos paquetes `npm` están bloqueados para Cuba, defina el proxy en el
   archivo `.npmrc` para el usuario `root`
 
-Copie el siguiente texto dentro del archivo `.npmrc` y modifiquelo:
+Copie el siguiente texto dentro del archivo `.npmrc` y modifíquelo:
 
 ```text
 proxy=http://USER:PASS@PROXY-IP:PROXY-PORT
