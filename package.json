@@ -1,6 +1,6 @@
 {
   "name": "internet-etecsa-login",
-  "version": "0.4.31",
+  "version": "0.4.32",
   "description": "Conecta y desconecta el acceso a internet por wifi etecsa con solo tocar un botón",
   "main": "src/app.js",
   "engines": {
@@ -8,11 +8,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login.git"
+    "url": "git+https://github.com/yunielrc/internet-etecsa-login.git"
   },
-  "homepage": "http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login",
+  "homepage": "https://github.com/yunielrc/internet-etecsa-login",
   "bugs": {
-    "url": "http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/issues"
+    "url": "https://github.com/yunielrc/internet-etecsa-login/issues"
   },
   "scripts": {
     "start": "node src/app.js",
