@@ -7,7 +7,7 @@ const config = {
     username: process.env.NAUTA_USER,
     password: process.env.NAUTA_PASSWORD
   },
-  airos_roter_ip: process.env.AIROS_ROUTER_IP,
+  airos_roter_ip: process.env.AIROS_ROUTER_IP || null,
   before_connect: process.env.BEFORE_CONNECT || null
 };
 

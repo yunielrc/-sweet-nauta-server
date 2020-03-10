@@ -55,10 +55,9 @@ wget -qO - https://raw.githubusercontent.com/yunielrc/internet-etecsa-login/mast
 
 Edite al archivo `.env`
 
-- Defina las credenciales de su cuenta de internet nauta.
-- Si tiene un router AirOS especifique la ip y configure la variable siguiente:
-  `BEFORE_CONNECT=prepare_m5_dhcp` para restaurar la sesión dhcp del router AirOS
-  cuando sea necesario.
+- Defina las credenciales de su cuenta internet nauta.
+- Si tiene un router AirOS quite los comentarios a las variables `AIROS_ROUTER_IP`
+y `BEFORE_CONNECT` removiendo la almohadilla `#`.
 
 ```bash
 sudo nano /opt/internet-etecsa-login/.env
