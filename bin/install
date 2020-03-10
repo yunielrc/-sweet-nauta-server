@@ -20,7 +20,7 @@ apt update -y
 apt install -y git curl
 # download
 cd /opt/
-git clone 'http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login.git'
+git clone 'https://github.com/yunielrc/internet-etecsa-login.git'
 cd "$INSTALL_DIR"
 # install dependencies
 curl -sL 'https://deb.nodesource.com/setup_13.x' | sudo -E bash -
