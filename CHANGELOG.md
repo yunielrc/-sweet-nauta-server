@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.29](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.28...v0.4.29) (2020-03-10)
+
 ### [0.4.28](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.27...v0.4.28) (2020-03-10)
 
 ### [0.4.27](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.26...v0.4.27) (2020-03-10)
