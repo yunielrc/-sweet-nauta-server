@@ -57,7 +57,7 @@ Edite al archivo `.env`
 
 - Defina las credenciales de su cuenta internet nauta.
 - Si tiene un router AirOS quite los comentarios a las variables `AIROS_ROUTER_IP`
-y `BEFORE_CONNECT` removiendo la almohadilla `#`.
+y `BEFORE_CONNECT` removiendo la almohadilla `#`. Defina la ip del router.
 
 ```bash
 sudo nano /opt/internet-etecsa-login/.env
