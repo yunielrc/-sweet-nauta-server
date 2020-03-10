@@ -35,18 +35,18 @@ Cuando el dispositivo AirOS pierde la sesión dhcp con el router de etecsa la ap
   [Ping Indicator](https://extensions.gnome.org/extension/923/ping-indicator/)
 
 - Algunos paquetes `npm` están bloqueados para Cuba, defina el proxy en el
-  archivo `.npmrc` para el usuario `root`
+  archivo `.npmrc` para el usuario `root`.
 
-Copie el siguiente texto dentro del archivo `.npmrc` y modifíquelo:
+  Copie el siguiente texto dentro del archivo `.npmrc` y modifíquelo:
 
-```text
-proxy=http://USER:PASS@PROXY-IP:PROXY-PORT
-https-proxy=http://USER:PASS@PROXY-IP:PROXY-PORT
-```
+  ```text
+  proxy=http://USER:PASS@PROXY-IP:PROXY-PORT
+  https-proxy=http://USER:PASS@PROXY-IP:PROXY-PORT
+  ```
 
-```bash
-sudo nano /root/.npmrc
-```
+  ```bash
+  sudo nano /root/.npmrc
+  ```
 
 ## Actualizar
 
