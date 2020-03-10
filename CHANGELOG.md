@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.20](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.19...v0.4.20) (2020-03-10)
+
+
+### Bug Fixes
+
+* toma la ip del router AirOS de config ([738a869](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/commit/738a869a8fb9e5ae143c0bc81a5f29b003cbdeee)), closes [#54](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/issues/54)
+
 ### [0.4.19](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.18...v0.4.19) (2020-03-08)
 
 ### [0.4.18](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.17...v0.4.18) (2020-03-08)
