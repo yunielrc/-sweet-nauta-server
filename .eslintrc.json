@@ -2,27 +2,36 @@
     "env": {
         "commonjs": true,
         "es6": true,
-        "node": true
+        "node": true,
+        "jest/globals": true,
+        "jest": true
     },
     "extends": [
         "airbnb-base",
-        "plugin:jsdoc/recommended"
+        "plugin:jsdoc/recommended",
+        "plugin:jest/recommended",
+        "plugin:jest/style"        
     ],
     "globals": {
         "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+        "SharedArrayBuffer": "readonly",
+        "page": true,
+        "browser": true,
+        "context": true,
+        "jestPuppeteer": true
     },
     "rules": {
         "comma-dangle": "off",
         "no-underscore-dangle": "off",
         "no-plusplus": "off",
-        "arrow-parens": "off"
+        "arrow-parens": "off"      
    },    
     "parserOptions": {
-        "ecmaVersion": 2018
+        "ecmaVersion": 2019
     },
     "plugins": [
-        "jsdoc"
+        "jsdoc",
+        "jest"
     ],
     "parser": "babel-eslint"
 }
