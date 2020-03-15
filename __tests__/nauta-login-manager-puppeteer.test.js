@@ -228,7 +228,7 @@ describe('InternetLoginPuppeteerService', () => {
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
     });
-    describe('disconnect():{code:string, message:string}', () => {
+    describe.skip('disconnect():{code:string, message:string}', () => {
       test('sin sesión abierta -> retorna mensaje de aviso', async () => {
         // Setup data
         const nlm = newSUT();
