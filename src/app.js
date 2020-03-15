@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('../etc/config');
-const InternetLoginPuppeteerService = require('./internet-login-puppeteer-service');
+const NautaLoginManagerPuppeteer = require('./nauta-login-manager-puppeteer');
 
 const app = express();
 let command;
@@ -8,7 +8,9 @@ if (config.before_connect) {
   // eslint-disable-next-line import/no-dynamic-require, global-require
   command = require(`../commands/${config.before_connect}`);
 }
-const iconn = new InternetLoginPuppeteerService(config.creds, config.headless, 8000, command);
+const iconn = new NautaLoginManagerPuppeteer(
+  config.creds, config.headless, config.timeout, command, config.nauta_login
+);
 
 app.get('/toggle', async (req, res) => {
   try {
@@ -40,15 +42,6 @@ app.get('/disconnect', async (req, res) => {
 app.get('/session-open', async (req, res) => {
   try {
     const result = await iconn.sessionOpen();
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send(String(error));
-  }
-});
-
-app.get('/close-browser', async (req, res) => {
-  try {
-    const result = await iconn.closeBrowser();
     res.status(200).send(result);
   } catch (error) {
     res.status(400).send(String(error));
