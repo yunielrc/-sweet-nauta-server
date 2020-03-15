@@ -31,11 +31,10 @@ module.exports = class NautaLoginManagerPuppeteer {
     if (!credentials || typeof credentials !== 'object') {
       throw new TypeError('credentials debe ser de tipo Object');
     }
-    if (!credentials.username || !v.isEmail(`${credentials.username}`)) {
+    if (credentials.username && !v.isEmail(`${credentials.username}`)) {
       throw new TypeError('credentials.username debe ser un email');
     }
-    // FIXME: validar password con al menos 3 caracteres
-    if (!credentials.password || `${credentials.password}`.length < 3) {
+    if (credentials.password && `${credentials.password}`.length < 3) {
       throw new TypeError('credentials.password debe tener al menos 3 caracteres');
     }
     if (typeof headless !== 'boolean') {
@@ -164,13 +163,11 @@ module.exports = class NautaLoginManagerPuppeteer {
     this.#page = await this.#browser.newPage();
 
     let dialogMessage = null;
-    this.#page.on('dialog', async (dialog) => {
-      // FIXME:
-      // cuando se llame esta función solo atender el evento si la url de page
-      // es la correspondiente a login
+    const onDialogHandler = async (dialog) => {
       dialogMessage = dialog.message();
       await dialog.accept();
-    });
+    };
+    this.#page.on('dialog', onDialogHandler);
     try {
       await this.#page.goto(this.#loginURL, { timeout: this.#pupTimeout });
       await this.#page.click(USERNAME_SELECTOR);
@@ -178,17 +175,18 @@ module.exports = class NautaLoginManagerPuppeteer {
       await this.#page.click(PASSWORD_SELECTOR);
       await this.#page.keyboard.type(this.#credentials.password);
       await Promise.all([
-        // FIXME: cuando el usuario y la contraseña son vacios la validación
-        // es en el cliente, no se produce navegación y se queda colgado
-        // en `waitForNavigation`
-        // por ahora se va a validar que el usuario y la contraseña no
-        // estén vacios
         this.#page.waitForNavigation({ timeout: this.#pupTimeout }),
         this.#page.click(BUTTON_CONNECT_SELECTOR)
       ]);
     } catch (error) {
-      await this.#closePage();
-      return { code: 'ERROR', message: error.message };
+      // cuando se muestra un dialog error en el cliente, no se produce
+      // navegación, y se lanza el error Navigation timeout, en este caso
+      // en vez de mostrar este error, se muestra el mensaje del dialog
+      // en la siguiente sentencia condicional.
+      if (dialogMessage == null) {
+        await this.#closePage();
+        return { code: 'ERROR', message: error.message };
+      }
     }
     if (dialogMessage !== null) {
       await this.#closePage();
@@ -197,6 +195,9 @@ module.exports = class NautaLoginManagerPuppeteer {
     const connected = (await this.#page.$x(LABEL_CONNECTED_XPATH)).length > 0;
     if (!connected) {
       await this.#closePage();
+    } else {
+      // se pone aquí pues antes de cada salida anterior se cierra la página
+      this.#page.removeListener('dialog', onDialogHandler);
     }
     return connected
       ? { code: 'CONECTADO', message: 'Conectado a internet' }
@@ -210,16 +211,13 @@ module.exports = class NautaLoginManagerPuppeteer {
     if (!await this.sessionOpen()) {
       return { code: 'SIN_SESION', message: 'Usted no tiene sesión abierta que cerrar' };
     }
-    // let dialogMessage = null;
-    // this.#page.on('dialog', async (dialog) => {
-    //   // FIXME:
-    //   // cuando se llame esta función solo atender el evento si la url de page
-    //   // es la correspondiente a conectado
-    //   if (this.#page.url().includes('web/online.do')) {
-    //     dialogMessage = dialog.message();
-    //     await dialog.accept();
-    //   }
-    // });
+    // eslint-disable-next-line no-unused-vars
+    let dialogMessage = null;
+    const onDialogHandler = async (dialog) => {
+      dialogMessage = dialog.message();
+      await dialog.accept();
+    };
+    this.#page.on('dialog', onDialogHandler);
     let onlineTime = '';
     let availableTime = '';
     try {

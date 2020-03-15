@@ -9,7 +9,7 @@ const config = {
   },
   airos_roter_ip: process.env.AIROS_ROUTER_IP || null,
   before_connect: process.env.BEFORE_CONNECT || null,
-  timeout: parseInt(process.env.TIMEOUT, 10) || 5000,
+  timeout: parseInt(process.env.TIMEOUT, 10) || 2000,
   nauta_login: {
     loginURL: process.env.NAUTA_URL || null
   }
