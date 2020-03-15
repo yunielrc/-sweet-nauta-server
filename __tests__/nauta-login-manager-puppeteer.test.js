@@ -248,7 +248,7 @@ describe('InternetLoginPuppeteerService', () => {
         // Verify
         const resd = { code: 'DESCONEXION_FALLIDA', message: 'No se ha podido desconectar de internet' };
         await expect(nlm.disconnet()).resolves.toEqual(resd);
-        return expect(browser.pages()).resolves.toHaveLength(2);
+        return expect(browser.pages()).resolves.toHaveLength(1);
       });
       test('la sesión se cierra -> desconectado', async () => {
         // Setup data
@@ -259,7 +259,7 @@ describe('InternetLoginPuppeteerService', () => {
         // Verify
         const resd = { code: 'DESCONECTADO', message: 'Desconectado, tenias: 01:00:00, consumiste: 00:10:00' };
         await expect(nlm.disconnet()).resolves.toEqual(resd);
-        return expect(browser.pages()).resolves.toHaveLength(2);
+        return expect(browser.pages()).resolves.toHaveLength(1);
       });
     });
   });

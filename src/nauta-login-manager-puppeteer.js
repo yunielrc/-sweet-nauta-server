@@ -235,7 +235,7 @@ module.exports = class NautaLoginManagerPuppeteer {
     }
     const disconneted = (await this.#page.$x(LABEL_DISCONNECTED_XPATH)).length > 0;
     // FIXME: se deberia cerrar la página si la desconexión fue exitosa
-    this.#closePage();
+    await this.#closePage();
     return disconneted
       ? { code: 'DESCONECTADO', message: `Desconectado, tenias: ${availableTime}, consumiste: ${onlineTime}` }
       : { code: 'DESCONEXION_FALLIDA', message: 'No se ha podido desconectar de internet' };
