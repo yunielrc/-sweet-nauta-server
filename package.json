@@ -1,6 +1,6 @@
 {
   "name": "internet-etecsa-login",
-  "version": "0.4.32",
+  "version": "0.4.33",
   "description": "Conecta y desconecta el acceso a internet por wifi etecsa con solo tocar un botón",
   "main": "src/app.js",
   "engines": {
@@ -80,7 +80,7 @@
     "collectCoverage": true,
     "testTimeout": 5000,
     "verbose": true,
-    "coveragePathIgnorePatterns":[
+    "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/nocov/",
       "/etc/"
