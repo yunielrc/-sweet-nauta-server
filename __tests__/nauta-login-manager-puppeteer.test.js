@@ -9,7 +9,7 @@ const config = require('../etc/config');
 // Teardown
 
 const { loginURL } = config.nauta_login;
-const { timeout } = config.timeout;
+const { timeout } = config;
 
 describe('InternetLoginPuppeteerService', () => {
   describe('constructor', () => {
