@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.34](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.33...v0.4.34) (2020-03-15)
+
+
+### Bug Fixes
+
+* fix timeout ([8abd930](https://github.com/yunielrc/internet-etecsa-login/commit/8abd9304e35759177b6613ce9314fab3c945f847))
+
 ### [0.4.33](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.32...v0.4.33) (2020-03-15)
 
 ### [0.4.32](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.31...v0.4.32) (2020-03-10)
