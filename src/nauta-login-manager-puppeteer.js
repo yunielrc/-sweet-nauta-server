@@ -22,7 +22,7 @@ module.exports = class NautaLoginManagerPuppeteer {
    * @param {boolean} [headless=true] headless
    * @param {number} [pupTimeout=4000] pupTimeout
    * @param {Function} [command=null] command
-   * @param {{loginURL: string}} [config=null] config
+   * @param {{loginURL: string, maxDisconnectionAttempts: number}} [config=null] config
    * @param {import('puppeteer').Browser} [browser=null] browser
    * @throws {TypeError}
    */
@@ -60,6 +60,12 @@ module.exports = class NautaLoginManagerPuppeteer {
         }
         this.#loginURL = config.loginURL;
       }
+      if (config.maxDisconnectionAttempts) {
+        if (!v.isInt(`${config.maxDisconnectionAttempts}`)) {
+          throw new TypeError('config.maxDisconnectionAttempts debe ser un entero');
+        }
+        this.#maxDisconnectionAttempts = config.maxDisconnectionAttempts;
+      }
     }
     if (browser) {
       // FIXME: if (typeof browser !== 'object' || !(browser instanceof Browser)) {
@@ -82,7 +88,8 @@ module.exports = class NautaLoginManagerPuppeteer {
       pupTimeout: this.#pupTimeout,
       command: this.#command,
       loginURL: this.#loginURL,
-      browser: this.#browser
+      browser: this.#browser,
+      maxDisconnectionAttempts: this.#maxDisconnectionAttempts
     };
   }
 
@@ -121,14 +128,31 @@ module.exports = class NautaLoginManagerPuppeteer {
    */
   #loginURL = LOGIN_URL;
 
+  /**
+   * @type {number}
+   */
+  #maxDisconnectionAttempts = 0;
 
+  /**
+   * @type {number}
+   */
+  #disconnectionAttempts = 0;
+
+
+  /**
+   * @returns {Promise<void>} returns
+   */
   #closePage = async () => {
     if (this.#page != null && !this.#page.isClosed()) {
       await this.#page.close();
     }
     this.#page = null;
+    this.#disconnectionAttempts = 0;
   }
 
+  /**
+   * @returns {Promise<void>} returns
+   */
   #launchBrowser = async () => {
     if (this.#browser == null || !this.#browser.isConnected()) {
       this.#browser = await puppeteer.launch({
@@ -141,7 +165,7 @@ module.exports = class NautaLoginManagerPuppeteer {
    * @returns {{code: string, message: string}} returns
    */
   async toggle() {
-    if (await this.sessionOpen()) {
+    if (this.sessionOpen()) {
       return this.disconnet();
     }
     return this.connet();
@@ -155,7 +179,7 @@ module.exports = class NautaLoginManagerPuppeteer {
     if (cout !== 0) {
       return { code: cout.code, message: cout.message };
     }
-    if (await this.sessionOpen()) {
+    if (this.sessionOpen()) {
       return { code: 'SESION_ABIERTA', message: 'Tiene una sesión abierta, pruebe cerrarla' };
     }
     await this.#launchBrowser();
@@ -170,6 +194,7 @@ module.exports = class NautaLoginManagerPuppeteer {
     this.#page.on('dialog', onDialogHandler);
     try {
       await this.#page.goto(this.#loginURL, { timeout: this.#pupTimeout });
+      await this.#page.waitForSelector(USERNAME_SELECTOR, { timeout: this.#pupTimeout });
       await this.#page.click(USERNAME_SELECTOR);
       await this.#page.keyboard.type(this.#credentials.username);
       await this.#page.click(PASSWORD_SELECTOR);
@@ -182,7 +207,7 @@ module.exports = class NautaLoginManagerPuppeteer {
       // cuando se muestra un dialog error en el cliente, no se produce
       // navegación, y se lanza el error Navigation timeout, en este caso
       // en vez de mostrar este error, se muestra el mensaje del dialog
-      // en la siguiente sentencia condicional.
+      // en la sentencia condicional posterior a esta
       if (dialogMessage == null) {
         await this.#closePage();
         return { code: 'ERROR', message: error.message };
@@ -195,8 +220,9 @@ module.exports = class NautaLoginManagerPuppeteer {
     const connected = (await this.#page.$x(LABEL_CONNECTED_XPATH)).length > 0;
     if (!connected) {
       await this.#closePage();
-    } else {
-      // se pone aquí pues antes de cada salida anterior se cierra la página
+    }
+    if (this.#page) {
+      // hay q ejecutar esto antes de salir sin cerrar la página
       this.#page.removeListener('dialog', onDialogHandler);
     }
     return connected
@@ -208,16 +234,31 @@ module.exports = class NautaLoginManagerPuppeteer {
    * @returns {{code: string, message: string}} returns
    */
   async disconnet() {
-    if (!await this.sessionOpen()) {
+    if (!this.sessionOpen()) {
       return { code: 'SIN_SESION', message: 'Usted no tiene sesión abierta que cerrar' };
     }
-    // eslint-disable-next-line no-unused-vars
-    let dialogMessage = null;
+    const inConnectedPage = (await this.#page.$x(LABEL_CONNECTED_XPATH)).length > 0;
+    if (!inConnectedPage) {
+      await this.#closePage();
+      return {
+        code: 'DESCONEXION_FALLIDA',
+        message: 'No se pudo desconectar, se ha perdido el control de la sesión'
+      };
+    }
+
+    let errmessage = '';
     const onDialogHandler = async (dialog) => {
-      dialogMessage = dialog.message();
+      // se ignora el mensaje de confirmación para desconexión,
+      // aparte de este todos los demás son mensajes de error
+      if (!dialog.message().includes('Se le desconectará.')) {
+        errmessage = dialog.message();
+      }
       await dialog.accept();
     };
-    this.#page.on('dialog', onDialogHandler);
+    if (this.#page.listenerCount('dialog') === 0) {
+      this.#page.on('dialog', onDialogHandler);
+    }
+
     let onlineTime = '';
     let availableTime = '';
     try {
@@ -228,26 +269,51 @@ module.exports = class NautaLoginManagerPuppeteer {
         this.#page.click(BUTTON_DISCONNET_SELECTOR),
       ]);
     } catch (error) {
-      await this.#closePage();
-      return { code: 'ERROR', message: error.message };
+      if (!errmessage) {
+        errmessage = error.message;
+      }
     }
+    // SI se desconectó correctamente, cierra página, informa. SALIDA
     const disconneted = (await this.#page.$x(LABEL_DISCONNECTED_XPATH)).length > 0;
-    // FIXME: se deberia cerrar la página si la desconexión fue exitosa
+    if (disconneted) {
+      await this.#closePage();
+      return {
+        code: 'DESCONECTADO',
+        message: `Desconectado, tenias: ${availableTime}, consumiste: ${onlineTime}`
+      };
+    }
+    // SI no se desconectó y quedan intentos de desconexión, informa. SALIDA
+    const availableAttempts = this.#maxDisconnectionAttempts - this.#disconnectionAttempts++;
+    if (availableAttempts > 0) {
+      return {
+        code: 'DESCONEXION_INTENTO_FALLIDO',
+        message: `No se ha podido desconectar${errmessage ? `: ${errmessage}` : ''}, puede intentar ${availableAttempts} ${availableAttempts === 1 ? 'vez' : 'veces'} mas`
+      };
+    }
+    // SI no quedan intentos de desconexión, cierra página, informa. SALIDA
     await this.#closePage();
-    return disconneted
-      ? { code: 'DESCONECTADO', message: `Desconectado, tenias: ${availableTime}, consumiste: ${onlineTime}` }
-      : { code: 'DESCONEXION_FALLIDA', message: 'No se ha podido desconectar de internet' };
+    return {
+      code: 'DESCONEXION_ULTIMO_INTENTO_FALLIDO',
+      message: `No se ha podido desconectar${errmessage ? `: ${errmessage}` : ''}, se ha perdido el control de la sesión`
+    };
   }
+
+  // /**
+  //  * @returns {Promise<boolean>} returns
+  //  */
+  // async sessionOpen() {
+  //   try {
+  //     return this.#page != null && !this.#page.isClosed()
+  //     && (await this.#page.$x(LABEL_CONNECTED_XPATH)).length > 0;
+  //   } catch (error) {
+  //     return false;
+  //   }
+  // }
 
   /**
    * @returns {boolean} returns
    */
-  async sessionOpen() {
-    try {
-      return this.#page != null && !this.#page.isClosed()
-      && (await this.#page.$x(LABEL_CONNECTED_XPATH)).length > 0;
-    } catch (error) {
-      return false;
-    }
+  sessionOpen() {
+    return this.#page != null && !this.#page.isClosed();
   }
 };
