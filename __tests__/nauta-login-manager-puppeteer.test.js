@@ -175,7 +175,10 @@ describe('InternetLoginPuppeteerService', () => {
         // Setup data
         const nlm = newSUT('user@email.com', 'http://127.0.0.1:9001');
         // Exercise, Verify state
-        const out = { code: 'ERROR', message: 'net::ERR_CONNECTION_REFUSED at http://127.0.0.1:9001' };
+        const out = {
+          code: 'CONEXION_FALLIDA',
+          message: 'No se ha podido conectar a internet: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:9001'
+        };
         await expect(nlm.connet()).resolves.toEqual(out);
         // Verify state
         await expect(browser.pages()).resolves.toHaveLength(1);
@@ -186,7 +189,10 @@ describe('InternetLoginPuppeteerService', () => {
         // según el usuario se simula el caso
         const nlm = newSUT('');
         // Exercise, Verify state
-        const res = { code: 'ERROR_DIALOG', message: 'Por favor introduce tu usuario' };
+        const res = {
+          code: 'CONEXION_FALLIDA',
+          message: 'No se ha podido conectar a internet: Por favor introduce tu usuario'
+        };
         await expect(nlm.connet()).resolves.toEqual(res);
         // Verify state
         return expect(browser.pages()).resolves.toHaveLength(1);
@@ -196,7 +202,10 @@ describe('InternetLoginPuppeteerService', () => {
         // según el usuario se simula el caso
         const nlm = newSUT('nosaldo@nauta.com.cu');
         // Exercise, Verify state
-        const res = { code: 'ERROR_DIALOG', message: 'Su cuenta no tiene saldo' };
+        const res = {
+          code: 'CONEXION_FALLIDA',
+          message: 'No se ha podido conectar a internet: Su cuenta no tiene saldo'
+        };
         await expect(nlm.connet()).resolves.toEqual(res);
         // Verify state
         return expect(browser.pages()).resolves.toHaveLength(1);
@@ -212,14 +221,17 @@ describe('InternetLoginPuppeteerService', () => {
         return expect(browser.pages()).resolves.toHaveLength(2);
       });
 
-      test('sesión abierta ->  retorna mensaje', async () => {
+      test('sesión previa abierta ->  retorna mensaje', async () => {
         // Setup data
         // según el usuario se simula el caso
         const nlm = newSUT();
         // Exercise
         await nlm.connet();
         // Verify state
-        const res = { code: 'SESION_ABIERTA', message: 'Tiene una sesión abierta, pruebe cerrarla' };
+        const res = {
+          code: 'SESION_PREVIA_ABIERTA',
+          message: 'Tiene una sesión abierta, pruebe cerrarla'
+        };
         await expect(nlm.connet()).resolves.toEqual(res);
         return expect(browser.pages()).resolves.toHaveLength(2);
       });
@@ -259,7 +271,7 @@ describe('InternetLoginPuppeteerService', () => {
         // Setup data
         const nlm = newSUT();
         // Exercise, Verify
-        const res = { code: 'SIN_SESION', message: 'Usted no tiene sesión abierta que cerrar' };
+        const res = { code: 'SIN_SESION_ABIERTA', message: 'Usted no tiene sesión abierta que cerrar' };
         await expect(nlm.disconnet()).resolves.toEqual(res);
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
@@ -282,6 +294,20 @@ describe('InternetLoginPuppeteerService', () => {
         await expect(nlm.disconnet()).resolves.toEqual(resd);
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
+      test('desconectado correctamente', async () => {
+        // Setup data
+        const nlm = newSUT();
+        // Exercise, Verify
+        const resc = { code: 'CONECTADO', message: 'Conectado a internet' };
+        await expect(nlm.connet()).resolves.toEqual(resc);
+
+        const resd = {
+          code: 'DESCONECTADO',
+          message: 'Desconectado, tenias: 01:00:00, consumiste: 00:10:00'
+        };
+        await expect(nlm.disconnet()).resolves.toEqual(resd);
+        return expect(browser.pages()).resolves.toHaveLength(1);
+      });
       test('un reintento de desconexión, después intento fallido -> mensaje de error', async () => {
         // Setup data
         const timeo = 1000;
@@ -290,7 +316,7 @@ describe('InternetLoginPuppeteerService', () => {
           config.headless,
           timeo,
           () => 0,
-          { loginURL, maxDisconnectionAttempts: 1 }, browser
+          { loginURL, maxDisconnectionAttempts: 2 }, browser
         );
         // Exercise, Verify
         const resc = { code: 'CONECTADO', message: 'Conectado a internet' };
@@ -299,13 +325,20 @@ describe('InternetLoginPuppeteerService', () => {
 
         const resd1 = {
           code: 'DESCONEXION_INTENTO_FALLIDO',
-          message: 'No se ha podido desconectar: request error 0, puede intentar 1 vez mas'
+          message: 'No se ha podido desconectar: request error 0, puede intentar 2 veces mas'
         };
         await expect(nlm.disconnet()).resolves.toEqual(resd1);
         await expect(browser.pages()).resolves.toHaveLength(2);
 
-        const resd2 = { code: 'DESCONEXION_ULTIMO_INTENTO_FALLIDO', message: `No se ha podido desconectar: Navigation timeout of ${timeo} ms exceeded, se ha perdido el control de la sesión` };
+        const resd2 = {
+          code: 'DESCONEXION_INTENTO_FALLIDO',
+          message: 'No se ha podido desconectar: Navigation timeout of 1000 ms exceeded, puede intentar 1 vez mas'
+        };
         await expect(nlm.disconnet()).resolves.toEqual(resd2);
+        await expect(browser.pages()).resolves.toHaveLength(2);
+
+        const resd3 = { code: 'DESCONEXION_ULTIMO_INTENTO_FALLIDO', message: `No se ha podido desconectar: Navigation timeout of ${timeo} ms exceeded, se ha perdido el control de la sesión` };
+        await expect(nlm.disconnet()).resolves.toEqual(resd3);
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
     });
