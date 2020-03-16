@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 /* eslint-disable no-new */
+const { spawn } = require('child_process');
 const puppeteer = require('puppeteer');
 const NautaLoginManagerPuppeteer = require('../src/nauta-login-manager-puppeteer');
 const config = require('../etc/config');
@@ -107,26 +109,39 @@ describe('InternetLoginPuppeteerService', () => {
      * @type {import('puppeteer').Browser}
      */
     let browser = null;
+    /**
+     * @type {import('child_process').ChildProcess}
+     */
+    let httpServer = null;
 
-    // beforeEach(async () => {
-    //   browser = await puppeteer.launch({ headless: config.headless });
-    // });
-    // afterEach(async () => {
-    //   await browser.close();
-    // });
     beforeAll(async () => {
+      httpServer = spawn('npx', ['http-server', '--port', 9000, '__fakes__/nauta/']);
+
+      await new Promise((resolve, reject) => {
+        httpServer.stdout.on('data', (data) => {
+          if (`${data}`.includes('Available on:')) {
+            resolve(true);
+          }
+        });
+        httpServer.stderr.on('data', (data) => {
+          reject(new Error(`${data}`));
+        });
+      });
       browser = await puppeteer.launch({ headless: config.headless });
     });
+
     afterAll(async () => {
       await browser.close();
+      httpServer.kill();
     });
+
     beforeEach(async () => {
       const pages = (await browser.pages());
+      const results = [];
       for (let i = 1; i < pages.length; i++) {
-        const element = pages[i];
-        // eslint-disable-next-line no-await-in-loop
-        await element.close();
+        results.push(pages[i].close());
       }
+      await Promise.all(results);
     });
     /**
      * @param {string} [username='user@nauta.com.cu'] user
