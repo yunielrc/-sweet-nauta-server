@@ -23,20 +23,10 @@ describe('InternetLoginPuppeteerService', () => {
         new NautaLoginManagerPuppeteer(1);
       }).toThrow('credentials debe ser de tipo Object');
     });
-    test.skip('parámetro credentials.username es undefined -> lanza excepción', () => {
-      expect(() => {
-        new NautaLoginManagerPuppeteer({});
-      }).toThrow('credentials.username debe ser un email');
-    });
     test('parámetro credentials.username es 1 -> lanza excepción', () => {
       expect(() => {
         new NautaLoginManagerPuppeteer({ username: 1 });
       }).toThrow('credentials.username debe ser un email');
-    });
-    test.skip('parámetro credentials.password es undefined -> lanza excepción', () => {
-      expect(() => {
-        new NautaLoginManagerPuppeteer({ username: 'user@email.com' });
-      }).toThrow('credentials.password debe tener al menos 3 caracteres');
     });
     test('parámetro credentials.password es 1 -> lanza excepción', () => {
       expect(() => {
@@ -73,7 +63,11 @@ describe('InternetLoginPuppeteerService', () => {
         new NautaLoginManagerPuppeteer({ username: 'user@email.com', password: 'pass' }, false, 1, null, { loginURL: 1 });
       }).toThrow('config.loginURL debe ser una url');
     });
-
+    test('parámetro config.maxDisconnectionAttempts es 1.1 -> lanza excepción', () => {
+      expect(() => {
+        new NautaLoginManagerPuppeteer({ username: 'user@email.com', password: 'pass' }, false, 1, null, { loginURL: 'https://example.com', maxDisconnectionAttempts: 1.1 });
+      }).toThrow('config.maxDisconnectionAttempts debe ser un entero');
+    });
     test('parámetro browser es 1 -> lanza excepción', () => {
       expect(() => {
         new NautaLoginManagerPuppeteer({ username: 'user@email.com', password: 'pass' }, false, 1, null, { loginURL: 'http://u.com' }, 1);
@@ -87,11 +81,14 @@ describe('InternetLoginPuppeteerService', () => {
         pupTimeout: 4000,
         command: () => 1,
         loginURL: 'http://u.com',
+        maxDisconnectionAttempts: 3,
         browser: {}
       };
       const nlm = new NautaLoginManagerPuppeteer(
         values.credentials, values.headless, values.pupTimeout,
-        values.command, { loginURL: values.loginURL }, values.browser
+        values.command,
+        { loginURL: values.loginURL, maxDisconnectionAttempts: values.maxDisconnectionAttempts },
+        values.browser
       );
       expect(nlm.constructorPrivateFields).toEqual(values);
     });
@@ -111,11 +108,25 @@ describe('InternetLoginPuppeteerService', () => {
      */
     let browser = null;
 
-    beforeEach(async () => {
+    // beforeEach(async () => {
+    //   browser = await puppeteer.launch({ headless: config.headless });
+    // });
+    // afterEach(async () => {
+    //   await browser.close();
+    // });
+    beforeAll(async () => {
       browser = await puppeteer.launch({ headless: config.headless });
     });
-    afterEach(async () => {
+    afterAll(async () => {
       await browser.close();
+    });
+    beforeEach(async () => {
+      const pages = (await browser.pages());
+      for (let i = 1; i < pages.length; i++) {
+        const element = pages[i];
+        // eslint-disable-next-line no-await-in-loop
+        await element.close();
+      }
     });
     /**
      * @param {string} [username='user@nauta.com.cu'] user
@@ -213,18 +224,18 @@ describe('InternetLoginPuppeteerService', () => {
       test('sesión abierta -> retorna true ', async () => {
         // Setup data
         const nlm = newSUT();
-        // Exercise
-        await nlm.connet();
-        // Verify
-        await expect(nlm.sessionOpen()).resolves.toBeTruthy();
-        // Verify state
+        // Exercise,Verify
+        const resc = { code: 'CONECTADO', message: 'Conectado a internet' };
+        await expect(nlm.connet()).resolves.toEqual(resc);
+
+        expect(nlm.sessionOpen()).toBeTruthy();
         return expect(browser.pages()).resolves.toHaveLength(2);
       });
-      test('sin sesión -> retorna false', async () => {
+      test('sin sesión -> retorna false', () => {
         // Setup data
         const nlm = newSUT();
         // Exercise, Verify
-        await expect(nlm.sessionOpen()).resolves.toBeFalsy();
+        expect(nlm.sessionOpen()).toBeFalsy();
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
     });
@@ -237,37 +248,49 @@ describe('InternetLoginPuppeteerService', () => {
         await expect(nlm.disconnet()).resolves.toEqual(res);
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
-      test('browser lanza dialog con mensaje de error que no produce navegación al aceptarse -> error timeout ', async () => {
-        // Setup data
-        const nlm = newSUT('unreachable-server@nauta.com.cu', loginURL, config.timeout);
-        // Exercise, Verify
-        const resc = { code: 'CONECTADO', message: 'Conectado a internet' };
-        await expect(nlm.connet()).resolves.toEqual(resc);
-        // Verify
-        const resd = { code: 'ERROR', message: `Navigation timeout of ${config.timeout} ms exceeded` };
-        await expect(nlm.disconnet()).resolves.toEqual(resd);
-        return expect(browser.pages()).resolves.toHaveLength(1);
-      });
-      test('la sesión no se cierra -> desconexión fallida', async () => {
-        // Setup data
-        const nlm = newSUT('desconexion-fallida@nauta.com.cu');
-        // Exercise, Verify
-        const resc = { code: 'CONECTADO', message: 'Conectado a internet' };
-        await expect(nlm.connet()).resolves.toEqual(resc);
-        // Verify
-        const resd = { code: 'DESCONEXION_FALLIDA', message: 'No se ha podido desconectar de internet' };
-        await expect(nlm.disconnet()).resolves.toEqual(resd);
-        return expect(browser.pages()).resolves.toHaveLength(1);
-      });
-      test('la sesión se cierra -> desconectado', async () => {
+      test('pestaña de pagina conectado carga otra página -> desconexión fallida', async () => {
         // Setup data
         const nlm = newSUT();
         // Exercise, Verify
         const resc = { code: 'CONECTADO', message: 'Conectado a internet' };
         await expect(nlm.connet()).resolves.toEqual(resc);
+        /**
+         * @type {import('puppeteer').Page}
+         */
+        const page = (await browser.pages())[1];
+        await page.goto(loginURL);
         // Verify
-        const resd = { code: 'DESCONECTADO', message: 'Desconectado, tenias: 01:00:00, consumiste: 00:10:00' };
+        const resd = {
+          code: 'DESCONEXION_FALLIDA',
+          message: 'No se pudo desconectar, se ha perdido el control de la sesión'
+        };
         await expect(nlm.disconnet()).resolves.toEqual(resd);
+        return expect(browser.pages()).resolves.toHaveLength(1);
+      });
+      test('un reintento de desconexión, después intento fallido -> mensaje de error', async () => {
+        // Setup data
+        const timeo = 1000;
+        const nlm = new NautaLoginManagerPuppeteer(
+          { username: 'unreachable-server@nauta.com.cu', password: 'pass' },
+          config.headless,
+          timeo,
+          () => 0,
+          { loginURL, maxDisconnectionAttempts: 1 }, browser
+        );
+        // Exercise, Verify
+        const resc = { code: 'CONECTADO', message: 'Conectado a internet' };
+        await expect(nlm.connet()).resolves.toEqual(resc);
+        await expect(browser.pages()).resolves.toHaveLength(2);
+
+        const resd1 = {
+          code: 'DESCONEXION_INTENTO_FALLIDO',
+          message: 'No se ha podido desconectar: request error 0, puede intentar 1 vez mas'
+        };
+        await expect(nlm.disconnet()).resolves.toEqual(resd1);
+        await expect(browser.pages()).resolves.toHaveLength(2);
+
+        const resd2 = { code: 'DESCONEXION_ULTIMO_INTENTO_FALLIDO', message: `No se ha podido desconectar: Navigation timeout of ${timeo} ms exceeded, se ha perdido el control de la sesión` };
+        await expect(nlm.disconnet()).resolves.toEqual(resd2);
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
     });
