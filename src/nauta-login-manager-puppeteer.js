@@ -222,7 +222,7 @@ module.exports = class NautaLoginManagerPuppeteer {
     const connected = (await this.#page.$x(LABEL_CONNECTED_XPATH)).length > 0;
 
     if (connected) {
-      // aquí el listener ya complió su tarea
+      // aquí el listener ya cumplió su tarea
       this.#page.removeListener('dialog', onDialogHandler);
       return {
         code: 'CONECTADO',
