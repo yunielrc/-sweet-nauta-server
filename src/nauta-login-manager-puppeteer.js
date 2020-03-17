@@ -259,6 +259,39 @@ class NautaLoginManagerPuppeteer {
         message: 'Está desconectado actualmente'
       };
     }
+
+    const isDisconnected = async () => (await this.#page.$x(LABEL_DISCONNECTED_XPATH)).length > 0;
+    const returnSuccess = async (message) => {
+      await this.#closePage();
+      return {
+        code: resc.DISCONNECT_SUCCESS,
+        message
+      };
+    };
+    /**
+     * En ocasiones cuando se ejecuta disconnect() la página
+     * actual es la de confirmación de sesión cerrada que tiene el texto
+     * 'Usted ha cerrado con éxito su sesión.'
+     * ---
+     * Caso:
+     * - Abre la sesión, connect()
+     * - Activa la vpn en el OS
+     * - Intenta cerrar sesión, disconnect() falla por estar activada la vpn que
+     *   impide el acceso a secure.etecsa.net
+     * - Intenta cerrar sesión nuevamente, disconnect() falla por el motivo anterior.
+     * - Desactiva la vpn en el OS
+     * -* El browser a veces cierra la sesión después de desactivar la vpn, quedando
+     *   cargada la página de confirmación de cierre
+     * - Intenta cerrar sesión nuevamente, si se cumplió el caso *, se ejecuta la sentencia
+     *   condicional que tiene este comentario.
+     * ---
+     * De no tener en cuenta este caso, la respuesta sería 'DISCONNECT_ERROR_SESSION_LOST'
+     * lo cual es incorrecto.
+     */
+    if (await isDisconnected()) {
+      return returnSuccess('Desconectado');
+    }
+
     const inConnectedPage = (await this.#page.$x(LABEL_CONNECTED_XPATH)).length > 0;
 
     if (!inConnectedPage) {
@@ -287,8 +320,8 @@ class NautaLoginManagerPuppeteer {
     let availableTime = '';
 
     try {
-      onlineTime = await ppnc.page.innerText(this.#page, ONLINE_TIME_SELECTOR);
       availableTime = await ppnc.page.innerText(this.#page, AVAILABLE_TIME_SELECTOR);
+      onlineTime = await ppnc.page.innerText(this.#page, ONLINE_TIME_SELECTOR);
 
       await Promise.all([
         this.#page.waitForNavigation({ timeout: this.#pupTimeout }),
@@ -300,14 +333,8 @@ class NautaLoginManagerPuppeteer {
       }
     }
     // SI se desconectó correctamente, cierra página, informa. SALIDA
-    const disconneted = (await this.#page.$x(LABEL_DISCONNECTED_XPATH)).length > 0;
-
-    if (disconneted) {
-      await this.#closePage();
-      return {
-        code: resc.DISCONNECT_SUCCESS,
-        message: `Desconectado, tenias: ${availableTime}, consumiste: ${onlineTime}`
-      };
+    if (await isDisconnected()) {
+      return returnSuccess(`Desconectado, tenias: ${availableTime}, consumiste: ${onlineTime}`);
     }
     // SI no se desconectó y quedan intentos de desconexión, informa. SALIDA
     const availableAttempts = this.#maxDisconnectionAttempts - this.#disconnectionAttempts++;

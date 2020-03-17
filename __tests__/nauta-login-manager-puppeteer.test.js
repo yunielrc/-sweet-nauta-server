@@ -293,6 +293,26 @@ describe('InternetLoginPuppeteerService', () => {
         await expect(nlm.disconnet()).resolves.toEqual(resd);
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
+      test('estando en página de confirmación desconectado -> confirma desconexión', async () => {
+        // Setup data
+        const nlm = newSUT();
+
+        // Exercise, Verify
+        const resc = { code: respc.CONNECT_SUCCESS, message: 'Conectado a internet' };
+        await expect(nlm.connet()).resolves.toEqual(resc);
+        /**
+         * @type {import('puppeteer').Page}
+         */
+        const page = (await browser.pages())[1];
+        await page.goto(`${loginURL}/desconectado.html`);
+
+        const resd = {
+          code: respc.DISCONNECT_SUCCESS,
+          message: 'Desconectado'
+        };
+        await expect(nlm.disconnet()).resolves.toEqual(resd);
+        return expect(browser.pages()).resolves.toHaveLength(1);
+      });
       test('desconectado correctamente', async () => {
         // Setup data
         const nlm = newSUT();
