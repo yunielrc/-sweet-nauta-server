@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.35](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.34...v0.4.35) (2020-03-17)
+
+
+### Bug Fixes
+
+* actualizado .env* ([d820f16](https://github.com/yunielrc/internet-etecsa-login/commit/d820f16f6e75a4f2edcbac315581a1b5e102c8bd))
+* antes de perder la sesión hace varios intentos de desconexión ([a1f63f9](https://github.com/yunielrc/internet-etecsa-login/commit/a1f63f9ca7d0fc1f7ffe62b3c272afce567910f1)), closes [#66](https://github.com/yunielrc/internet-etecsa-login/issues/66)
+* muestra mensaje de error de cliente en vez de Navigation timeout ([dbfdfc0](https://github.com/yunielrc/internet-etecsa-login/commit/dbfdfc0e15296bfb68664dc9163157b6140ea5c8)), closes [#63](https://github.com/yunielrc/internet-etecsa-login/issues/63)
+* muestra mensaje de error de cliente en vez de Navigation timeout ([9e43566](https://github.com/yunielrc/internet-etecsa-login/commit/9e43566a8362716037ab1f869cd993f5582d0733)), closes [#63](https://github.com/yunielrc/internet-etecsa-login/issues/63)
+
 ### [0.4.34](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.33...v0.4.34) (2020-03-15)
 
 
