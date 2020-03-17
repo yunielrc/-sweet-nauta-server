@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('../etc/config');
-const NautaLoginManagerPuppeteer = require('./nauta-login-manager-puppeteer');
+const { NautaLoginManagerPuppeteer } = require('./nauta-login-manager-puppeteer');
 
 const app = express();
 let command;

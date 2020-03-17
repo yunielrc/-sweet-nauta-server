@@ -15,7 +15,19 @@ const LABEL_DISCONNECTED_XPATH = "//div[contains(.,'Usted ha cerrado con éxito 
 const ONLINE_TIME_SELECTOR = '#onlineTime';
 const AVAILABLE_TIME_SELECTOR = '#availableTime';
 
-module.exports = class NautaLoginManagerPuppeteer {
+const resc = {
+  CONNECT_ERROR_ALREADY_CONNECTED: 'CONNECT_ERROR_ALREADY_CONNECTED',
+  CONNECT_SUCCESS: 'CONNECT_SUCCESS',
+  CONNECT_ERROR: 'CONNECT_ERROR',
+  DISCONNECT_ERROR_ALREADY_DISCONNECTED: 'DISCONNECT_ERROR_ALREADY_DISCONNECTED',
+  DISCONNECT_ERROR_SESSION_LOST: 'DISCONNECT_ERROR_SESSION_LOST',
+  DISCONNECT_SUCCESS: 'DISCONNECT_SUCCESS',
+  DISCONNECT_ERROR_FAILED_ATTEMPT: 'DISCONNECT_ERROR_FAILED_ATTEMPT',
+  DISCONNECT_ERROR: 'DISCONNECT_ERROR'
+};
+
+// module.exports.rc = rc;
+class NautaLoginManagerPuppeteer {
   /**
    *
    * @param {{username: string, password: string}} credentials credentials
@@ -185,8 +197,8 @@ module.exports = class NautaLoginManagerPuppeteer {
     }
     if (this.sessionOpen()) {
       return {
-        code: 'SESION_PREVIA_ABIERTA',
-        message: 'Tiene una sesión abierta, pruebe cerrarla'
+        code: resc.CONNECT_ERROR_ALREADY_CONNECTED,
+        message: 'Está conectado actualmente'
       };
     }
 
@@ -225,15 +237,15 @@ module.exports = class NautaLoginManagerPuppeteer {
       // aquí el listener ya cumplió su tarea
       this.#page.removeListener('dialog', onDialogHandler);
       return {
-        code: 'CONECTADO',
+        code: resc.CONNECT_SUCCESS,
         message: 'Conectado a internet'
       };
     }
 
     await this.#closePage();
     return {
-      code: 'CONEXION_FALLIDA',
-      message: `No se ha podido conectar a internet${errmessage ? `: ${errmessage}` : ''}`
+      code: resc.CONNECT_ERROR,
+      message: `Problema al intentar conectar${errmessage ? `: ${errmessage}` : ''}`
     };
   }
 
@@ -243,8 +255,8 @@ module.exports = class NautaLoginManagerPuppeteer {
   async disconnet() {
     if (!this.sessionOpen()) {
       return {
-        code: 'SIN_SESION_ABIERTA',
-        message: 'Usted no tiene sesión abierta que cerrar'
+        code: resc.DISCONNECT_ERROR_ALREADY_DISCONNECTED,
+        message: 'Está desconectado actualmente'
       };
     }
     const inConnectedPage = (await this.#page.$x(LABEL_CONNECTED_XPATH)).length > 0;
@@ -252,7 +264,7 @@ module.exports = class NautaLoginManagerPuppeteer {
     if (!inConnectedPage) {
       await this.#closePage();
       return {
-        code: 'DESCONEXION_FALLIDA',
+        code: resc.DISCONNECT_ERROR_SESSION_LOST,
         message: 'No se pudo desconectar, se ha perdido el control de la sesión'
       };
     }
@@ -293,7 +305,7 @@ module.exports = class NautaLoginManagerPuppeteer {
     if (disconneted) {
       await this.#closePage();
       return {
-        code: 'DESCONECTADO',
+        code: resc.DISCONNECT_SUCCESS,
         message: `Desconectado, tenias: ${availableTime}, consumiste: ${onlineTime}`
       };
     }
@@ -302,15 +314,15 @@ module.exports = class NautaLoginManagerPuppeteer {
 
     if (availableAttempts > 0) {
       return {
-        code: 'DESCONEXION_INTENTO_FALLIDO',
+        code: resc.DISCONNECT_ERROR_FAILED_ATTEMPT,
         message: `No se ha podido desconectar${errmessage ? `: ${errmessage}` : ''}, puede intentar ${availableAttempts} ${availableAttempts === 1 ? 'vez' : 'veces'} mas`
       };
     }
     // SI no quedan intentos de desconexión, cierra página, informa. SALIDA
     await this.#closePage();
     return {
-      code: 'DESCONEXION_ULTIMO_INTENTO_FALLIDO',
-      message: `No se ha podido desconectar${errmessage ? `: ${errmessage}` : ''}, se ha perdido el control de la sesión`
+      code: resc.DISCONNECT_ERROR,
+      message: `No se pudo desconectar${errmessage ? `: ${errmessage}` : ''}, se ha perdido el control de la sesión`
     };
   }
 
@@ -320,4 +332,8 @@ module.exports = class NautaLoginManagerPuppeteer {
   sessionOpen() {
     return this.#page != null && !this.#page.isClosed();
   }
-};
+}
+
+Object.freeze(resc);
+module.exports.resc = resc;
+module.exports.NautaLoginManagerPuppeteer = NautaLoginManagerPuppeteer;
