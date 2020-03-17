@@ -12,7 +12,7 @@ const config = {
   timeout: parseInt(process.env.TIMEOUT, 10) || 2000,
   nauta_login: {
     loginURL: process.env.NAUTA_URL || null,
-    maxDisconnectionAttempts: parseInt(process.env.MAX_DISCONNECTION_ATTEMPTS, 10) || 1
+    maxDisconnectionAttempts: parseInt(process.env.MAX_DISCONNECTION_ATTEMPTS, 10) || 2
   }
 };
 
