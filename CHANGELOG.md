@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.36](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.35...v0.4.36) (2020-03-17)
+
+
+### Bug Fixes
+
+* **update:** cambia url de package a github ([139b303](https://github.com/yunielrc/internet-etecsa-login/commit/139b303bc12dd76e39b407c30a641edb9d5e2408))
+* **utils.bash:** corrige formato de logs ([dd60582](https://github.com/yunielrc/internet-etecsa-login/commit/dd60582c8fedabc9269049f6701d5802172d8e5d)), closes [#78](https://github.com/yunielrc/internet-etecsa-login/issues/78)
+
 ### [0.4.35](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.34...v0.4.35) (2020-03-17)
 
 
