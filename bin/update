@@ -16,6 +16,7 @@ cd '/opt/internet-etecsa-login'
 # readonly GIT_PACKAGE_URL="$(jq -r '.repository.url' './package.json' | sed 's/\.git$//' | sed 's/^git+//')/raw/branch/master/package.json"
 readonly GIT_PACKAGE_URL='https://raw.githubusercontent.com/yunielrc/internet-etecsa-login/master/package.json'
 readonly UPDATE_TODAY_OK="/tmp/internet-etecsa-login-$(date +%Y%m%d)"
+readonly APP_PORT="$(grep 'PORT=' "${BASE_PATH}/.env" | sed 's/PORT=//')"
 
 
 # si la actualización se ejecutó hoy correctamente se sale
@@ -41,6 +42,7 @@ if [[ "$cur_version" = "$git_version" ]]; then
 fi
 # actualizamos
 git reset --hard
+git checkout master
 git pull origin master || {
   log "$ACTION" 1 'ejecutando $ git pull origin master'
   exit 1
@@ -57,7 +59,7 @@ touch "$UPDATE_TODAY_OK"
 log "$ACTION" 0 "Se ha actualizado de la versión ${cur_version} a ${git_version}"
 # se reinicia el servicio solo si el usario no tiene una sesión abierta
 # FIX: tomar puerto de config
-msg="$(curl --silent --show-error 'http://localhost:4500/session-open' 2>&1)"
+msg="$(curl --silent --show-error "http://localhost:${APP_PORT}/session-open" 2>&1)"
 if [[ "$msg" != 'true' ]]; then
   systemctl restart internet-etecsa-login
   log "$ACTION" 0 'Se ha reiniciado el servicio'
