@@ -18,6 +18,26 @@ readonly GIT_PACKAGE_URL='https://raw.githubusercontent.com/yunielrc/internet-et
 readonly UPDATE_TODAY_OK="/tmp/internet-etecsa-login-$(date +%Y%m%d)"
 readonly APP_PORT="$(grep 'PORT=' "${BASE_PATH}/.env" | sed 's/PORT=//')"
 
+add_new_fields_to_user_env_file() {
+  # extrae 2 textos solo con los nombres de variables de cada campo
+  # diff = .env-prod - .env
+  # diff += valores de variables
+  # .env += diff
+  local -r env_prod_file='.env-prod'
+  local -r env_file='.env'
+  local -r text_vname_env_prod=$(sed -e 's/\s*#//' -e 's/=.*//' "$env_prod_file" | sort | uniq)
+  local -r text_vname_env=$(sed -e 's/\s*#//' -e 's/=.*//' "$env_file" | sort | uniq)
+  local -r new_vnames=$(diff --text  <(echo "$text_vname_env_prod") <(echo "$text_vname_env") | grep '^<' | sed -e 's/<\s*//' | tr '\r\n' '|' | sed 's/|$//')
+
+  if [ -n "$new_vnames" ]; then
+    local -r hfdate=$(date +%Y%m%d)
+    local -r header="#FIELDS BELOW ADDED IN UPDATE ${hfdate}"
+    local -r footer="#END ${hfdate}"
+
+    cp "$env_file" "${env_file}.old"
+    echo -e "\n${header}\n$(grep -E "$new_vnames" "$env_prod_file")\n${footer}\n"  >> "$env_file"
+  fi
+}
 
 # si la actualización se ejecutó hoy correctamente se sale
 if [ -f "$UPDATE_TODAY_OK" ]; then
@@ -40,13 +60,16 @@ if [[ "$cur_version" = "$git_version" ]]; then
   touch "$UPDATE_TODAY_OK"
   exit 0
 fi
-# actualizamos
+# update git repository
 git reset --hard
 git checkout master
 git pull origin master || {
   log "$ACTION" 1 'ejecutando $ git pull origin master'
   exit 1
 }
+# add new fields to .env
+add_new_fields_to_user_env_file
+
 npm install --production --unsafe-perm=true || {
   log "$ACTION" 1 'ejecutando $ npm install --production --unsafe-perm=true'
   exit 1
