@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.39](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.38...v0.4.39) (2020-03-18)
+
+
+### Bug Fixes
+
+* **update:** add new fields in .env-prod to .env ([f38cdbf](https://github.com/yunielrc/internet-etecsa-login/commit/f38cdbf58377da8db5fa03441edb533a8a2da96e))
+* **update:** en la update se toma el puerto de .env ([a264914](https://github.com/yunielrc/internet-etecsa-login/commit/a2649148e2291da2f0d2fbccf7c9d195bca873ae))
+
 ### [0.4.38](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.37...v0.4.38) (2020-03-17)
 
 
