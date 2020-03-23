@@ -67,6 +67,8 @@ git pull origin master || {
   log "$ACTION" 1 'ejecutando $ git pull origin master'
   exit 1
 }
+git fetch
+git checkout "v${git_version}"
 # add new fields to .env
 add_new_fields_to_user_env_file
 
