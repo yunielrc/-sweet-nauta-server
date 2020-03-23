@@ -22,6 +22,10 @@ apt install -y git curl
 cd /opt/
 git clone 'https://github.com/yunielrc/internet-etecsa-login.git'
 cd "$INSTALL_DIR"
+readonly last_version="v$(jq -r '.version' './package.json')"
+git fetch
+git checkout "$last_version"
+
 # install dependencies
 curl -sL 'https://deb.nodesource.com/setup_13.x' | sudo -E bash -
 apt install -y nodejs build-essential jq
