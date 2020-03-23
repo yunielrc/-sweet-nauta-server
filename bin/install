@@ -17,7 +17,7 @@ readonly KEY="/home/${UNAME}/.ssh/id_rsa"
 readonly PUB_KEY_TMP_FILE="/tmp/id_rsa.pub"
 
 apt update -y
-apt install -y git curl
+apt install -y git curl jq
 # download
 cd /opt/
 git clone 'https://github.com/yunielrc/internet-etecsa-login.git'
@@ -28,7 +28,7 @@ git checkout "$last_version"
 
 # install dependencies
 curl -sL 'https://deb.nodesource.com/setup_13.x' | sudo -E bash -
-apt install -y nodejs build-essential jq
+apt install -y nodejs build-essential
 npm install npm@latest -g --unsafe-perm=true
 npm install --production --unsafe-perm=true
 # configure
