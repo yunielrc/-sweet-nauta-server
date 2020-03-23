@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.41](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.40...v0.4.41) (2020-03-23)
+
+
+### Bug Fixes
+
+* **install:** instala el comando `jq` antes de usarlo ([64b08f7](https://github.com/yunielrc/internet-etecsa-login/commit/64b08f7300eb883f4d8f2ce04639f7a07da03e1a))
+* **install:** instala la última versión estable ([17f6235](https://github.com/yunielrc/internet-etecsa-login/commit/17f623589f0c4b4f3fef99218a1a08c4c352be29))
+* **update:** actualiza a la última versión estable ([17c1893](https://github.com/yunielrc/internet-etecsa-login/commit/17c1893a8e10f256cfcc037262a6409f7b441ac4))
+
 ### [0.4.40](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.39...v0.4.40) (2020-03-23)
 
 ### [0.4.39](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.38...v0.4.39) (2020-03-18)
