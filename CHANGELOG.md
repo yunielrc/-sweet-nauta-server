@@ -44,34 +44,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 * fix timeout ([8abd930](https://github.com/yunielrc/internet-etecsa-login/commit/8abd9304e35759177b6613ce9314fab3c945f847))
 
-### [0.4.33](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.32...v0.4.33) (2020-03-15)
-
-### [0.4.32](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.31...v0.4.32) (2020-03-10)
-
-### [0.4.31](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.30...v0.4.31) (2020-03-10)
-
-### [0.4.30](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.29...v0.4.30) (2020-03-10)
-
-### [0.4.29](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.28...v0.4.29) (2020-03-10)
-
-### [0.4.28](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.27...v0.4.28) (2020-03-10)
-
-### [0.4.27](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.26...v0.4.27) (2020-03-10)
-
-### [0.4.26](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.25...v0.4.26) (2020-03-10)
-
-### [0.4.25](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.24...v0.4.25) (2020-03-10)
-
-### [0.4.24](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.23...v0.4.24) (2020-03-10)
-
-### [0.4.23](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.22...v0.4.23) (2020-03-10)
-
-### [0.4.22](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.21...v0.4.22) (2020-03-10)
-
-### [0.4.21](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.20...v0.4.21) (2020-03-10)
-
-### [0.4.20](http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/compare/v0.4.19...v0.4.20) (2020-03-10)
-
 
 ### Bug Fixes
 
