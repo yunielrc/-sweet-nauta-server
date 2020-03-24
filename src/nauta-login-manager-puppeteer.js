@@ -342,7 +342,7 @@ class NautaLoginManagerPuppeteer {
     if (availableAttempts > 0) {
       return {
         code: resc.DISCONNECT_ERROR_FAILED_ATTEMPT,
-        message: `No se ha podido desconectar${errmessage ? `: ${errmessage}` : ''}, puede intentar ${availableAttempts} ${availableAttempts === 1 ? 'vez' : 'veces'} mas`
+        message: `Puede intentar ${availableAttempts} ${availableAttempts === 1 ? 'vez' : 'veces'} mas. No se ha podido desconectar${errmessage ? `: ${errmessage}` : ''}`
       };
     }
     // SI no quedan intentos de desconexión, cierra página, informa. SALIDA

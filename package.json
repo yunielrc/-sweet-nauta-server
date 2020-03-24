@@ -20,6 +20,7 @@
     "run-fake-server": "npx http-server --port 9000 __fakes__/nauta/",
     "lint": "eslint src/",
     "commit": "git add . && git-cz",
+    "git-graph": "git log --oneline --graph",
     "validate": "run-s lint test",
     "release": "standard-version -a",
     "prerelease": "git checkout master && git pull origin master && npm i && run-s validate && git-authors-cli && git add .",
