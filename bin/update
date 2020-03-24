@@ -14,7 +14,12 @@ source "${BASE_PATH}/src/util.bash"
 
 cd '/opt/internet-etecsa-login'
 # readonly GIT_PACKAGE_URL="$(jq -r '.repository.url' './package.json' | sed 's/\.git$//' | sed 's/^git+//')/raw/branch/master/package.json"
-readonly GIT_PACKAGE_URL='https://raw.githubusercontent.com/yunielrc/internet-etecsa-login/master/package.json'
+GIT_PACKAGE_URL='https://raw.githubusercontent.com/yunielrc/internet-etecsa-login/master/package.json'
+
+if git remote -v | grep --quiet 'gitea.casa.dylgran.com'; then
+  GIT_PACKAGE_URL='https://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/raw/branch/master/package.json'
+fi
+
 readonly UPDATE_TODAY_OK="/tmp/internet-etecsa-login-$(date +%Y%m%d)"
 readonly APP_PORT="$(grep 'PORT=' "${BASE_PATH}/.env" | sed 's/PORT=//')"
 

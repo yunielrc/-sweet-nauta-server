@@ -1,5 +1,6 @@
 #!/bin/bash
 # wget -qO - http://gitea.casa.dylgran.com/yuniel/internet-etecsa-login/raw/branch/master/bin/install | sudo bash
+# wget ... | sudo env PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true bash # Do not download bundled Chromium during installation step.
 
 ##  Bash settings
 # abort on nonzero exitstatus
@@ -19,8 +20,14 @@ readonly PUB_KEY_TMP_FILE="/tmp/id_rsa.pub"
 apt update -y
 apt install -y git curl jq
 # download
+REPO='https://github.com/yunielrc/internet-etecsa-login.git'
+
+if [ -f '.env' ] && grep --quiet '^\s*REPO=' '.env'; then
+  REPO="$(grep 'REPO=' '.env' | sed 's/REPO=//')"
+fi
 cd /opt/
-git clone 'https://github.com/yunielrc/internet-etecsa-login.git'
+echo "> Cloning from ${REPO}"
+git clone "$REPO"
 cd "$INSTALL_DIR"
 readonly last_version="v$(jq -r '.version' './package.json')"
 git fetch
