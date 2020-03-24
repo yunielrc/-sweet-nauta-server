@@ -344,14 +344,14 @@ describe('InternetLoginPuppeteerService', () => {
 
         const resd1 = {
           code: respc.DISCONNECT_ERROR_FAILED_ATTEMPT,
-          message: 'No se ha podido desconectar: request error 0, puede intentar 2 veces mas'
+          message: 'Puede intentar 2 veces mas. No se ha podido desconectar: request error 0'
         };
         await expect(nlm.disconnet()).resolves.toEqual(resd1);
         await expect(browser.pages()).resolves.toHaveLength(2);
 
         const resd2 = {
           code: respc.DISCONNECT_ERROR_FAILED_ATTEMPT,
-          message: 'No se ha podido desconectar: Navigation timeout of 1000 ms exceeded, puede intentar 1 vez mas'
+          message: 'Puede intentar 1 vez mas. No se ha podido desconectar: Navigation timeout of 1000 ms exceeded'
         };
         await expect(nlm.disconnet()).resolves.toEqual(resd2);
         await expect(browser.pages()).resolves.toHaveLength(2);
