@@ -20,7 +20,15 @@ apt update -y
 apt install -y git curl jq
 # download
 cd /opt/
-git clone 'https://github.com/yunielrc/internet-etecsa-login.git'
+
+REPO='https://github.com/yunielrc/internet-etecsa-login.git'
+
+if [ -f '.env' ] && grep --quiet '^\s*REPO=' '.env'; then
+  REPO="$(grep 'REPO=' '.env' | sed 's/REPO=//')"
+fi
+
+echo "> Cloning from ${REPO}"
+git clone "$REPO"
 cd "$INSTALL_DIR"
 readonly last_version="v$(jq -r '.version' './package.json')"
 git fetch
