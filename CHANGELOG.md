@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.42](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.41...v0.4.42) (2020-03-24)
+
+
+### Features
+
+* terminado instalar desde custom repo ([fc3a134](https://github.com/yunielrc/internet-etecsa-login/commit/fc3a1344f15869ad4ee2b0c6765d624230bc42f9))
+* **enhancement:** al desconectar muestra intentos disponibles al inicio ([d0af74e](https://github.com/yunielrc/internet-etecsa-login/commit/d0af74e6a77e6ca421bb24dab28540ebe8f51b31))
+* **install:** instala desde repo especifico definido en .env ([c575d1f](https://github.com/yunielrc/internet-etecsa-login/commit/c575d1f162d9a96dd0169b0960a79018076ac1f4))
+
+
+### Bug Fixes
+
+* **update:** toma el package.json del repo de la red local si es el caso ([0fe4364](https://github.com/yunielrc/internet-etecsa-login/commit/0fe4364f4cec5f4971244209641bc9440f78b0c5))
+
 ### [0.4.41](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.40...v0.4.41) (2020-03-23)
 
 
