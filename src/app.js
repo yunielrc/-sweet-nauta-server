@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('../etc/config');
-const { NautaLoginManagerPuppeteer } = require('./nauta-login-manager-puppeteer');
+const { NautaSessionManager } = require('./nauta-session-manager');
 
 const app = express();
 let command;
@@ -8,7 +8,7 @@ if (config.before_connect) {
   // eslint-disable-next-line import/no-dynamic-require, global-require
   command = require(`../commands/${config.before_connect}`);
 }
-const iconn = new NautaLoginManagerPuppeteer(
+const iconn = new NautaSessionManager(
   config.creds, config.headless, config.timeout, command, config.nauta_login
 );
 

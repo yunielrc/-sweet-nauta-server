@@ -7,12 +7,12 @@ readonly AUTH_NODE='secure.etecsa.net'
 readonly AIROS_DEVICE_IP=${1?"Especifique la ip del router AirOS"}
 # readonly AIROS_PASSWORD=''  
 # si el dispositivo AirOS no está disponible se imprime un mensaje y se sale
-timeout 2 ping -c 1 $AIROS_DEVICE_IP &> /dev/null || {
+timeout 2 ping -c 1 "$AIROS_DEVICE_IP" &> /dev/null || {
   echo -n "ERROR: Router inalcanzable" 1>&2
   exit 1
 }
 # si el portal está disponible no se hace nada y se sale
-timeout 2 ping -c 1 $AUTH_NODE &> /dev/null && {
+timeout 2 ping -c 1 "$AUTH_NODE" &> /dev/null && {
   echo -n 'Router listo'
   exit 0
 }

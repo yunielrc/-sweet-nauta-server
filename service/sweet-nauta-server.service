@@ -1,0 +1,18 @@
+# ln -s /opt/sweet-nauta-server/service/sweet-nauta-server.service /etc/systemd/system/sweet-nauta-server.service
+# systemctl --user enable sweet-nauta-server.service
+# systemctl --user start sweet-nauta-server.service
+[Unit]
+Description=Sweet Nauta Server
+After=syslog.target network.target
+
+[Service]
+RestartSec=2s
+Type=simple
+User=nauta
+Group=nauta
+ExecStart=/usr/bin/npm start
+Restart=always
+WorkingDirectory=/opt/sweet-nauta-server
+
+[Install]
+WantedBy=multi-user.target

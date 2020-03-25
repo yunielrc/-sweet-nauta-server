@@ -1,4 +1,4 @@
-readonly LOG_FILE='/var/log/internet-etecsa-login.log'
+readonly LOG_FILE='/var/log/sweet-nauta-server.log'
 
 log() {
   local -r action="$1"

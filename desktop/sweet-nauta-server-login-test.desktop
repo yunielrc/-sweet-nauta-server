@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+# sudo ln -s /opt/sweet-nauta-server/desktop/sweet-nauta-server-login-test.desktop /usr/share/applications/sweet-nauta-server-login-test.desktop
+[Desktop Entry]
+Version=1.0
+Name=Sweet Nauta Server - Login Test
+Comment=Cliente básico para probar el funcionamiento del servicio Sweet Nauta Server
+Keywords=internet,login,nauta
+Exec=/bin/bash /opt/sweet-nauta-server/bin/login
+Type=Application
+Categories=Internet;Red
+Icon=/opt/sweet-nauta-server/icons/sweet-nauta-server.jpg

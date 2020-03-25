@@ -27,7 +27,7 @@ const resc = {
 };
 
 // module.exports.rc = rc;
-class NautaLoginManagerPuppeteer {
+class NautaSessionManager {
   /**
    *
    * @param {{username: string, password: string}} credentials credentials
@@ -363,4 +363,4 @@ class NautaLoginManagerPuppeteer {
 
 Object.freeze(resc);
 module.exports.resc = resc;
-module.exports.NautaLoginManagerPuppeteer = NautaLoginManagerPuppeteer;
+module.exports.NautaSessionManager = NautaSessionManager;
