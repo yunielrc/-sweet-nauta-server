@@ -18,7 +18,7 @@ Este servicio ha sido probado con un NSM5 versión AirOS XW.v6.2.0, es probable 
 
 #### Debe conocer que
 
-Cuando el dispositivo AirOS pierde la sesión dhcp con el router de etecsa el servicio se encarga de enviar la orden al dispositivo AirOS para que inicie una nueva sesión dhcp, el dispositivo AirOS tarda alrededor de unos 14 segundos en este proceso, también depende de la calidad del enlace con el router de etecsa. En este caso debe esperar a que termine esta operación, después de esto se iniciará la conexión a internet.
+Cuando el dispositivo AirOS pierde la sesión dhcp con el router de etecsa el servicio se encarga de enviar la orden al dispositivo AirOS para que inicie una nueva sesión dhcp, el dispositivo AirOS tarda unos 14 segundos en este proceso, también depende de la calidad del enlace con el router de etecsa. En este caso debe esperar a que termine esta operación, después se iniciará la conexión a internet.
 
 ## Requisitos previos
 
@@ -77,7 +77,7 @@ sudo chown nauta:nauta /opt/sweet-nauta-server/.env
 sudo chmod 444 /opt/sweet-nauta-server/.env
 ```
 
-Añada la clave pública ssh generada `/tmp/id_rsa.pub` al dispositivo AirOS:  
+Si tiene router AirOS añada la clave pública ssh generada `/tmp/id_rsa.pub` al dispositivo:  
 
 ![AirOS](docs/airos-ssh-key.png)
 

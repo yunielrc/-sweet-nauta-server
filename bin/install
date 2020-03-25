@@ -86,7 +86,7 @@ $ sudo systemctl enable sweet-nauta-server --now
 >6: Puede ver el log de la applicación:
 $ tail -f ${LOG_FILE}
 
->7: Se creó una entrada en el cron del usuario root para actualizar la app
+>7: Se creó una entrada en el cron del usuario root para actualizar el servicio
 >puede modificarla:
 $ sudo crontab -e
 -------------------------------------------------------------------------------
