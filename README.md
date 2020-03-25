@@ -14,7 +14,7 @@ El servicio aún no ha sido probado con nauta hogar.
 
 ### Para usuarios con router AirOS
 
-Este servicio ha sido probado con un NSM5 versión AirOS XW.v6.2.0, el probable que funcione en otros dispositivos AirOS.
+Este servicio ha sido probado con un NSM5 versión AirOS XW.v6.2.0, es probable que funcione en otros dispositivos AirOS.
 
 #### Debe conocer que
 
@@ -106,7 +106,7 @@ y desconectarse con más comodidad, pruebe asignarle `F9` como se muestra a cont
 
 ## Uso
 
-Si instaló la el servicio en entorno desktop presione la tecla asignada para conectarse y desconectarse a internet o ejecute el acceso directo `Sweet Nauta Server - Login Test` para conectarse y vuélvalo a ejecutar para desconectarse.
+Si instaló el servicio en entorno desktop presione la tecla asignada para conectarse y desconectarse a internet o ejecute el acceso directo `Sweet Nauta Server - Login Test` para conectarse y vuélvalo a ejecutar para desconectarse.
 
 Para ver el log ejecute:
 

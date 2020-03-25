@@ -79,7 +79,7 @@ clave: ${PUB_KEY_TMP_FILE}
 >4: Después de haber completado los pasos 1,2 y 3 Instale e inicie el servicio
 $ sudo systemctl enable sweet-nauta-server --now
 
->5: Ejecute la app 'Sweet Nauta Server' para conectarse y desconectarse a internet,
+>5: Ejecute la app 'Sweet Nauta Server - Login Test' para conectarse y desconectarse a internet,
 >Asigne una tecla al comando 'gtk-launch sweet-nauta-server-login-test' para conectarse
 >y desconectarse, pruebe asignarle 'F9'.
 
