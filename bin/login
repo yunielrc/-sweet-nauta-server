@@ -10,7 +10,7 @@ res="$(curl --silent --show-error "http://localhost:${port}/toggle" 2>&1)"
 rmessage="$(echo "$res" | jq -r '.message')"
 rcode="$(echo "$res" | jq -r '.code')"
 
-notify-send 'Internet Login' "$rmessage"
+notify-send 'Sweet Nauta Server - Login Test' "$rmessage"
 
 # LOG
 log 'LOGIN' "$rcode" "$rmessage"

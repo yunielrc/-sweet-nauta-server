@@ -1,18 +1,18 @@
 {
-  "name": "internet-etecsa-login",
+  "name": "sweet-nauta-server",
   "version": "0.4.42",
-  "description": "Conecta y desconecta el acceso a internet por wifi etecsa con solo tocar un botón",
+  "description": "Server for easy management of internet nauta session",
   "main": "src/app.js",
   "engines": {
     "node": "^13.9.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yunielrc/internet-etecsa-login.git"
+    "url": "git+https://gitea.casa.dylgran.com/yuniel/sweet-nauta-server.git"
   },
-  "homepage": "https://github.com/yunielrc/internet-etecsa-login",
+  "homepage": "https://gitea.casa.dylgran.com/yuniel/sweet-nauta-server",
   "bugs": {
-    "url": "https://github.com/yunielrc/internet-etecsa-login/issues"
+    "url": "https://gitea.casa.dylgran.com/yuniel/sweet-nauta-server/issues"
   },
   "scripts": {
     "start": "node src/app.js",

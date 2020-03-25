@@ -1,38 +1,30 @@
-# Internet Etecsa login
+# Sweet Nauta Server
 
-![Internet Etecsa login](icons/internet-etecsa-login.jpg)
+![Sweet Nauta Server](icons/sweet-nauta-server.jpg)
 
-Gestione su sesión de internet wifi etecsa solo presionando una tecla
+Servicio para gestionar la sesión nauta
+> Si instala el servicio en entorno desktop; con el cliente de prueba `Sweet Nauta Server - Login Test`
+> puede gestionar la sesión Nauta presionando un botón.
 
 ## Nota
 
 ### Para usuarios Nauta Hogar
 
-La app aún no ha sido probada con el servicio nauta hogar.
+El servicio aún no ha sido probado con nauta hogar.
 
 ### Para usuarios con router AirOS
 
-Esta app ha sido probada con un NSM5 versión AirOS XW.v6.2.0, puede ser que funcione en otros dispositivos AirOS.
+Este servicio ha sido probado con un NSM5 versión AirOS XW.v6.2.0, es probable que funcione en otros dispositivos AirOS.
 
-#### Importante
+#### Debe conocer que
 
-Cuando el dispositivo AirOS pierde la sesión dhcp con el router de etecsa la app se encarga de enviar la orden al dispositivo AirOS para que inicie una nueva sesión dhcp, el dispositivo AirOS tarda alrededor de unos 14 segundos en este proceso, también depende de la calidad del enlace con el router de etecsa. En este caso debe esperar a que termine esta operación, después de esto la app iniciará la conexión a internet.
-
-## Próximamente
-
-- Versión para Windows
+Cuando el dispositivo AirOS pierde la sesión dhcp con el router de etecsa el servicio se encarga de enviar la orden al dispositivo AirOS para que inicie una nueva sesión dhcp, el dispositivo AirOS tarda unos 14 segundos en este proceso, también depende de la calidad del enlace con el router de etecsa. En este caso debe esperar a que termine esta operación, después se iniciará la conexión a internet.
 
 ## Requisitos previos
 
 - Distribución basada en debian.
 
-> La app ha sido probada en Ubuntu 18.04 LTS y 19.10
-
-- Ping indicator para ver estado de conexión a internet
-
-  Configurar la extensión con ip `1.1.1.1`
-
-  [Ping Indicator](https://extensions.gnome.org/extension/923/ping-indicator/)
+> El servicio ha sido probado en Ubuntu 18.04 LTS y 19.10
 
 - Algunos paquetes `npm` están bloqueados para Cuba, defina el proxy en el
   archivo `~/.npmrc`.
@@ -48,76 +40,84 @@ Cuando el dispositivo AirOS pierde la sesión dhcp con el router de etecsa la ap
   nano ~/.npmrc
   ```
 
-## Actualizar
+### Requisito Opcional
 
-Para actualizar la app ejecute:
+> Solo si va a instalar el servicio en entorno desktop
 
-```bash
-sudo bash /opt/internet-etecsa-login/bin/update
-```
+- Ping indicator para ver estado de conexión a internet
+
+  Configurar la extensión con ip `1.1.1.1`
+
+  [Ping Indicator](https://extensions.gnome.org/extension/923/ping-indicator/)
 
 ## Instalar
 
 Ejecute:
 
 ```bash
-wget -qO - https://raw.githubusercontent.com/yunielrc/internet-etecsa-login/master/bin/install | sudo bash
+wget -qO - https://raw.githubusercontent.com/yunielrc/sweet-nauta-server/master/bin/install | sudo bash
 ```
 
 ### Configurar
 
 Edite al archivo `.env`
 
-- Defina las credenciales de su cuenta internet nauta.
+- Defina las credenciales de su cuenta nauta
 - Si tiene un router AirOS quite los comentarios a las variables `AIROS_ROUTER_IP`
 y `BEFORE_CONNECT` removiendo la almohadilla `#`. Defina la ip del router.
 
 ```bash
-sudo nano /opt/internet-etecsa-login/.env
-```
-
-ó
-
-```bash
-sudo gedit /opt/internet-etecsa-login/.env
+sudo nano /opt/sweet-nauta-server/.env
 ```
 
 Proteja el archivo `.env` después de editarlo
 
 ```bash
-sudo chown nauta:nauta /opt/internet-etecsa-login/.env
-sudo chmod 444 /opt/internet-etecsa-login/.env
+sudo chown nauta:nauta /opt/sweet-nauta-server/.env
+sudo chmod 444 /opt/sweet-nauta-server/.env
 ```
 
-Añada la clave pública ssh `/tmp/id_rsa.pub` al dispositivo AirOS:  
+Si tiene router AirOS añada la clave pública ssh generada `/tmp/id_rsa.pub` al dispositivo:  
 
 ![AirOS](docs/airos-ssh-key.png)
 
-Instale e inicie el servicio
+Habilite e inicie el servicio
 
 ```bash
-sudo systemctl enable internet-etecsa-login --now
+sudo systemctl enable sweet-nauta-server --now
 ```  
 
-Asigne una tecla al comando `gtk-launch internet-etecsa-login` para conectarse
-y desconectarse con más comodidad, pruebe asignarle `F9` como se muestra acontinuación:
+Para actualizar el servicio automáticamente se creó una entrada en el cron del usuario `root`.
 
-![AirOS](docs/keyboard-shortcut.png)
-
-Pruebe ver el log:
-
-```bash
-tail -f /var/log/internet-etecsa-login.log
-```
-
-Para actualizar la app automáticamente se creó una entrada en el cron del usuario `root`.
-
-Para modificarla ejecute:
+Para modificar la entrada ejecute:
 
 ```bash
 sudo crontab -e
 ```
 
+### Configuración Opcional
+
+> Solo si instaló el servicio en entorno desktop
+
+Asigne una tecla al comando `gtk-launch sweet-nauta-server-login-test` para conectarse
+y desconectarse con más comodidad, pruebe asignarle `F9` como se muestra a continuación:
+
+![Keyboard shortcut](docs/keyboard-shortcut.png)
+
 ## Uso
 
-Presione la tecla asignada para conectarse y desconectarse a internet o ejecute el acceso directo `Internet Login` para conectarse y vuélvalo a ejecutar para desconectarse.
+Si instaló el servicio en entorno desktop presione la tecla asignada para conectarse y desconectarse a internet o ejecute el acceso directo `Sweet Nauta Server - Login Test` para conectarse y vuélvalo a ejecutar para desconectarse.
+
+Para ver el log ejecute:
+
+```bash
+tail -f /var/log/sweet-nauta-server.log
+```
+
+## Actualizar
+
+Para actualizar el servicio a la última versión ejecute:
+
+```bash
+sudo bash /opt/sweet-nauta-server/bin/update
+```

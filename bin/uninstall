@@ -11,10 +11,10 @@ set -o nounset
 # set -o xtrace
 ##
 
-systemctl stop internet-etecsa-login
-systemctl disable internet-etecsa-login
-sudo rm --verbose '/usr/share/applications/internet-etecsa-login.desktop'
-sudo rm --verbose -r '/opt/internet-etecsa-login' && \
+systemctl stop sweet-nauta-server
+systemctl disable sweet-nauta-server
+sudo rm --verbose '/usr/share/applications/sweet-nauta-server-login-test.desktop'
+sudo rm --verbose -r '/opt/sweet-nauta-server' && \
 userdel --force nauta
-echo 'app internet-etecsa-login desintalada'
+echo 'sweet-nauta-server uninstalled'
 

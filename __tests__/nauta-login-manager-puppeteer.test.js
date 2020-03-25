@@ -2,7 +2,7 @@
 /* eslint-disable no-new */
 const { spawn } = require('child_process');
 const puppeteer = require('puppeteer');
-const { NautaLoginManagerPuppeteer, resc: respc } = require('../src/nauta-login-manager-puppeteer');
+const { NautaSessionManager, resc: respc } = require('../src/nauta-session-manager');
 const config = require('../etc/config');
 // Setup data
 // Setup mocks
@@ -12,66 +12,66 @@ const config = require('../etc/config');
 const { loginURL } = config.nauta_login;
 const { timeout } = config;
 
-describe('InternetLoginPuppeteerService', () => {
+describe('NautaSessionManager', () => {
   describe('constructor', () => {
     test('parámetro credentials es null -> lanza excepción', () => {
       expect(() => {
-        new NautaLoginManagerPuppeteer(null);
+        new NautaSessionManager(null);
       }).toThrow('credentials debe ser de tipo Object');
     });
     test('parámetro credentials es 1 -> lanza excepción', () => {
       expect(() => {
-        new NautaLoginManagerPuppeteer(1);
+        new NautaSessionManager(1);
       }).toThrow('credentials debe ser de tipo Object');
     });
     test('parámetro credentials.username es 1 -> lanza excepción', () => {
       expect(() => {
-        new NautaLoginManagerPuppeteer({ username: 1 });
+        new NautaSessionManager({ username: 1 });
       }).toThrow('credentials.username debe ser un email');
     });
     test('parámetro credentials.password es 1 -> lanza excepción', () => {
       expect(() => {
-        new NautaLoginManagerPuppeteer({ username: 'user@email.com', password: 1 });
+        new NautaSessionManager({ username: 'user@email.com', password: 1 });
       }).toThrow('credentials.password debe tener al menos 3 caracteres');
     });
 
     test('parámetro headless es 1 -> lanza excepción', () => {
       expect(() => {
-        new NautaLoginManagerPuppeteer({ username: 'user@email.com', password: 'pass' }, 1);
+        new NautaSessionManager({ username: 'user@email.com', password: 'pass' }, 1);
       }).toThrow('headless debe ser de tipo boolean');
     });
 
     test('parámetro pupTimeout es null -> lanza excepción', () => {
       expect(() => {
-        new NautaLoginManagerPuppeteer({ username: 'user@email.com', password: 'pass' }, false, null);
+        new NautaSessionManager({ username: 'user@email.com', password: 'pass' }, false, null);
       }).toThrow('pupTimeout debe ser de tipo number');
     });
 
     test('parámetro command es 1 -> lanza excepción', () => {
       expect(() => {
-        new NautaLoginManagerPuppeteer({ username: 'user@email.com', password: 'pass' }, false, 1, 1);
+        new NautaSessionManager({ username: 'user@email.com', password: 'pass' }, false, 1, 1);
       }).toThrow('command debe ser de tipo function o null');
     });
 
     test('parámetro config es 1 -> lanza excepción', () => {
       expect(() => {
-        new NautaLoginManagerPuppeteer({ username: 'user@email.com', password: 'pass' }, false, 1, null, 1);
+        new NautaSessionManager({ username: 'user@email.com', password: 'pass' }, false, 1, null, 1);
       }).toThrow('config debe ser de tipo object o null');
     });
 
     test('parámetro config.loginURL es 1 -> lanza excepción', () => {
       expect(() => {
-        new NautaLoginManagerPuppeteer({ username: 'user@email.com', password: 'pass' }, false, 1, null, { loginURL: 1 });
+        new NautaSessionManager({ username: 'user@email.com', password: 'pass' }, false, 1, null, { loginURL: 1 });
       }).toThrow('config.loginURL debe ser una url');
     });
     test('parámetro config.maxDisconnectionAttempts es 1.1 -> lanza excepción', () => {
       expect(() => {
-        new NautaLoginManagerPuppeteer({ username: 'user@email.com', password: 'pass' }, false, 1, null, { loginURL: 'https://example.com', maxDisconnectionAttempts: 1.1 });
+        new NautaSessionManager({ username: 'user@email.com', password: 'pass' }, false, 1, null, { loginURL: 'https://example.com', maxDisconnectionAttempts: 1.1 });
       }).toThrow('config.maxDisconnectionAttempts debe ser un entero');
     });
     test('parámetro browser es 1 -> lanza excepción', () => {
       expect(() => {
-        new NautaLoginManagerPuppeteer({ username: 'user@email.com', password: 'pass' }, false, 1, null, { loginURL: 'http://u.com' }, 1);
+        new NautaSessionManager({ username: 'user@email.com', password: 'pass' }, false, 1, null, { loginURL: 'http://u.com' }, 1);
       }).toThrow('browser debe ser de tipo object');
     });
 
@@ -85,7 +85,7 @@ describe('InternetLoginPuppeteerService', () => {
         maxDisconnectionAttempts: 3,
         browser: {}
       };
-      const nlm = new NautaLoginManagerPuppeteer(
+      const nlm = new NautaSessionManager(
         values.credentials, values.headless, values.pupTimeout,
         values.command,
         { loginURL: values.loginURL, maxDisconnectionAttempts: values.maxDisconnectionAttempts },
@@ -146,12 +146,12 @@ describe('InternetLoginPuppeteerService', () => {
      * @param {string} [username='user@nauta.com.cu'] user
      * @param {string} [loginU=loginURL] loginURL
      * @param {number} [timeo] timeout
-     * @returns {NautaLoginManagerPuppeteer} SUT
+     * @returns {NautaSessionManager} SUT
      */
     function newSUT(username = config.creds.username,
       loginU = config.nauta_login.loginURL, timeo = config.timeout) {
       const creds = { username, password: config.creds.password };
-      return new NautaLoginManagerPuppeteer(
+      return new NautaSessionManager(
         creds, config.headless, timeo, () => 0, { loginURL: loginU }, browser
       );
     }
@@ -161,7 +161,7 @@ describe('InternetLoginPuppeteerService', () => {
         // Setup data
         const out = { code: 1, message: 'm' };
         const command = () => out;
-        const nlm = new NautaLoginManagerPuppeteer(
+        const nlm = new NautaSessionManager(
           { username: 'user@email.com', password: 'pass' }, true, timeout, command, null, browser
         );
         // Exercise, Verify state
@@ -330,7 +330,7 @@ describe('InternetLoginPuppeteerService', () => {
       test('un reintento de desconexión, después intento fallido -> mensaje de error', async () => {
         // Setup data
         const timeo = 1000;
-        const nlm = new NautaLoginManagerPuppeteer(
+        const nlm = new NautaSessionManager(
           { username: 'unreachable-server@nauta.com.cu', password: 'pass' },
           config.headless,
           timeo,
