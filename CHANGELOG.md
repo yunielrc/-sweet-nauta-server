@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.43](http://gitea.casa.dylgran.com/yuniel/sweet-nauta-server/compare/v0.4.42...v0.4.43) (2020-03-25)
+
+
+### Bug Fixes
+
+* cambios minimos ([5fd153a](http://gitea.casa.dylgran.com/yuniel/sweet-nauta-server/commit/5fd153a2ab2ec23ae1aaf41610e6560fc4190cfb))
+* **97-pr-review:** corrige basado en review de PR-97 ([40d2890](http://gitea.casa.dylgran.com/yuniel/sweet-nauta-server/commit/40d2890e67f368e9c69dcca345675b8bedf7024b))
+
 ### [0.4.42](https://github.com/yunielrc/internet-etecsa-login/compare/v0.4.41...v0.4.42) (2020-03-24)
 
 
