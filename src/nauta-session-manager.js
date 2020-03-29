@@ -1,6 +1,3 @@
-/**
- * Conecta y desconecta el acceso a internet por wifi etecsa
- */
 const puppeteer = require('puppeteer');
 const v = require('validator');
 const ppnc = require('./nocov/ppnc');
@@ -26,7 +23,9 @@ const resc = {
   DISCONNECT_ERROR: 'DISCONNECT_ERROR'
 };
 
-// module.exports.rc = rc;
+/**
+ * Connect and disconnect internet access by wifi etecsa
+ */
 class NautaSessionManager {
   /**
    *
@@ -174,7 +173,7 @@ class NautaSessionManager {
   }
 
   /**
-   * @returns {{code: string, message: string}} returns
+   * @returns {Promise<{code: string, message: string}>} returns
    */
   async toggle() {
     if (this.sessionOpen()) {
@@ -184,7 +183,7 @@ class NautaSessionManager {
   }
 
   /**
-   * @returns {{code: string, message: string}} returns
+   * @returns {Promise<{code: string, message: string}>} returns
    */
   async connet() {
     const cout = await this.#command();
@@ -250,7 +249,7 @@ class NautaSessionManager {
   }
 
   /**
-   * @returns {{code: string, message: string}} returns
+   * @returns {Promise<{code: string, message: string}>} returns
    */
   async disconnet() {
     if (!this.sessionOpen()) {
@@ -362,5 +361,4 @@ class NautaSessionManager {
 }
 
 Object.freeze(resc);
-module.exports.resc = resc;
-module.exports.NautaSessionManager = NautaSessionManager;
+module.exports = { resc, NautaSessionManager };
