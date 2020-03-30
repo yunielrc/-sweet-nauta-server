@@ -5,7 +5,7 @@ const config = require('../etc/config');
 // eslint-disable-next-line camelcase
 module.exports = async function prepare_m5_dhcp() {
   try {
-    await exec(`bash ./commands/prepare_m5_dhcp.bash ${config.airos_roter_ip}`);
+    await exec(`bash ./commands/prepare_m5_dhcp.bash ${config.airosRouterIP}`);
   } catch (error) {
     return { code: error.code, message: error.stderr };
   }

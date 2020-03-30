@@ -78,3 +78,7 @@ typings/
 
 # FuseBox cache
 .fusebox/
+
+# custom 
+file.json
+file.schema.json

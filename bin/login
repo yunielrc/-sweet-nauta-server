@@ -4,8 +4,9 @@ readonly BASE_PATH="${BASE_PATH:-"$( cd "$( dirname "${BASH_SOURCE[0]}" )"/.. &&
 # shellcheck disable=1090
 source "${BASE_PATH}/src/util.bash"
 
+readonly clientID='localclient'
 readonly port="$(grep 'PORT=' "${BASE_PATH}/.env" | sed 's/PORT=//')"
-res="$(curl --silent --show-error "http://localhost:${port}/toggle" 2>&1)"
+res="$(curl --silent --show-error "http://localhost:${port}/toggle/${clientID}" 2>&1)"
 
 rmessage="$(echo "$res" | jq -r '.message')"
 rcode="$(echo "$res" | jq -r '.code')"

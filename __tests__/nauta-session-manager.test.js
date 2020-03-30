@@ -9,7 +9,7 @@ const config = require('../etc/config');
 // Exercise, Verify state
 // Setup expectations, Verify exp..
 // Teardown
-const { loginURL } = config.nauta_login;
+const { loginURL } = config.nautaSessionManager;
 const { timeout } = config;
 
 describe('NautaSessionManager', () => {
@@ -149,7 +149,7 @@ describe('NautaSessionManager', () => {
      * @returns {NautaSessionManager} SUT
      */
     function newSUT(username = config.creds.username,
-      loginU = config.nauta_login.loginURL, timeo = config.timeout) {
+      loginU = config.nautaSessionManager.loginURL, timeo = config.timeout) {
       const creds = { username, password: config.creds.password };
       return new NautaSessionManager(
         creds, config.headless, timeo, () => 0, { loginURL: loginU }, browser
