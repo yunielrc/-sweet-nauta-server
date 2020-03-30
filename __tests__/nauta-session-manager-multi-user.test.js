@@ -220,7 +220,7 @@ describe('NautaSessionManagerMultiUser', () => {
         await expect(nsmmu.disconnet(clientID)).resolves.toEqual(res);
         // 5 Teardown
       });
-      test('if connected, client is not the owner, buy it is master should disconnets', async () => {
+      test('if connected, client is not the owner, but it is master should disconnets', async () => {
         // 1 Setup data and mock
         // data
         const owner = 'client1';
@@ -259,8 +259,6 @@ describe('NautaSessionManagerMultiUser', () => {
         nsm.sessionOpen.mockReturnValue(true);
         // 3 Exercise, Verify state
         await expect(nsmmu.connet(clientID)).resolves.toEqual(connectRes);
-
-        nsm.sessionOpen.mockReturnValue(true);
         await expect(nsmmu.disconnet(clientID)).resolves.toEqual(disconnectRes);
         expect(nsmmu.owner).toBe(clientID);
         // 5 Teardown

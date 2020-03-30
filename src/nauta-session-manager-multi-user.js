@@ -54,6 +54,10 @@ class NautaSessionManagerMultiUser {
    */
   #masters = [];
 
+  /**
+   * @param {string} config config
+   * @throws error if config is invalid
+   */
   #setConfig = (config) => {
     const schema = {
       $schema: 'http://json-schema.org/draft-07/schema',
@@ -68,7 +72,6 @@ class NautaSessionManagerMultiUser {
           uniqueItems: true,
           items: {
             type: 'string',
-            // eslint-disable-next-line no-useless-escape
             pattern: constant.CLIENT_ID_PATTERN
           }
         }
@@ -99,7 +102,6 @@ class NautaSessionManagerMultiUser {
    * @returns {boolean} returns
    */
   #validateClientID = (clientID) => (typeof clientID === 'string' && clientID.match(constant.CLIENT_ID_PATTERN));
-
 
   /**
    * @returns {boolean} returns
