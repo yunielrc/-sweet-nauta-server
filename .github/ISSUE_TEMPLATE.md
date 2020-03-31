@@ -2,7 +2,7 @@
 <!--Select Bug Report OR Feature Request, DELETE the unnecessary section -->
 
 <!--Delete Bug Report if you want a Feature Request-->
-# 🐛 Bug Report
+# Bug Report
 
 ## Summary
 <!--- Explain the problem briefly below -->
@@ -31,7 +31,7 @@ npx envinfo
 <!--If applicable, add screenshots to help explain your problem-->
 
 <!--Delete Feature Request if you want a Bug Report-->
-# 🚀 Feature Request
+# Feature Request
 <!--- Verify first that your feature was not already discussed -->
 ## Problem
 <!-- Describe the problem you are trying to solve -->
