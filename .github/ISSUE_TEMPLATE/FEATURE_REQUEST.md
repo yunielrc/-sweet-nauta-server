@@ -1,12 +1,5 @@
----
-name: 🚀 Feature Request
-about: Suggest an idea for this project
-labels: feature
----
-<!--- Verify first that your feature was not already discussed -->
-
 # 🚀 Feature Request
-
+<!--- Verify first that your feature was not already discussed -->
 ## Problem
 <!-- Describe the problem you are trying to solve -->
 

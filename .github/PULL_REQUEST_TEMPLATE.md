@@ -1,8 +1,3 @@
----
-name: Pull Request
-about: Make a Pull Request
----
-
 # Pull Request
 
 ## Checklist

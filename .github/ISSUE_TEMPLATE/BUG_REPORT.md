@@ -1,9 +1,3 @@
----
-name: 🐛 Bug report
-about: Report a bug encountered
-labels: bug
----
-
 # 🐛 Bug Report
 
 ## Summary
