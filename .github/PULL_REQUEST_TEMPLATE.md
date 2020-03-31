@@ -1,7 +1,7 @@
 # Pull Request
 
 ## Checklist
-<!-- Remove items that do not apply. For completed items, change [ ] to [x]. -->
+<!-- Remove items that do not apply. For completed items, change [ ] to [x] -->
 
 - [ ] `npm validate`
 - [ ] tests and/or benchmarks are included
