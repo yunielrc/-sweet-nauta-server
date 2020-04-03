@@ -35,9 +35,10 @@ git checkout "$last_version"
 
 # install dependencies
 curl -sL 'https://deb.nodesource.com/setup_13.x' | sudo -E bash -
-apt install -y nodejs build-essential
+apt install -y nodejs build-essential 
 npm install npm@latest -g --unsafe-perm=true
 npm install --production --unsafe-perm=true
+apt install -y libpangocairo-1.0-0 libx11-xcb1 libxcomposite1 libxcursor1 libxdamage1 libxi6 libxtst6 libnss3 libcups2 libxss1 libxrandr2 libgconf2-4 libasound2 libatk1.0-0 libgtk-3-0 # chromium dependencies
 # configure
 ln --verbose -s "${INSTALL_DIR}/service/sweet-nauta-server.service" '/etc/systemd/system/sweet-nauta-server.service'
 ln --verbose -s "${INSTALL_DIR}/desktop/sweet-nauta-server-login-test.desktop" '/usr/share/applications/sweet-nauta-server-login-test.desktop'
@@ -45,7 +46,7 @@ useradd --create-home --shell /bin/bash "$UNAME" || :
 cp --verbose '.env-prod' '.env'
 touch "$LOG_FILE"
 chown "${UNAME}:${UNAME}" "$LOG_FILE"
-chmod 666 "$LOG_FILE"
+chmod 666 "$LOG_FILE" # TODO: cambiar a 664 cuando los logs se escriban en el servidor por el usuario nauta
 
 # setup update script in crontab
 readonly tmpcron='/tmp/tmpcron'
@@ -60,8 +61,9 @@ rm "$tmpcron"
 if [ ! -f "${KEY}.pub" ]; then
   echo '>generando claves ssh'
   sudo -u "$UNAME" ssh-keygen -t rsa -N '' -f "$KEY"
-  cp -v "${KEY}.pub" "$PUB_KEY_TMP_FILE"
 fi
+
+cp -v "${KEY}.pub" "$PUB_KEY_TMP_FILE"
 
 cat <<EOF
 

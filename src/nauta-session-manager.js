@@ -176,7 +176,7 @@ class NautaSessionManager {
    * @returns {Promise<{code: string, message: string}>} returns
    */
   async toggle() {
-    if (this.sessionOpen()) {
+    if (this.isConnected()) {
       return this.disconnet();
     }
     return this.connet();
@@ -194,7 +194,7 @@ class NautaSessionManager {
         message: cout.message
       };
     }
-    if (this.sessionOpen()) {
+    if (this.isConnected()) {
       return {
         code: resc.CONNECT_ERROR_ALREADY_CONNECTED,
         message: 'Está conectado actualmente'
@@ -252,7 +252,7 @@ class NautaSessionManager {
    * @returns {Promise<{code: string, message: string}>} returns
    */
   async disconnet() {
-    if (!this.sessionOpen()) {
+    if (!this.isConnected()) {
       return {
         code: resc.DISCONNECT_ERROR_ALREADY_DISCONNECTED,
         message: 'Está desconectado actualmente'
@@ -355,7 +355,7 @@ class NautaSessionManager {
   /**
    * @returns {boolean} returns
    */
-  sessionOpen() {
+  isConnected() {
     return this.#page != null && !this.#page.isClosed();
   }
 }

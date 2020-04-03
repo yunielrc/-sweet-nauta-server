@@ -246,7 +246,7 @@ describe('NautaSessionManager', () => {
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
     });
-    describe('sessionOpen():{boolean}', () => {
+    describe('isConnected():{boolean}', () => {
       test('sesión abierta -> retorna true ', async () => {
         // Setup data
         const nlm = newSUT();
@@ -254,14 +254,14 @@ describe('NautaSessionManager', () => {
         const resc = { code: respc.CONNECT_SUCCESS, message: 'Conectado a internet' };
         await expect(nlm.connet()).resolves.toEqual(resc);
 
-        expect(nlm.sessionOpen()).toBeTruthy();
+        expect(nlm.isConnected()).toBeTruthy();
         return expect(browser.pages()).resolves.toHaveLength(2);
       });
       test('sin sesión -> retorna false', () => {
         // Setup data
         const nlm = newSUT();
         // Exercise, Verify
-        expect(nlm.sessionOpen()).toBeFalsy();
+        expect(nlm.isConnected()).toBeFalsy();
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
     });

@@ -13,7 +13,7 @@ readonly BASE_PATH="${BASE_PATH:-"$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pw
 source "${BASE_PATH}/src/util.bash"
 
 cd '/opt/sweet-nauta-server'
-# readonly GIT_PACKAGE_URL="$(jq -r '.repository.url' './package.json' | sed 's/\.git$//' | sed 's/^git+//')/raw/branch/master/package.json"
+
 GIT_PACKAGE_URL='https://raw.githubusercontent.com/yunielrc/sweet-nauta-server/master/package.json'
 
 if git remote -v | grep --quiet 'gitea.casa.dylgran.com'; then
@@ -85,10 +85,9 @@ npm install --production --unsafe-perm=true || {
 # este archivo se crea para evitar actualizar el mismo día después
 # de una actualización exitosa
 touch "$UPDATE_TODAY_OK"
-# npm update --unsafe-perm=true
+
 log "$ACTION" 0 "Se ha actualizado de la versión ${cur_version} a ${git_version}"
 # se reinicia el servicio solo si el usario no tiene una sesión abierta
-# FIX: tomar puerto de config
 msg="$(curl --silent --show-error "http://localhost:${APP_PORT}/session-open" 2>&1)"
 if [[ "$msg" != 'true' ]]; then
   systemctl restart sweet-nauta-server
