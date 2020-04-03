@@ -101,7 +101,7 @@ class NautaSessionManagerMultiUser {
    * @param {string} clientID clientID
    * @returns {boolean} returns
    */
-  #validateClientID = (clientID) => (typeof clientID === 'string' && clientID.match(constant.CLIENT_ID_PATTERN));
+  static isValidClientID(clientID) { return typeof clientID === 'string' && clientID.match(constant.CLIENT_ID_PATTERN); }
 
   /**
    * @returns {boolean} returns
@@ -129,7 +129,7 @@ class NautaSessionManagerMultiUser {
    * @returns {Promise<{code: string, message: string}>} returns
    */
   async connet(clientID) {
-    if (!this.#validateClientID(clientID)) {
+    if (!NautaSessionManagerMultiUser.isValidClientID(clientID)) {
       return {
         code: resc.CONNECT_ERROR_CLIENT_ID_FORMAT,
         message: `client id format must be ${constant.CLIENT_ID_PATTERN}`
@@ -154,7 +154,7 @@ class NautaSessionManagerMultiUser {
    * @returns {Promise<{code: string, message: string}>} returns
    */
   async disconnet(clientID) {
-    if (!this.#validateClientID(clientID)) {
+    if (!NautaSessionManagerMultiUser.isValidClientID(clientID)) {
       return {
         code: resc.DISCONNECT_ERROR_CLIENT_ID_FORMAT,
         message: `client id format must be ${constant.CLIENT_ID_PATTERN}`
@@ -193,10 +193,9 @@ class NautaSessionManagerMultiUser {
    * @returns {boolean} returns
    */
   isConnected() {
-    return this.#nsm.sessionOpen();
+    return this.#nsm.isConnected();
   }
 }
 
 Object.freeze(resc);
-Object.freeze(constant);
 module.exports = { resc, constant, NautaSessionManagerMultiUser };
