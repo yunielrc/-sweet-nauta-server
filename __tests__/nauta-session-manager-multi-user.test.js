@@ -123,8 +123,8 @@ describe('NautaSessionManagerMultiUser', () => {
       // Setup data
       nsm = collaborator();
       // Setup mocks
-      nsm.connet.mockResolvedValue(connectRes);
-      nsm.disconnet.mockResolvedValue(disconnectRes);
+      nsm.connect.mockResolvedValue(connectRes);
+      nsm.disconnect.mockResolvedValue(disconnectRes);
       // Setup data
       nsmmu = sut(nsm, config);
     });
@@ -138,10 +138,10 @@ describe('NautaSessionManagerMultiUser', () => {
         };
         // 2 Setup mocks
         // 3 Exercise, Verify state
-        await expect(nsmmu.connet({})).resolves.toEqual(res);
-        await expect(nsmmu.connet(null)).resolves.toEqual(res);
-        await expect(nsmmu.connet('')).resolves.toEqual(res);
-        await expect(nsmmu.connet('/*')).resolves.toEqual(res);
+        await expect(nsmmu.connect({})).resolves.toEqual(res);
+        await expect(nsmmu.connect(null)).resolves.toEqual(res);
+        await expect(nsmmu.connect('')).resolves.toEqual(res);
+        await expect(nsmmu.connect('/*')).resolves.toEqual(res);
         // 4 Setup expectations, Verify exp..
         // 5 Teardown
       });
@@ -152,7 +152,7 @@ describe('NautaSessionManagerMultiUser', () => {
         nsm.isConnected.mockReturnValueOnce(true);
         // data
         // 3 Exercise, Verify state
-        await expect(nsmmu.connet(clientID)).resolves.toEqual(connectRes);
+        await expect(nsmmu.connect(clientID)).resolves.toEqual(connectRes);
         expect(nsmmu.owner).toBe(clientID);
         // 4 Setup expectations, Verify exp..
         // 5 Teardown
@@ -163,7 +163,7 @@ describe('NautaSessionManagerMultiUser', () => {
         // mock
         nsm.isConnected.mockReturnValueOnce(false);
         // 3 Exercise, Verify state
-        await expect(nsmmu.connet(clientID)).resolves.toEqual(connectRes);
+        await expect(nsmmu.connect(clientID)).resolves.toEqual(connectRes);
         expect(nsmmu.owner).toBeNull();
         // 4 Setup expectations, Verify exp..
         // 5 Teardown
@@ -176,10 +176,10 @@ describe('NautaSessionManagerMultiUser', () => {
         // mock
         nsm.isConnected.mockReturnValue(true);
         // 3 Exercise, Verify state
-        await expect(nsmmu.connet(clientID)).resolves.toEqual(connectRes);
+        await expect(nsmmu.connect(clientID)).resolves.toEqual(connectRes);
         expect(nsmmu.owner).toBe(clientID);
         // second client call
-        await expect(nsmmu.connet(clientID2)).resolves.toEqual(connectRes);
+        await expect(nsmmu.connect(clientID2)).resolves.toEqual(connectRes);
         // owner must be client1
         expect(nsmmu.owner).toBe(clientID);
         // 4 Setup expectations, Verify exp..
@@ -195,10 +195,10 @@ describe('NautaSessionManagerMultiUser', () => {
         };
         // 2 Setup mocks
         // 3 Exercise, Verify state
-        await expect(nsmmu.disconnet({})).resolves.toEqual(res);
-        await expect(nsmmu.disconnet(null)).resolves.toEqual(res);
-        await expect(nsmmu.disconnet('')).resolves.toEqual(res);
-        await expect(nsmmu.disconnet('/*')).resolves.toEqual(res);
+        await expect(nsmmu.disconnect({})).resolves.toEqual(res);
+        await expect(nsmmu.disconnect(null)).resolves.toEqual(res);
+        await expect(nsmmu.disconnect('')).resolves.toEqual(res);
+        await expect(nsmmu.disconnect('/*')).resolves.toEqual(res);
         // 4 Setup expectations, Verify exp..
         // 5 Teardown
       });
@@ -214,13 +214,13 @@ describe('NautaSessionManagerMultiUser', () => {
         // mock
         nsm.isConnected.mockReturnValue(true);
         // 3 Exercise, Verify state
-        await expect(nsmmu.connet(owner)).resolves.toEqual(connectRes);
+        await expect(nsmmu.connect(owner)).resolves.toEqual(connectRes);
         expect(nsmmu.owner).toBe(owner);
-        // client2 can't disconnets
-        await expect(nsmmu.disconnet(clientID)).resolves.toEqual(res);
+        // client2 can't disconnects
+        await expect(nsmmu.disconnect(clientID)).resolves.toEqual(res);
         // 5 Teardown
       });
-      test('if connected, client is not the owner, but it is master should disconnets', async () => {
+      test('if connected, client is not the owner, but it is master should disconnects', async () => {
         // 1 Setup data and mock
         // data
         const owner = 'client1';
@@ -228,11 +228,11 @@ describe('NautaSessionManagerMultiUser', () => {
         // mock
         nsm.isConnected.mockReturnValue(true);
         // 3 Exercise, Verify state
-        await expect(nsmmu.connet(owner)).resolves.toEqual(connectRes);
+        await expect(nsmmu.connect(owner)).resolves.toEqual(connectRes);
         expect(nsmmu.owner).toBe(owner);
-        // client2 disconnets
+        // client2 disconnects
         nsm.isConnected.mockReturnValue(false);
-        await expect(nsmmu.disconnet(clientID)).resolves.toEqual(disconnectRes);
+        await expect(nsmmu.disconnect(clientID)).resolves.toEqual(disconnectRes);
         expect(nsmmu.owner).toBeNull();
         // 5 Teardown
       });
@@ -243,11 +243,11 @@ describe('NautaSessionManagerMultiUser', () => {
         // mock
         nsm.isConnected.mockReturnValue(true);
         // 3 Exercise, Verify state
-        await expect(nsmmu.connet(clientID)).resolves.toEqual(connectRes);
+        await expect(nsmmu.connect(clientID)).resolves.toEqual(connectRes);
         expect(nsmmu.owner).toBe(clientID);
 
         nsm.isConnected.mockReturnValue(false);
-        await expect(nsmmu.disconnet(clientID)).resolves.toEqual(disconnectRes);
+        await expect(nsmmu.disconnect(clientID)).resolves.toEqual(disconnectRes);
         expect(nsmmu.owner).toBeNull();
         // 5 Teardown
       });
@@ -258,8 +258,8 @@ describe('NautaSessionManagerMultiUser', () => {
         // mock
         nsm.isConnected.mockReturnValue(true);
         // 3 Exercise, Verify state
-        await expect(nsmmu.connet(clientID)).resolves.toEqual(connectRes);
-        await expect(nsmmu.disconnet(clientID)).resolves.toEqual(disconnectRes);
+        await expect(nsmmu.connect(clientID)).resolves.toEqual(connectRes);
+        await expect(nsmmu.disconnect(clientID)).resolves.toEqual(disconnectRes);
         expect(nsmmu.owner).toBe(clientID);
         // 5 Teardown
       });
@@ -269,25 +269,25 @@ describe('NautaSessionManagerMultiUser', () => {
         // Setup data
         const clientID = 'client1';
         // Setup mock
-        nsmmu.connet = jest.fn().mockResolvedValue(connectRes);
-        nsmmu.disconnet = jest.fn().mockResolvedValue(disconnectRes);
+        nsmmu.connect = jest.fn().mockResolvedValue(connectRes);
+        nsmmu.disconnect = jest.fn().mockResolvedValue(disconnectRes);
 
         nsm.isConnected.mockReturnValueOnce(true);
         // Excercise, Verify
         await expect(nsmmu.toggle(clientID)).resolves.toEqual(disconnectRes);
         // Verify expectations
-        expect(nsmmu.connet).not.toHaveBeenCalled();
-        expect(nsmmu.disconnet).toHaveBeenCalled();
+        expect(nsmmu.connect).not.toHaveBeenCalled();
+        expect(nsmmu.disconnect).toHaveBeenCalled();
         // Reset mocks
-        nsmmu.connet = jest.fn().mockResolvedValue(connectRes);
-        nsmmu.disconnet = jest.fn().mockResolvedValue(disconnectRes);
+        nsmmu.connect = jest.fn().mockResolvedValue(connectRes);
+        nsmmu.disconnect = jest.fn().mockResolvedValue(disconnectRes);
         // Setup mock
         nsm.isConnected.mockReturnValueOnce(false);
         // Excercise, Verify
         await expect(nsmmu.toggle(clientID)).resolves.toEqual(connectRes);
         // Verify expectations
-        expect(nsmmu.connet).toHaveBeenCalled();
-        expect(nsmmu.disconnet).not.toHaveBeenCalled();
+        expect(nsmmu.connect).toHaveBeenCalled();
+        expect(nsmmu.disconnect).not.toHaveBeenCalled();
       });
     });
   });

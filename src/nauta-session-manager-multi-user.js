@@ -55,7 +55,7 @@ class NautaSessionManagerMultiUser {
   #masters = [];
 
   /**
-   * @param {string} config config
+   * @param {object} config config
    * @throws error if config is invalid
    */
   #setConfig = (config) => {
@@ -75,7 +75,8 @@ class NautaSessionManagerMultiUser {
             pattern: constant.CLIENT_ID_PATTERN
           }
         }
-      }
+      },
+      additionalProperties: false
     };
     // const validate = this.#ajv.compile(schema);
     if (!this.#ajv.validate(schema, config)) {
@@ -128,7 +129,7 @@ class NautaSessionManagerMultiUser {
    * @param {string} clientID clientID
    * @returns {Promise<{code: string, message: string}>} returns
    */
-  async connet(clientID) {
+  async connect(clientID) {
     if (!NautaSessionManagerMultiUser.isValidClientID(clientID)) {
       return {
         code: resc.CONNECT_ERROR_CLIENT_ID_FORMAT,
@@ -138,7 +139,7 @@ class NautaSessionManagerMultiUser {
     if (!this.#hasOwner()) {
       this.#owner = clientID;
     }
-    const res = await this.#nsm.connet();
+    const res = await this.#nsm.connect();
     // if it was not connected then releases the owner
     if (!this.isConnected()) {
       this.#releaseOwner();
@@ -153,7 +154,7 @@ class NautaSessionManagerMultiUser {
    * @param {string} clientID clientID
    * @returns {Promise<{code: string, message: string}>} returns
    */
-  async disconnet(clientID) {
+  async disconnect(clientID) {
     if (!NautaSessionManagerMultiUser.isValidClientID(clientID)) {
       return {
         code: resc.DISCONNECT_ERROR_CLIENT_ID_FORMAT,
@@ -170,7 +171,7 @@ class NautaSessionManagerMultiUser {
         message: 'No se pudo desconectar, otro usuario inició la conexión y posee el control de la sesión'
       };
     }
-    const res = await this.#nsm.disconnet();
+    const res = await this.#nsm.disconnect();
     // if it was disconnected then releases the owner
     if (!this.isConnected()) {
       this.#releaseOwner();
@@ -184,9 +185,9 @@ class NautaSessionManagerMultiUser {
    */
   async toggle(clientID) {
     if (this.isConnected()) {
-      return this.disconnet(clientID);
+      return this.disconnect(clientID);
     }
-    return this.connet(clientID);
+    return this.connect(clientID);
   }
 
   /**

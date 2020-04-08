@@ -3,6 +3,7 @@
 const { spawn } = require('child_process');
 const puppeteer = require('puppeteer');
 const { NautaSessionManager, resc: respc } = require('../src/nauta-session-manager');
+// TODO No tomar configuración de config.js
 const config = require('../etc/config');
 // Setup data
 // Setup mocks
@@ -148,15 +149,15 @@ describe('NautaSessionManager', () => {
      * @param {number} [timeo] timeout
      * @returns {NautaSessionManager} SUT
      */
-    function newSUT(username = config.creds.username,
+    function newSUT(username = config.nautaSessionManager.creds.username,
       loginU = config.nautaSessionManager.loginURL, timeo = config.timeout) {
-      const creds = { username, password: config.creds.password };
+      const creds = { username, password: config.nautaSessionManager.creds.password };
       return new NautaSessionManager(
         creds, config.headless, timeo, () => 0, { loginURL: loginU }, browser
       );
     }
 
-    describe('connet():{code: string, message: string}', () => {
+    describe('connect():{code: string, message: string}', () => {
       test('función command no retorna 0 -> connect retorna lo mismo', async () => {
         // Setup data
         const out = { code: 1, message: 'm' };
@@ -165,7 +166,7 @@ describe('NautaSessionManager', () => {
           { username: 'user@email.com', password: 'pass' }, true, timeout, command, null, browser
         );
         // Exercise, Verify state
-        await expect(nlm.connet()).resolves.toEqual(out);
+        await expect(nlm.connect()).resolves.toEqual(out);
         // Verify state
         await expect(browser.pages()).resolves.toHaveLength(1);
       });
@@ -178,7 +179,7 @@ describe('NautaSessionManager', () => {
           code: respc.CONNECT_ERROR,
           message: 'Problema al intentar conectar: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:9001'
         };
-        await expect(nlm.connet()).resolves.toEqual(out);
+        await expect(nlm.connect()).resolves.toEqual(out);
         // Verify state
         await expect(browser.pages()).resolves.toHaveLength(1);
         // Teardown
@@ -192,7 +193,7 @@ describe('NautaSessionManager', () => {
           code: respc.CONNECT_ERROR,
           message: 'Problema al intentar conectar: Por favor introduce tu usuario'
         };
-        await expect(nlm.connet()).resolves.toEqual(res);
+        await expect(nlm.connect()).resolves.toEqual(res);
         // Verify state
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
@@ -205,7 +206,7 @@ describe('NautaSessionManager', () => {
           code: respc.CONNECT_ERROR,
           message: 'Problema al intentar conectar: Su cuenta no tiene saldo'
         };
-        await expect(nlm.connet()).resolves.toEqual(res);
+        await expect(nlm.connect()).resolves.toEqual(res);
         // Verify state
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
@@ -215,7 +216,7 @@ describe('NautaSessionManager', () => {
         const nlm = newSUT();
         // Exercise, Verify state
         const res = { code: respc.CONNECT_SUCCESS, message: 'Conectado a internet' };
-        await expect(nlm.connet()).resolves.toEqual(res);
+        await expect(nlm.connect()).resolves.toEqual(res);
         // Verify state
         return expect(browser.pages()).resolves.toHaveLength(2);
       });
@@ -225,13 +226,13 @@ describe('NautaSessionManager', () => {
         // según el usuario se simula el caso
         const nlm = newSUT();
         // Exercise
-        await nlm.connet();
+        await nlm.connect();
         // Verify state
         const res = {
           code: respc.CONNECT_ERROR_ALREADY_CONNECTED,
           message: 'Está conectado actualmente'
         };
-        await expect(nlm.connet()).resolves.toEqual(res);
+        await expect(nlm.connect()).resolves.toEqual(res);
         return expect(browser.pages()).resolves.toHaveLength(2);
       });
 
@@ -241,7 +242,7 @@ describe('NautaSessionManager', () => {
         const nlm = newSUT('conexionfallida@nauta.com.cu');
         // Exercise, Verify state
         const res = { code: respc.CONNECT_ERROR, message: 'Problema al intentar conectar' };
-        await expect(nlm.connet()).resolves.toEqual(res);
+        await expect(nlm.connect()).resolves.toEqual(res);
         // Verify state
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
@@ -252,7 +253,7 @@ describe('NautaSessionManager', () => {
         const nlm = newSUT();
         // Exercise,Verify
         const resc = { code: respc.CONNECT_SUCCESS, message: 'Conectado a internet' };
-        await expect(nlm.connet()).resolves.toEqual(resc);
+        await expect(nlm.connect()).resolves.toEqual(resc);
 
         expect(nlm.isConnected()).toBeTruthy();
         return expect(browser.pages()).resolves.toHaveLength(2);
@@ -271,7 +272,7 @@ describe('NautaSessionManager', () => {
         const nlm = newSUT();
         // Exercise, Verify
         const res = { code: respc.DISCONNECT_ERROR_ALREADY_DISCONNECTED, message: 'Está desconectado actualmente' };
-        await expect(nlm.disconnet()).resolves.toEqual(res);
+        await expect(nlm.disconnect()).resolves.toEqual(res);
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
       test('pestaña de pagina conectado carga otra página -> desconexión fallida', async () => {
@@ -279,7 +280,7 @@ describe('NautaSessionManager', () => {
         const nlm = newSUT();
         // Exercise, Verify
         const resc = { code: respc.CONNECT_SUCCESS, message: 'Conectado a internet' };
-        await expect(nlm.connet()).resolves.toEqual(resc);
+        await expect(nlm.connect()).resolves.toEqual(resc);
         /**
          * @type {import('puppeteer').Page}
          */
@@ -290,7 +291,7 @@ describe('NautaSessionManager', () => {
           code: respc.DISCONNECT_ERROR_SESSION_LOST,
           message: 'No se pudo desconectar, se ha perdido el control de la sesión'
         };
-        await expect(nlm.disconnet()).resolves.toEqual(resd);
+        await expect(nlm.disconnect()).resolves.toEqual(resd);
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
       test('estando en página de confirmación desconectado -> confirma desconexión', async () => {
@@ -299,7 +300,7 @@ describe('NautaSessionManager', () => {
 
         // Exercise, Verify
         const resc = { code: respc.CONNECT_SUCCESS, message: 'Conectado a internet' };
-        await expect(nlm.connet()).resolves.toEqual(resc);
+        await expect(nlm.connect()).resolves.toEqual(resc);
         /**
          * @type {import('puppeteer').Page}
          */
@@ -310,7 +311,7 @@ describe('NautaSessionManager', () => {
           code: respc.DISCONNECT_SUCCESS,
           message: 'Desconectado'
         };
-        await expect(nlm.disconnet()).resolves.toEqual(resd);
+        await expect(nlm.disconnect()).resolves.toEqual(resd);
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
       test('desconectado correctamente', async () => {
@@ -318,13 +319,13 @@ describe('NautaSessionManager', () => {
         const nlm = newSUT();
         // Exercise, Verify
         const resc = { code: respc.CONNECT_SUCCESS, message: 'Conectado a internet' };
-        await expect(nlm.connet()).resolves.toEqual(resc);
+        await expect(nlm.connect()).resolves.toEqual(resc);
 
         const resd = {
           code: respc.DISCONNECT_SUCCESS,
           message: 'Desconectado, tenias: 01:00:00, consumiste: 00:10:00'
         };
-        await expect(nlm.disconnet()).resolves.toEqual(resd);
+        await expect(nlm.disconnect()).resolves.toEqual(resd);
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
       test('un reintento de desconexión, después intento fallido -> mensaje de error', async () => {
@@ -339,25 +340,25 @@ describe('NautaSessionManager', () => {
         );
         // Exercise, Verify
         const resc = { code: respc.CONNECT_SUCCESS, message: 'Conectado a internet' };
-        await expect(nlm.connet()).resolves.toEqual(resc);
+        await expect(nlm.connect()).resolves.toEqual(resc);
         await expect(browser.pages()).resolves.toHaveLength(2);
 
         const resd1 = {
           code: respc.DISCONNECT_ERROR_FAILED_ATTEMPT,
           message: 'Puede intentar 2 veces mas. No se ha podido desconectar: request error 0'
         };
-        await expect(nlm.disconnet()).resolves.toEqual(resd1);
+        await expect(nlm.disconnect()).resolves.toEqual(resd1);
         await expect(browser.pages()).resolves.toHaveLength(2);
 
         const resd2 = {
           code: respc.DISCONNECT_ERROR_FAILED_ATTEMPT,
           message: 'Puede intentar 1 vez mas. No se ha podido desconectar: Navigation timeout of 1000 ms exceeded'
         };
-        await expect(nlm.disconnet()).resolves.toEqual(resd2);
+        await expect(nlm.disconnect()).resolves.toEqual(resd2);
         await expect(browser.pages()).resolves.toHaveLength(2);
 
         const resd3 = { code: respc.DISCONNECT_ERROR, message: `No se pudo desconectar: Navigation timeout of ${timeo} ms exceeded, se ha perdido el control de la sesión` };
-        await expect(nlm.disconnet()).resolves.toEqual(resd3);
+        await expect(nlm.disconnect()).resolves.toEqual(resd3);
         return expect(browser.pages()).resolves.toHaveLength(1);
       });
     });
