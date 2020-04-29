@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](http://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/compare/v1.0.0...v1.0.1) (2020-04-29)
+
+
+### Bug Fixes
+
+* fix: no termina uninstall cuando hay error ([aae7401](http://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/commit/aae74015f9da4c5b69bd71c2c5e28072e5737816))
+
 ## [1.0.0](http://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/compare/v0.4.43...v1.0.0) (2020-04-29)
 
 
