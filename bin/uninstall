@@ -16,6 +16,7 @@ systemctl disable sweet-nauta-server
 sudo rm --verbose '/usr/share/applications/sweet-nauta-server-login-test.desktop'
 sudo rm --verbose -r '/opt/sweet-nauta-server' && \
 userdel --force nauta
+groupdel nauta
 echo 'sweet-nauta-server uninstalled'
 cat <<EOF
 Remove sweet-nauta-server crontab entry
