@@ -2,7 +2,7 @@
 
 ##  Bash settings
 # abort on nonzero exitstatus
-set -o errexit
+# set -o errexit
 # abort on unbound variable
 set -o nounset
 # don't hide errors within pipes
@@ -17,4 +17,7 @@ sudo rm --verbose '/usr/share/applications/sweet-nauta-server-login-test.desktop
 sudo rm --verbose -r '/opt/sweet-nauta-server' && \
 userdel --force nauta
 echo 'sweet-nauta-server uninstalled'
-
+cat <<EOF
+Remove sweet-nauta-server crontab entry
+$ sudo crontab -e
+EOF
