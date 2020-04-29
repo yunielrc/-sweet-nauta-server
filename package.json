@@ -1,6 +1,6 @@
 {
   "name": "sweet-nauta-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Server for easy management of internet nauta session",
   "main": "src/app.js",
   "engines": {

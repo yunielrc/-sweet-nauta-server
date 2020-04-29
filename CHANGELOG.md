@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.2](http://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/compare/v1.0.1...v1.0.2) (2020-04-29)
+
+
+### Bug Fixes
+
+* elimina el grupo nauta al desintalar ([1a3ab19](http://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/commit/1a3ab19fbdb3e292371f97c35141d547e61bf02b))
+
 ### [1.0.1](http://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/compare/v1.0.0...v1.0.1) (2020-04-29)
 
 
