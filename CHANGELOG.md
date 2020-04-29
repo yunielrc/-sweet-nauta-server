@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](http://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/compare/v0.4.43...v1.0.0) (2020-04-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* **git:** deja de funcionar la actualización para los usuarios anterires al cambio
+* - modifica nombres de variables en la configuración que ya no es compatible con la
+versión anterior
+
+### Features
+
+* da la opción de activar o no el envio de mensajes push ([50f5dd8](http://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/commit/50f5dd840307cd4ff8fb123009348c6c2edadb3e))
+* envia mensaje al cliente antes de reiniciar la sesión dhcp ([10c946e](http://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/commit/10c946e496c7150955c3a2bc56f144d30a68d02f))
+* **push-message:** envia mensaje push a un cliente determinado ([3733f9f](http://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/commit/3733f9f48dcfd71f620133924cfcf22f04a5e4cb))
+* garantiza que solo el usuario que inicia la sesión la pueda cerrar ([af916fd](http://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/commit/af916fde4d0c4999636847d2453429059f4f8df2))
+
+
+### Bug Fixes
+
+* corrige dependencias ([37c6bb2](http://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/commit/37c6bb2dee1a5cbe8b11f00ebed4e09dd3fc4c92))
+
+
+* **git:** mueve el repositorio git de yuniel a SweetNauta ([22d9721](http://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/commit/22d972154087a3c1b46361bfe0b6907dc29c60a1))
+
 ### [0.4.43](http://gitea.casa.dylgran.com/yuniel/sweet-nauta-server/compare/v0.4.42...v0.4.43) (2020-03-25)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "sweet-nauta-server",
-  "version": "0.4.43",
+  "version": "1.0.0",
   "description": "Server for easy management of internet nauta session",
   "main": "src/app.js",
   "engines": {
@@ -26,7 +26,7 @@
     "release": "standard-version -a",
     "release-major": "npm run prerelease && standard-version -a -r major && npm run postrelease ",
     "release-minor": "npm run prerelease && standard-version -a -r minor && npm run postrelease ",
-    "release-patch": "npm run prerelease && standard-version -a -r patch && npm run postrelease ",    
+    "release-patch": "npm run prerelease && standard-version -a -r patch && npm run postrelease ",
     "prerelease": "git checkout master && git pull origin master && npm i && run-s validate && git-authors-cli && git add .",
     "postrelease": "run-s release:*",
     "release:tags": "git push --follow-tags origin master",
