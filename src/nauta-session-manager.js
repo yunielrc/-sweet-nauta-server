@@ -38,6 +38,7 @@ class NautaSessionManager {
    * @throws {TypeError}
    */
   constructor(credentials, headless = true, pupTimeout = 4000,
+    // TODO pasa un solo parámetro con la configuración de config.js
     command = null, config = null, browser = null) {
     if (!credentials || typeof credentials !== 'object') {
       throw new TypeError('credentials debe ser de tipo Object');
@@ -79,7 +80,6 @@ class NautaSessionManager {
       }
     }
     if (browser) {
-      // FIXME: if (typeof browser !== 'object' || !(browser instanceof Browser)) {
       if (typeof browser !== 'object') {
         throw new TypeError('browser debe ser de tipo object');
       }
@@ -177,15 +177,15 @@ class NautaSessionManager {
    */
   async toggle() {
     if (this.isConnected()) {
-      return this.disconnet();
+      return this.disconnect();
     }
-    return this.connet();
+    return this.connect();
   }
 
   /**
    * @returns {Promise<{code: string, message: string}>} returns
    */
-  async connet() {
+  async connect() {
     const cout = await this.#command();
     // si falla el comando se sale
     if (cout !== 0) {
@@ -251,7 +251,7 @@ class NautaSessionManager {
   /**
    * @returns {Promise<{code: string, message: string}>} returns
    */
-  async disconnet() {
+  async disconnect() {
     if (!this.isConnected()) {
       return {
         code: resc.DISCONNECT_ERROR_ALREADY_DISCONNECTED,

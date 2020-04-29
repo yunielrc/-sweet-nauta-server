@@ -17,7 +17,7 @@ cd '/opt/sweet-nauta-server'
 GIT_PACKAGE_URL='https://raw.githubusercontent.com/yunielrc/sweet-nauta-server/master/package.json'
 
 if git remote -v | grep --quiet 'gitea.casa.dylgran.com'; then
-  GIT_PACKAGE_URL='https://gitea.casa.dylgran.com/yuniel/sweet-nauta-server/raw/branch/master/package.json'
+  GIT_PACKAGE_URL='https://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/raw/branch/master/package.json'
 fi
 
 readonly UPDATE_TODAY_OK="/tmp/sweet-nauta-server-$(date +%Y%m%d)"

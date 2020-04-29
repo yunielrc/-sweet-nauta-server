@@ -8,14 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitea.casa.dylgran.com/yuniel/sweet-nauta-server.git"
+    "url": "git+https://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server.git"
   },
-  "homepage": "https://gitea.casa.dylgran.com/yuniel/sweet-nauta-server",
+  "homepage": "https://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server",
   "bugs": {
-    "url": "https://gitea.casa.dylgran.com/yuniel/sweet-nauta-server/issues"
+    "url": "https://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/issues"
   },
   "scripts": {
-    "start": "node src/app.js",
+    "start": "node src/server.js",
+    "start-dev": "nodemon src/server.js",
     "test": "jest",
     "run-fake-server": "npx http-server --port 9000 __fakes__/nauta/",
     "lint": "eslint src/",
@@ -35,6 +36,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "puppeteer": "^2.1.1",
+    "shelljs": "0.8.3",
     "validator": "^12.2.0",
     "ws": "7.2.3"
   },
@@ -62,13 +64,14 @@
     "http-server": ">=0.12.1",
     "husky": ">=4.2.3",
     "jest": ">=25.2.3",
-    "jest-chain": "1.1.5",
     "jest-extended": "0.11.5",
     "jest-puppeteer": ">=4.4.0",
     "lint-staged": ">=10.0.9",
+    "nodemon": "2.0.2",
     "npm-run-all": ">=4.1.5",
     "semver": "7.1.3",
-    "standard-version": ">=7.1.0"
+    "standard-version": ">=7.1.0",
+    "supertest": "4.0.2"
   },
   "husky": {
     "hooks": {

@@ -168,7 +168,7 @@ describe('PushMessage', () => {
 
       expect(() => {
         pm.send(clientID, 'message');
-      }).toThrow(/WebSocket doesn't opened/);
+      }).toThrow(/WebSocket doesn't open/);
     });
 
     // eslint-disable-next-line jest/expect-expect

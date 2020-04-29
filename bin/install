@@ -1,5 +1,5 @@
 #!/bin/bash
-# wget -qO - http://gitea.casa.dylgran.com/yuniel/sweet-nauta-server/raw/branch/master/bin/install | sudo bash
+# wget -qO - https://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/raw/branch/master/bin/install | sudo bash
 # wget ... | sudo env PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true bash # Do not download bundled Chromium during installation step.
 
 ##  Bash settings

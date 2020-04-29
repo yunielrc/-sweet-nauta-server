@@ -70,10 +70,10 @@ class PushMessage {
     const ws = this.#map.get(clientID);
 
     if (!ws) {
-      throw new Error(`Client '${clientID}' doesn't exist`);
+      throw new Error(`WebSocket Client '${clientID}' doesn't exist`);
     }
     if (ws.readyState !== WebSocket.OPEN) {
-      throw new Error(`Client: ${clientID}, WebSocket doesn't opened`);
+      throw new Error(`Client: ${clientID}, WebSocket doesn't open`);
     }
     ws.send(message);
   }
