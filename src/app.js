@@ -68,7 +68,9 @@ module.exports = class App {
     const { clientID } = req.params;
     if (this.#config.hasAirOS && !this.#nsmmu.isConnected()) {
       const restartAirOSresp = await this.#restartAirOS.run(() => {
-        this.#pushmsg.send(clientID, 'Reiniciando sesión dhcp, estará listo aproximadamente en 14s');
+        if (this.#pushmsg) {
+          this.#pushmsg.send(clientID, 'Reiniciando sesión dhcp, estará listo aproximadamente en 14s');
+        }
       });
       if (![RestartAirOsDHCP_.AIROS_READY, RestartAirOsDHCP_.DHCP_RESTART_OK]
         .includes(restartAirOSresp.code)) {

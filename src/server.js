@@ -8,9 +8,10 @@ const { RestartAirOsDHCP } = require('./commands/restart-airos-dhcp');
 const App = require('./app');
 
 const app = express();
-const pushmsg = new PushMessage(
+const pushmsg = config.app.sendPushMsg ? new PushMessage(
   new WebSocket.Server(config.pushMessage.wss)
-);
+) : null;
+
 const restartAirOS = (config.app.hasAirOS) ? new RestartAirOsDHCP(config.restartAirOsDHCP) : null;
 const nsmmu = new NautaSessionManagerMultiUser(
   new NautaSessionManager(
@@ -30,5 +31,7 @@ app.listen(config.server.port, () => {
   // eslint-disable-next-line no-console
   console.log(`Server running on port ${config.server.port}`);
   // eslint-disable-next-line no-console
-  console.log(`WSS running on port: ${config.pushMessage.wss.port}`);
+  if (pushmsg) {
+    console.log(`WSS running on port: ${config.pushMessage.wss.port}`);
+  }
 });

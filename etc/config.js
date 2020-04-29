@@ -6,6 +6,8 @@ const config = {
   },
   app: {
     hasAirOS: process.env.AIROS_IP !== undefined,
+    // eslint-disable-next-line eqeqeq
+    sendPushMsg: process.env.SEND_PUSH_MSG == 'true'
   },
   restartAirOsDHCP: {
     airosIP: process.env.AIROS_IP || null,

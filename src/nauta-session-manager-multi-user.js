@@ -13,6 +13,7 @@ const resc = {
 
 // eslint-disable-next-line jsdoc/require-param
 /**
+ * FACADE PATTERN
  * Controls that only the user who initiates the connection
  * can finish it, except the owner which may terminate the
  * connection initiated by another user
