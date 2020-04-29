@@ -38,7 +38,22 @@ curl -sL 'https://deb.nodesource.com/setup_13.x' | sudo -E bash -
 apt install -y nodejs build-essential 
 npm install npm@latest -g --unsafe-perm=true
 npm install --production --unsafe-perm=true
-apt install -y libpangocairo-1.0-0 libx11-xcb1 libxcomposite1 libxcursor1 libxdamage1 libxi6 libxtst6 libnss3 libcups2 libxss1 libxrandr2 libgconf2-4 libasound2 libatk1.0-0 libgtk-3-0 # chromium dependencies
+# chromium dependencies
+apt install -y libpangocairo-1.0-0 || : 
+apt install -y libx11-xcb1 || :
+apt install -y libxcomposite1 || :
+apt install -y libxcursor1 || :
+apt install -y libxdamage1 || :
+apt install -y libxi6 || :
+apt install -y libxtst6 || :
+apt install -y libnss3 || :
+apt install -y libcups2 || :
+apt install -y libxss1 || :
+apt install -y libxrandr2 || :
+apt install -y libgconf2-4 || apt install -y libgconf-2-4 || :
+apt install -y libasound2 || :
+apt install -y libatk1.0-0 || :
+apt install -y libgtk-3-0  || :
 # configure
 ln --verbose -s "${INSTALL_DIR}/service/sweet-nauta-server.service" '/etc/systemd/system/sweet-nauta-server.service'
 ln --verbose -s "${INSTALL_DIR}/desktop/sweet-nauta-server-login-test.desktop" '/usr/share/applications/sweet-nauta-server-login-test.desktop'
