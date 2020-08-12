@@ -64,12 +64,13 @@ chown "${UNAME}:${UNAME}" "$LOG_FILE"
 chmod 666 "$LOG_FILE" # TODO: cambiar a 664 cuando los logs se escriban en el servidor por el usuario nauta
 
 # setup update script in crontab
-readonly tmpcron='/tmp/tmpcron'
-crontab -l > "$tmpcron" || :
-echo '*/15 10-16 * * 2  /bin/bash /opt/sweet-nauta-server/bin/update' >> "$tmpcron"
-crontab "$tmpcron"
-rm "$tmpcron"
-
+if type -P crontab ; then
+  readonly tmpcron='/tmp/tmpcron'
+  crontab -l > "$tmpcron" || :
+  echo '*/15 10-16 * * 2  /bin/bash /opt/sweet-nauta-server/bin/update' >> "$tmpcron"
+  crontab "$tmpcron"
+  rm "$tmpcron"
+fi
 # end
 
 # setup ssh keys
