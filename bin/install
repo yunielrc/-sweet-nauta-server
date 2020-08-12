@@ -34,7 +34,7 @@ git fetch
 git checkout "$last_version"
 
 # install dependencies
-curl -sL 'https://deb.nodesource.com/setup_13.x' | sudo -E bash -
+curl -sL 'https://deb.nodesource.com/setup_14.x' | sudo -E bash -
 apt install -y nodejs build-essential 
 npm install npm@latest -g --unsafe-perm=true
 npm install --production --unsafe-perm=true
