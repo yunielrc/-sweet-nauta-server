@@ -8,11 +8,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server.git"
+    "url": "git+https://github.com/yunielrc/sweet-nauta-server.git"
   },
-  "homepage": "https://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server",
+  "homepage": "https://github.com/yunielrc/sweet-nauta-server",
   "bugs": {
-    "url": "https://gitea.casa.dylgran.com/SweetNauta/sweet-nauta-server/issues"
+    "url": "https://github.com/yunielrc/sweet-nauta-server/issues"
   },
   "scripts": {
     "start": "node src/server.js",
